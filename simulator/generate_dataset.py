@@ -70,7 +70,7 @@ def generate(out: Path) -> list[dict]:
 
     csv_path = out.parent / "ground_truth.csv"
     with csv_path.open("w", newline="", encoding="utf-8") as handle:
-        writer = csv.writer(handle)
+        writer = csv.writer(handle, lineterminator="\n")
         writer.writerow(["scenario_id", "label", "category", "variant", "description"])
         for row in rows:
             writer.writerow(

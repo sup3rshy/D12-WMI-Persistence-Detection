@@ -1,0 +1,20 @@
+# Keep the repository byte-reproducible across Windows and Linux checkouts.
+# Text artifacts (datasets, reports, docs, code) use LF everywhere.
+* text=auto eol=lf
+
+# Evidence produced by Windows PowerShell is kept as text but normalised to LF
+# so that a Linux regenerate does not create a spurious diff.
+reports/vm-live/out/* text eol=lf
+
+# Binary assets must never be normalised.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.zip binary
+*.7z binary
+*.xlsx binary
+*.docx binary
+*.pdf binary
+*.pyc binary

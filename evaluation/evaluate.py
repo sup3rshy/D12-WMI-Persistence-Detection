@@ -175,7 +175,7 @@ def main() -> int:
     )
 
     with (args.reports / "per_scenario.csv").open("w", newline="", encoding="utf-8") as handle:
-        writer = csv.writer(handle)
+        writer = csv.writer(handle, lineterminator="\n")
         writer.writerow(["scenario_id", "label", "category", "score", "verdict", "predicted", "correct"])
         for item in results:
             writer.writerow(
@@ -191,7 +191,7 @@ def main() -> int:
             )
 
     with (args.reports / "confusion_matrix.csv").open("w", newline="", encoding="utf-8") as handle:
-        writer = csv.writer(handle)
+        writer = csv.writer(handle, lineterminator="\n")
         writer.writerow(["operating_point", "tp", "fp", "tn", "fn", "precision", "recall", "f1", "fpr"])
         for name, value in (("strict", strict), ("triage", triage)):
             writer.writerow(
@@ -209,7 +209,7 @@ def main() -> int:
             )
 
     with (args.reports / "threshold_sensitivity.csv").open("w", newline="", encoding="utf-8") as handle:
-        writer = csv.writer(handle)
+        writer = csv.writer(handle, lineterminator="\n")
         writer.writerow(["threshold", "tp", "fp", "tn", "fn", "precision", "recall", "f1", "fpr"])
         for row in sensitivity:
             writer.writerow(
