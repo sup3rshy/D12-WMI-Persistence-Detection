@@ -1,0 +1,38 @@
+{
+    "variant":  "V1",
+    "action":  "Create",
+    "marker_path":  "C:\\Users\\Public\\nt230_d12_marker.txt",
+    "vm_detected":  false,
+    "host":  "LAPTOP-224O4NK2",
+    "started_at":  "2026-11-17T07:55:13.4465883Z",
+    "created":  [
+
+                ],
+    "marker_seen":  false,
+    "cleanup":  "",
+    "timeline":  [
+                     {
+                         "time":  "2026-11-17T07:55:13.4589692Z",
+                         "step":  "dry-run",
+                         "detail":  "no WMI object was created"
+                     }
+                 ],
+    "verdict":  "completed",
+    "dry_run":  true,
+    "config":  {
+                   "Namespace":  "root\\subscription",
+                   "EventNamespace":  "root\\default",
+                   "FilterName":  "NT230_D12_V1_Filter",
+                   "ConsumerName":  "NT230_D12_V1_Consumer",
+                   "ConsumerClass":  "CommandLineEventConsumer",
+                   "ConsumerProperties":  {
+                                              "CommandLineTemplate":  "cmd.exe /c echo NT230-D12-MARKER \u003e \"C:\\Users\\Public\\nt230_d12_marker.txt\""
+                                          },
+                   "Query":  "SELECT * FROM __TimerEvent WHERE TimerID = \u0027NT230D12TimerV1\u0027",
+                   "TimerId":  "NT230D12TimerV1",
+                   "TimerIntervalMs":  15000,
+                   "TriggerProcess":  null,
+                   "CreateNamespace":  false
+               },
+    "finished_at":  "2026-11-17T07:55:13.4650233Z"
+}

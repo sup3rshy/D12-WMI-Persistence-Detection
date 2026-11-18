@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0",
+  "collected_at": "2026-11-17T09:05:00Z",
+  "host": {
+    "hostname": "NT230-LAB",
+    "os": "Windows 10 22H2 (19045)",
+    "vm": true
+  },
+  "scope": [
+    "root\\subscription",
+    "root\\NT230Lab"
+  ],
+  "filters": [
+    {
+      "name": "Windows Defender Cache",
+      "namespace": "root\\NT230Lab",
+      "event_namespace": "root\\cimv2",
+      "query": "SELECT * FROM __TimerEvent WHERE TimerID = 'DefenderCacheTimer' AND NumEvents > 0",
+      "query_language": "WQL",
+      "creator_sid": "S-1-5-18",
+      "creator_user": "NT AUTHORITY\\SYSTEM"
+    }
+  ],
+  "consumers": [
+    {
+      "name": "DefenderCacheConsumer",
+      "namespace": "root\\NT230Lab",
+      "class": "CommandLineEventConsumer",
+      "properties": {
+        "CommandLineTemplate": "cmd.exe /c copy /y \"%APPDATA%\\cache.dat\" \"%PUBLIC%\\nt230_d12_marker.txt\"",
+        "ExecutablePath": ""
+      },
+      "creator_sid": "S-1-5-18",
+      "creator_user": "NT AUTHORITY\\SYSTEM"
+    }
+  ],
+  "bindings": [
+    {
+      "filter_name": "Windows Defender Cache",
+      "filter_namespace": "root\\NT230Lab",
+      "consumer_name": "DefenderCacheConsumer",
+      "consumer_namespace": "root\\NT230Lab",
+      "creator_sid": "S-1-5-18"
+    }
+  ]
+}

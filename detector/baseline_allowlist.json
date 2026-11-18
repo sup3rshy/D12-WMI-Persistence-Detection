@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0",
+  "description": "Known-good permanent subscriptions. Matching is exact on filter name, consumer name/class, WQL query, event namespace and (when present) CreatorSID. Evidence with weight >= 20 disables the allow-list for that object.",
+  "entries": [
+    {
+      "id": "builtin-scm-eventlog",
+      "filter_name": "SCM Event Log Filter",
+      "consumer_name": "SCM Event Log Consumer",
+      "consumer_class": "NTEventLogEventConsumer",
+      "query": "select * from MSFT_SCMEventLogEvent",
+      "event_namespace": "root\\cimv2",
+      "creator_sid": "S-1-5-32-544",
+      "reason": "Windows built-in subscription that forwards Service Control Manager events to the System event log."
+    }
+  ]
+}

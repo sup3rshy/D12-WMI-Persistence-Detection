@@ -1,0 +1,19 @@
+{
+  "scenario_id": "M6_stealth_low_noise",
+  "label": 1,
+  "category": "malicious",
+  "variant": "V6",
+  "description": "V6 low-noise evasion: SYSTEM principal, neutral names, Windows\\Temp target and no WmiPrvSE child telemetry.",
+  "tags": [
+    "V6",
+    "evasion",
+    "low-noise",
+    "telemetry-gap"
+  ],
+  "safety": "Inert marker strings only; no payload was executed.",
+  "host": {
+    "hostname": "NT230-LAB",
+    "os": "Windows 10 22H2 (19045)",
+    "vm": true
+  }
+}

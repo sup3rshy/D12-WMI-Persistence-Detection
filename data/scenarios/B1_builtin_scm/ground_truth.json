@@ -1,0 +1,17 @@
+{
+  "scenario_id": "B1_builtin_scm",
+  "label": 0,
+  "category": "benign",
+  "variant": "B1",
+  "description": "Windows built-in SCM Event Log Filter/Consumer (real baseline, exported from the lab host).",
+  "tags": [
+    "baseline",
+    "allowlist"
+  ],
+  "safety": "Inert marker strings only; no payload was executed.",
+  "host": {
+    "hostname": "NT230-LAB",
+    "os": "Windows 10 22H2 (19045)",
+    "vm": true
+  }
+}

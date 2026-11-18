@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0",
+  "collected_at": "2026-11-17T09:05:00Z",
+  "host": {
+    "hostname": "NT230-LAB",
+    "os": "Windows 10 22H2 (19045)",
+    "vm": true
+  },
+  "scope": [
+    "root\\subscription",
+    "root\\NT230Lab"
+  ],
+  "filters": [
+    {
+      "name": "Inventory Sync",
+      "namespace": "root\\subscription",
+      "event_namespace": "root\\cimv2",
+      "query": "SELECT * FROM __TimerEvent WHERE TimerID = 'InventorySyncTimer' AND NumEvents > 0",
+      "query_language": "WQL",
+      "creator_sid": "S-1-5-18",
+      "creator_user": "NT AUTHORITY\\SYSTEM"
+    }
+  ],
+  "consumers": [
+    {
+      "name": "Inventory Sync Action",
+      "namespace": "root\\subscription",
+      "class": "CommandLineEventConsumer",
+      "properties": {
+        "CommandLineTemplate": "cmd.exe /c echo NT230-D12-MARKER > \"C:\\Windows\\Temp\\nt230_d12_marker.txt\""
+      },
+      "creator_sid": "S-1-5-18",
+      "creator_user": "NT AUTHORITY\\SYSTEM"
+    }
+  ],
+  "bindings": [
+    {
+      "filter_name": "Inventory Sync",
+      "filter_namespace": "root\\subscription",
+      "consumer_name": "Inventory Sync Action",
+      "consumer_namespace": "root\\subscription",
+      "creator_sid": "S-1-5-18"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+    "variant":  "V2",
+    "action":  "Create",
+    "marker_path":  "C:\\Users\\Public\\nt230_d12_marker.txt",
+    "vm_detected":  false,
+    "host":  "LAPTOP-224O4NK2",
+    "started_at":  "2026-11-17T07:55:14.2084219Z",
+    "created":  [
+
+                ],
+    "marker_seen":  false,
+    "cleanup":  "",
+    "timeline":  [
+                     {
+                         "time":  "2026-11-17T07:55:14.2188724Z",
+                         "step":  "dry-run",
+                         "detail":  "no WMI object was created"
+                     }
+                 ],
+    "verdict":  "completed",
+    "dry_run":  true,
+    "config":  {
+                   "Namespace":  "root\\subscription",
+                   "EventNamespace":  "root\\cimv2",
+                   "FilterName":  "NT230_D12_V2_Windows Update Monitor",
+                   "ConsumerName":  "NT230_D12_V2_Windows Update Consumer",
+                   "ConsumerClass":  "CommandLineEventConsumer",
+                   "ConsumerProperties":  {
+                                              "CommandLineTemplate":  "cmd.exe /c echo NT230-D12-MARKER \u003e \"C:\\Users\\Public\\nt230_d12_marker.txt\""
+                                          },
+                   "Query":  "SELECT * FROM __InstanceCreationEvent WITHIN 3 WHERE TargetInstance ISA \u0027Win32_Process\u0027 AND TargetInstance.Name = \u0027notepad.exe\u0027",
+                   "TimerId":  null,
+                   "TimerIntervalMs":  0,
+                   "TriggerProcess":  "notepad.exe",
+                   "CreateNamespace":  false
+               },
+    "finished_at":  "2026-11-17T07:55:14.2243202Z"
+}

@@ -1,0 +1,62 @@
+{
+    "schema_version":  "1.0",
+    "collected_at":  "2026-11-17T03:36:47.0085638Z",
+    "collector":  "Collect-WmiSubscriptions.ps1",
+    "host":  {
+                 "hostname":  "LAPTOP-224O4NK2",
+                 "os":  "Microsoft Windows 11 Home Single Language 10.0.26300",
+                 "model":  "Acer Nitro AN515-44"
+             },
+    "scope":  [
+                  "root\\subscription"
+              ],
+    "filters":  [
+                    {
+                        "name":  "SCM Event Log Filter",
+                        "namespace":  "root\\subscription",
+                        "event_namespace":  "root\\cimv2",
+                        "query":  "select * from MSFT_SCMEventLogEvent",
+                        "query_language":  "WQL",
+                        "creator_sid":  "S-1-5-32-544",
+                        "creator_user":  "BUILTIN\\Administrators",
+                        "properties":  {
+                                           "CreatorSID":  "S-1-5-32-544",
+                                           "EventNamespace":  "root\\cimv2",
+                                           "Name":  "SCM Event Log Filter",
+                                           "Query":  "select * from MSFT_SCMEventLogEvent",
+                                           "QueryLanguage":  "WQL"
+                                       }
+                    }
+                ],
+    "consumers":  [
+                      {
+                          "name":  "SCM Event Log Consumer",
+                          "namespace":  "root\\subscription",
+                          "class":  "NTEventLogEventConsumer",
+                          "properties":  {
+                                             "CreatorSID":  "S-1-5-32-544",
+                                             "Category":  "0",
+                                             "EventID":  "0",
+                                             "EventType":  "1",
+                                             "InsertionStringTemplates":  "",
+                                             "Name":  "SCM Event Log Consumer",
+                                             "NameOfUserSIDProperty":  "sid",
+                                             "NumberOfInsertionStrings":  "0",
+                                             "SourceName":  "Service Control Manager"
+                                         },
+                          "creator_sid":  "S-1-5-32-544",
+                          "creator_user":  "BUILTIN\\Administrators"
+                      }
+                  ],
+    "bindings":  [
+                     {
+                         "filter_name":  "SCM Event Log Filter",
+                         "filter_namespace":  "root\\subscription",
+                         "consumer_name":  "SCM Event Log Consumer",
+                         "consumer_class":  "NTEventLogEventConsumer",
+                         "consumer_namespace":  "root\\subscription",
+                         "creator_sid":  "S-1-5-32-544",
+                         "creator_user":  "BUILTIN\\Administrators"
+                     }
+                 ]
+}

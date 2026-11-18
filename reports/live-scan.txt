@@ -1,0 +1,27 @@
+collected filters=1 consumers=1 bindings=1 -> D:\NT230\D12-WMI-Persistence-Detection\data\live\repository.json
+exported 1258 WMI-Activity events -> D:\NT230\D12-WMI-Persistence-Detection\data\live\wmi_activity.jsonl
+--- repository scan ---
+==============================================================================
+scenario : live  (label=0)
+category : unknown
+verdict  : BENIGN   score=0/100
+truth    : 
+------------------------------------------------------------------------------
+[    benign]   0  SCM Event Log Filter -> NTEventLogEventConsumer:SCM Event Log Consumer
+             namespace=root\subscription  event_ns=root\cimv2  creator=S-1-5-32-544
+             query=select * from MSFT_SCMEventLogEvent
+             +0   R00 Matched signed baseline allow-list :: Object matches known-good entry 'builtin-scm-eventlog'. Exact query, class and namespace were required for the match.
+
+json report -> reports/live-scan.json
+--- event-log-only reconstruction ---
+==============================================================================
+scenario : live  (label=0)
+category : unknown
+verdict  : BENIGN   score=0/100
+truth    : 
+------------------------------------------------------------------------------
+[    benign]   0  SCM Event Log Filter -> NTEventLogEventConsumer:SCM Event Log Consumer
+             namespace=root\subscription  event_ns=root\cimv2  creator=S-1-5-32-544
+             query=select * from MSFT_SCMEventLogEvent
+             +0   R00 Matched signed baseline allow-list :: Object matches known-good entry 'builtin-scm-eventlog'. Exact query, class and namespace were required for the match.
+

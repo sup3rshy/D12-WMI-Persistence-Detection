@@ -1,0 +1,66 @@
+{
+  "thresholds": {
+    "malicious": 60,
+    "suspicious": 40
+  },
+  "results": [
+    {
+      "scenario_id": "live",
+      "label": 0,
+      "category": "unknown",
+      "description": "",
+      "score": 0,
+      "verdict": "benign",
+      "predicted": 0,
+      "subscriptions": [
+        {
+          "key": "root\\subscription::SCM Event Log Filter->SCM Event Log Consumer",
+          "score": 0,
+          "verdict": "benign",
+          "allowlisted": true,
+          "matched_allowlist": "builtin-scm-eventlog",
+          "filter": {
+            "name": "SCM Event Log Filter",
+            "namespace": "root\\subscription",
+            "event_namespace": "root\\cimv2",
+            "query": "select * from MSFT_SCMEventLogEvent"
+          },
+          "consumer": {
+            "name": "SCM Event Log Consumer",
+            "class": "NTEventLogEventConsumer",
+            "properties": {
+              "CreatorSID": "S-1-5-32-544",
+              "Category": "0",
+              "EventID": "0",
+              "EventType": "1",
+              "InsertionStringTemplates": "",
+              "Name": "SCM Event Log Consumer",
+              "NameOfUserSIDProperty": "sid",
+              "NumberOfInsertionStrings": "0",
+              "SourceName": "Service Control Manager"
+            }
+          },
+          "creator": {
+            "sid": "S-1-5-32-544",
+            "user": "BUILTIN\\Administrators"
+          },
+          "evidence": [
+            {
+              "rule": "R00",
+              "title": "Matched signed baseline allow-list",
+              "weight": 0,
+              "detail": "Object matches known-good entry 'builtin-scm-eventlog'. Exact query, class and namespace were required for the match."
+            }
+          ]
+        }
+      ],
+      "directory": "data/live"
+    }
+  ],
+  "summary": {
+    "scenarios": 1,
+    "malicious": 0,
+    "suspicious": 0,
+    "benign": 1
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "scenario_id": "M2_activescript_masquerade",
+  "label": 1,
+  "category": "malicious",
+  "variant": "V2",
+  "description": "V2 filter + name variation: process-creation WQL (WITHIN 5) and a masqueraded ActiveScript consumer.",
+  "tags": [
+    "V2",
+    "wql",
+    "masquerade",
+    "activescript"
+  ],
+  "safety": "Inert marker strings only; no payload was executed.",
+  "host": {
+    "hostname": "NT230-LAB",
+    "os": "Windows 10 22H2 (19045)",
+    "vm": true
+  }
+}

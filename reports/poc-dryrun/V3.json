@@ -1,0 +1,38 @@
+{
+    "variant":  "V3",
+    "action":  "Create",
+    "marker_path":  "C:\\Users\\Public\\nt230_d12_marker.txt",
+    "vm_detected":  false,
+    "host":  "LAPTOP-224O4NK2",
+    "started_at":  "2026-11-17T07:55:14.9349652Z",
+    "created":  [
+
+                ],
+    "marker_seen":  false,
+    "cleanup":  "",
+    "timeline":  [
+                     {
+                         "time":  "2026-11-17T07:55:14.9448883Z",
+                         "step":  "dry-run",
+                         "detail":  "no WMI object was created"
+                     }
+                 ],
+    "verdict":  "completed",
+    "dry_run":  true,
+    "config":  {
+                   "Namespace":  "root\\subscription",
+                   "EventNamespace":  "root\\cimv2",
+                   "FilterName":  "NT230_D12_V3_Filter",
+                   "ConsumerName":  "NT230_D12_V3_Consumer",
+                   "ConsumerClass":  "CommandLineEventConsumer",
+                   "ConsumerProperties":  {
+                                              "CommandLineTemplate":  "powershell.exe -NoProfile -WindowStyle Hidden -EncodedCommand VwByAGkAdABlAC0ATwB1AHQAcAB1AHQAIAAnAE4AVAAyADMAMAAtAEQAMQAyAC0ATQBBAFIASwBFAFIAJwAgAHwAIABPAHUAdAAtAEYAaQBsAGUAIAAtAEYAaQBsAGUAUABhAHQAaAAgACcAQwA6AFwAVQBzAGUAcgBzAFwAUAB1AGIAbABpAGMAXABuAHQAMgAzADAAXwBkADEAMgBfAG0AYQByAGsAZQByAC4AdAB4AHQAJwAgAC0ARQBuAGMAbwBkAGkAbgBnACAAYQBzAGMAaQBpAA=="
+                                          },
+                   "Query":  "SELECT * FROM __InstanceCreationEvent WITHIN 3 WHERE TargetInstance ISA \u0027Win32_Process\u0027 AND TargetInstance.Name = \u0027notepad.exe\u0027",
+                   "TimerId":  null,
+                   "TimerIntervalMs":  0,
+                   "TriggerProcess":  "notepad.exe",
+                   "CreateNamespace":  false
+               },
+    "finished_at":  "2026-11-17T07:55:14.9497785Z"
+}

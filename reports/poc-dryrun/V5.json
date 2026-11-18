@@ -1,0 +1,39 @@
+{
+    "variant":  "V5",
+    "action":  "Create",
+    "marker_path":  "C:\\Users\\Public\\nt230_d12_marker.txt",
+    "vm_detected":  false,
+    "host":  "LAPTOP-224O4NK2",
+    "started_at":  "2026-11-17T07:55:16.4978444Z",
+    "created":  [
+
+                ],
+    "marker_seen":  false,
+    "cleanup":  "",
+    "timeline":  [
+                     {
+                         "time":  "2026-11-17T07:55:16.5092272Z",
+                         "step":  "dry-run",
+                         "detail":  "no WMI object was created"
+                     }
+                 ],
+    "verdict":  "completed",
+    "dry_run":  true,
+    "config":  {
+                   "Namespace":  "root\\subscription",
+                   "EventNamespace":  "root\\cimv2",
+                   "FilterName":  "NT230_D12_V5_InventorySync",
+                   "ConsumerName":  "NT230_D12_V5_InventorySyncAction",
+                   "ConsumerClass":  "ActiveScriptEventConsumer",
+                   "ConsumerProperties":  {
+                                              "ScriptingEngine":  "VBScript",
+                                              "ScriptText":  "Set fso = CreateObject(\"Scripting.FileSystemObject\")\nSet f = fso.CreateTextFile(\"C:\\Users\\Public\\nt230_d12_marker.txt\", True)\nf.WriteLine \"NT230-D12-MARKER\"\nf.Close"
+                                          },
+                   "Query":  "SELECT * FROM __InstanceCreationEvent WITHIN 3 WHERE TargetInstance ISA \u0027Win32_Process\u0027 AND TargetInstance.Name = \u0027notepad.exe\u0027",
+                   "TimerId":  null,
+                   "TimerIntervalMs":  0,
+                   "TriggerProcess":  "notepad.exe",
+                   "CreateNamespace":  false
+               },
+    "finished_at":  "2026-11-17T07:55:16.5149639Z"
+}

@@ -1,0 +1,19 @@
+{
+  "scenario_id": "M4_delayed_custom_namespace",
+  "label": 1,
+  "category": "malicious",
+  "variant": "V4",
+  "description": "V4 namespace + trigger-delay variation: subscription in root\\NT230Lab, 300 s timer, no process telemetry.",
+  "tags": [
+    "V4",
+    "custom-namespace",
+    "delayed",
+    "static-only"
+  ],
+  "safety": "Inert marker strings only; no payload was executed.",
+  "host": {
+    "hostname": "NT230-LAB",
+    "os": "Windows 10 22H2 (19045)",
+    "vm": true
+  }
+}

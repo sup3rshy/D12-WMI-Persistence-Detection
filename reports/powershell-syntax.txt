@@ -1,0 +1,4 @@
+OK   Collect-WmiActivityLog.ps1
+OK   Collect-WmiSubscriptions.ps1
+OK   Invoke-WmiSubscription.ps1
+OK   New-BenignSubscription.ps1

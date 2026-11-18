@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0",
+  "collected_at": "2026-11-17T09:05:00Z",
+  "host": {
+    "hostname": "NT230-LAB",
+    "os": "Windows 10 22H2 (19045)",
+    "vm": true
+  },
+  "scope": [
+    "root\\subscription",
+    "root\\NT230Lab"
+  ],
+  "filters": [
+    {
+      "name": "IT Health Log Filter",
+      "namespace": "root\\subscription",
+      "event_namespace": "root\\cimv2",
+      "query": "SELECT * FROM __InstanceModificationEvent WITHIN 300 WHERE TargetInstance ISA 'Win32_Service'",
+      "query_language": "WQL",
+      "creator_sid": "S-1-5-18",
+      "creator_user": "NT AUTHORITY\\SYSTEM"
+    }
+  ],
+  "consumers": [
+    {
+      "name": "IT Health Log Writer",
+      "namespace": "root\\subscription",
+      "class": "LogFileEventConsumer",
+      "properties": {
+        "LogFilePath": "C:\\ProgramData\\IT\\logs\\service-state.log",
+        "Text": "Service state changed: %TargetInstance.Name%"
+      },
+      "creator_sid": "S-1-5-18",
+      "creator_user": "NT AUTHORITY\\SYSTEM"
+    }
+  ],
+  "bindings": [
+    {
+      "filter_name": "IT Health Log Filter",
+      "filter_namespace": "root\\subscription",
+      "consumer_name": "IT Health Log Writer",
+      "consumer_namespace": "root\\subscription",
+      "creator_sid": "S-1-5-18"
+    }
+  ]
+}

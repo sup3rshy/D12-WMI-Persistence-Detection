@@ -1,0 +1,15 @@
+[2026-11-17T07:50:16.2381222Z] whoami: nt230lab\student
+[2026-11-17T07:50:16.3774609Z] computer: NT230LAB
+[2026-11-17T07:50:17.1896383Z] wmi-activity log enabled
+[2026-11-17T07:50:17.2034987Z] running V1 Create -WaitForMarker -Keep
+[2026-11-17T07:50:40.8477893Z] V1 completed; marker_exists=True
+[2026-11-17T07:50:40.9197371Z] marker content: NT230-D12-MARKER 
+
+[2026-11-17T07:50:40.9197371Z] collecting repository
+[2026-11-17T07:50:41.3865709Z] repository collected
+[2026-11-17T07:50:41.4188256Z] collecting WMI activity
+[2026-11-17T07:50:42.1354386Z] events collected
+[2026-11-17T07:50:42.1589193Z] status check
+[2026-11-17T07:50:42.5855618Z] cleanup V1
+[2026-11-17T07:50:42.8387846Z] cleanup complete
+[2026-11-17T07:50:42.8855255Z] runner done

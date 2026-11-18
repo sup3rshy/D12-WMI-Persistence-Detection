@@ -1,0 +1,18 @@
+{
+  "scenario_id": "M5_network_activescript",
+  "label": 1,
+  "category": "malicious",
+  "variant": "V5",
+  "description": "V5 consumer variation: JScript consumer with a network retrieval primitive (inert TEST-NET-2 URL).",
+  "tags": [
+    "V5",
+    "network",
+    "activescript"
+  ],
+  "safety": "Inert marker strings only; no payload was executed.",
+  "host": {
+    "hostname": "NT230-LAB",
+    "os": "Windows 10 22H2 (19045)",
+    "vm": true
+  }
+}

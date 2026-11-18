@@ -1,0 +1,18 @@
+{
+  "scenario_id": "M3_encoded_powershell",
+  "label": 1,
+  "category": "malicious",
+  "variant": "V3",
+  "description": "V3 consumer variation: encoded PowerShell action with 2-second polling on chrome.exe.",
+  "tags": [
+    "V3",
+    "encoded",
+    "obfuscation"
+  ],
+  "safety": "Inert marker strings only; no payload was executed.",
+  "host": {
+    "hostname": "NT230-LAB",
+    "os": "Windows 10 22H2 (19045)",
+    "vm": true
+  }
+}

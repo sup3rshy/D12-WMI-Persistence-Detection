@@ -1,0 +1,25 @@
+=== host identity ===
+
+
+Manufacturer      : Acer
+Model             : Nitro AN515-44
+HypervisorPresent : True
+
+
+
+=== VM guard test (Create must refuse) ===
+VM guard: this host does not look like a virtual machine. The NT230 lab rules require a snapshot/rollback VM. Use 
+-Force only on a disposable lab VM.
+At D:\NT230\D12-WMI-Persistence-Detection\poc\Invoke-WmiSubscription.ps1:322 char:5
++     throw ("VM guard: this host does not look like a virtual machine. ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : OperationStopped: (VM guard: this ...posable lab VM.:String) [], RuntimeException
+    + FullyQualifiedErrorId : VM guard: this host does not look like a virtual machine. The NT230 lab rules require a  
+   snapshot/rollback VM. Use -Force only on a disposable lab VM.
+ 
+=== no lab objects created ===
+    "vm_detected":  false,
+                ],
+                 ],
+    "objects":  [
+                ],

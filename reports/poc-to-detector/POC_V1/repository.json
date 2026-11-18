@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0",
+  "collected_at": "2026-11-17T10:00:00Z",
+  "collector": "poc.export_variant_repository",
+  "host": {
+    "hostname": "NT230-LAB",
+    "os": "Windows 10 22H2 (19045)",
+    "vm": true
+  },
+  "scope": [
+    "root\\subscription"
+  ],
+  "filters": [
+    {
+      "name": "NT230_D12_V1_Filter",
+      "namespace": "root\\subscription",
+      "event_namespace": "root\\default",
+      "query": "SELECT * FROM __TimerEvent WHERE TimerID = 'NT230D12TimerV1'",
+      "query_language": "WQL",
+      "creator_sid": "S-1-5-21-1004336348-1177238915-682003330-1001",
+      "creator_user": "NT230LAB\\student"
+    }
+  ],
+  "consumers": [
+    {
+      "name": "NT230_D12_V1_Consumer",
+      "namespace": "root\\subscription",
+      "class": "CommandLineEventConsumer",
+      "properties": {
+        "CommandLineTemplate": "cmd.exe /c echo NT230-D12-MARKER > \"C:\\Users\\Public\\nt230_d12_marker.txt\""
+      },
+      "creator_sid": "S-1-5-21-1004336348-1177238915-682003330-1001",
+      "creator_user": "NT230LAB\\student"
+    }
+  ],
+  "bindings": [
+    {
+      "filter_name": "NT230_D12_V1_Filter",
+      "filter_namespace": "root\\subscription",
+      "consumer_name": "NT230_D12_V1_Consumer",
+      "consumer_namespace": "root\\subscription",
+      "creator_sid": "S-1-5-21-1004336348-1177238915-682003330-1001"
+    }
+  ]
+}

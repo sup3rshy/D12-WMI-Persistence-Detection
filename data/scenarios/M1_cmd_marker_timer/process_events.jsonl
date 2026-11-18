@@ -1,0 +1,1 @@
+{"UtcTime": "2026-11-17T09:01:10Z", "Image": "C:\\Windows\\System32\\cmd.exe", "ParentImage": "C:\\Windows\\System32\\wbem\\WmiPrvSE.exe", "CommandLine": "cmd.exe /c echo NT230-D12-MARKER > \"C:\\Users\\Public\\nt230_d12_marker.txt\"", "User": "NT230LAB\\student"}

@@ -1,0 +1,11 @@
+{
+  "scenario_id": "POC_V1",
+  "label": 1,
+  "category": "malicious",
+  "variant": "V1",
+  "description": "Rendered from the dry-run configuration of PoC variant V1 (CommandLineEventConsumer).",
+  "tags": [
+    "poc-bridge"
+  ],
+  "safety": "Configuration only; no WMI object was created and no payload ran."
+}

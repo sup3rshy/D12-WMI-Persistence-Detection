@@ -1,0 +1,17 @@
+{
+  "scenario_id": "B3_service_state_audit",
+  "label": 0,
+  "category": "benign",
+  "variant": "B3",
+  "description": "Event-log audit of stopped services; benign use of a permanent WMI subscription.",
+  "tags": [
+    "hard-negative",
+    "eventlog-consumer"
+  ],
+  "safety": "Inert marker strings only; no payload was executed.",
+  "host": {
+    "hostname": "NT230-LAB",
+    "os": "Windows 10 22H2 (19045)",
+    "vm": true
+  }
+}

@@ -1,0 +1,179 @@
+{
+  "schema_version": "1.0",
+  "generated_by": "simulator.generate_dataset",
+  "scenarios": 9,
+  "benign": 3,
+  "malicious": 6,
+  "variants": [
+    "V1",
+    "V2",
+    "V3",
+    "V4",
+    "V5",
+    "V6"
+  ],
+  "items": [
+    {
+      "scenario_id": "B1_builtin_scm",
+      "label": 0,
+      "category": "benign",
+      "variant": "B1",
+      "description": "Windows built-in SCM Event Log Filter/Consumer (real baseline, exported from the lab host).",
+      "tags": [
+        "baseline",
+        "allowlist"
+      ],
+      "safety": "Inert marker strings only; no payload was executed.",
+      "host": {
+        "hostname": "NT230-LAB",
+        "os": "Windows 10 22H2 (19045)",
+        "vm": true
+      }
+    },
+    {
+      "scenario_id": "B2_it_logfile_monitor",
+      "label": 0,
+      "category": "benign",
+      "variant": "B2",
+      "description": "Approved IT monitoring: LogFileEventConsumer writes service-state changes to a log file.",
+      "tags": [
+        "hard-negative",
+        "logfile"
+      ],
+      "safety": "Inert marker strings only; no payload was executed.",
+      "host": {
+        "hostname": "NT230-LAB",
+        "os": "Windows 10 22H2 (19045)",
+        "vm": true
+      }
+    },
+    {
+      "scenario_id": "B3_service_state_audit",
+      "label": 0,
+      "category": "benign",
+      "variant": "B3",
+      "description": "Event-log audit of stopped services; benign use of a permanent WMI subscription.",
+      "tags": [
+        "hard-negative",
+        "eventlog-consumer"
+      ],
+      "safety": "Inert marker strings only; no payload was executed.",
+      "host": {
+        "hostname": "NT230-LAB",
+        "os": "Windows 10 22H2 (19045)",
+        "vm": true
+      }
+    },
+    {
+      "scenario_id": "M1_cmd_marker_timer",
+      "label": 1,
+      "category": "malicious",
+      "variant": "V1",
+      "description": "V1 baseline: CommandLineEventConsumer triggered by __TimerEvent writes a marker once.",
+      "tags": [
+        "V1",
+        "timer",
+        "marker"
+      ],
+      "safety": "Inert marker strings only; no payload was executed.",
+      "host": {
+        "hostname": "NT230-LAB",
+        "os": "Windows 10 22H2 (19045)",
+        "vm": true
+      }
+    },
+    {
+      "scenario_id": "M2_activescript_masquerade",
+      "label": 1,
+      "category": "malicious",
+      "variant": "V2",
+      "description": "V2 filter + name variation: process-creation WQL (WITHIN 5) and a masqueraded ActiveScript consumer.",
+      "tags": [
+        "V2",
+        "wql",
+        "masquerade",
+        "activescript"
+      ],
+      "safety": "Inert marker strings only; no payload was executed.",
+      "host": {
+        "hostname": "NT230-LAB",
+        "os": "Windows 10 22H2 (19045)",
+        "vm": true
+      }
+    },
+    {
+      "scenario_id": "M3_encoded_powershell",
+      "label": 1,
+      "category": "malicious",
+      "variant": "V3",
+      "description": "V3 consumer variation: encoded PowerShell action with 2-second polling on chrome.exe.",
+      "tags": [
+        "V3",
+        "encoded",
+        "obfuscation"
+      ],
+      "safety": "Inert marker strings only; no payload was executed.",
+      "host": {
+        "hostname": "NT230-LAB",
+        "os": "Windows 10 22H2 (19045)",
+        "vm": true
+      }
+    },
+    {
+      "scenario_id": "M4_delayed_custom_namespace",
+      "label": 1,
+      "category": "malicious",
+      "variant": "V4",
+      "description": "V4 namespace + trigger-delay variation: subscription in root\\NT230Lab, 300 s timer, no process telemetry.",
+      "tags": [
+        "V4",
+        "custom-namespace",
+        "delayed",
+        "static-only"
+      ],
+      "safety": "Inert marker strings only; no payload was executed.",
+      "host": {
+        "hostname": "NT230-LAB",
+        "os": "Windows 10 22H2 (19045)",
+        "vm": true
+      }
+    },
+    {
+      "scenario_id": "M5_network_activescript",
+      "label": 1,
+      "category": "malicious",
+      "variant": "V5",
+      "description": "V5 consumer variation: JScript consumer with a network retrieval primitive (inert TEST-NET-2 URL).",
+      "tags": [
+        "V5",
+        "network",
+        "activescript"
+      ],
+      "safety": "Inert marker strings only; no payload was executed.",
+      "host": {
+        "hostname": "NT230-LAB",
+        "os": "Windows 10 22H2 (19045)",
+        "vm": true
+      }
+    },
+    {
+      "scenario_id": "M6_stealth_low_noise",
+      "label": 1,
+      "category": "malicious",
+      "variant": "V6",
+      "description": "V6 low-noise evasion: SYSTEM principal, neutral names, Windows\\Temp target and no WmiPrvSE child telemetry.",
+      "tags": [
+        "V6",
+        "evasion",
+        "low-noise",
+        "telemetry-gap"
+      ],
+      "safety": "Inert marker strings only; no payload was executed.",
+      "host": {
+        "hostname": "NT230-LAB",
+        "os": "Windows 10 22H2 (19045)",
+        "vm": true
+      }
+    }
+  ]
+}

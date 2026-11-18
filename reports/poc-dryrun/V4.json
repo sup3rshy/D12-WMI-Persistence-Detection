@@ -1,0 +1,38 @@
+{
+    "variant":  "V4",
+    "action":  "Create",
+    "marker_path":  "C:\\Users\\Public\\nt230_d12_marker.txt",
+    "vm_detected":  false,
+    "host":  "LAPTOP-224O4NK2",
+    "started_at":  "2026-11-17T07:55:15.7216247Z",
+    "created":  [
+
+                ],
+    "marker_seen":  false,
+    "cleanup":  "",
+    "timeline":  [
+                     {
+                         "time":  "2026-11-17T07:55:15.7336375Z",
+                         "step":  "dry-run",
+                         "detail":  "no WMI object was created"
+                     }
+                 ],
+    "verdict":  "completed",
+    "dry_run":  true,
+    "config":  {
+                   "Namespace":  "root\\NT230Lab",
+                   "EventNamespace":  "root\\default",
+                   "FilterName":  "NT230_D12_V4_Windows Defender Cache",
+                   "ConsumerName":  "NT230_D12_V4_DefenderCacheConsumer",
+                   "ConsumerClass":  "CommandLineEventConsumer",
+                   "ConsumerProperties":  {
+                                              "CommandLineTemplate":  "cmd.exe /c echo NT230-D12-MARKER \u003e \"C:\\Users\\Public\\nt230_d12_marker.txt\""
+                                          },
+                   "Query":  "SELECT * FROM __TimerEvent WHERE TimerID = \u0027NT230D12TimerV4\u0027",
+                   "TimerId":  "NT230D12TimerV4",
+                   "TimerIntervalMs":  300000,
+                   "TriggerProcess":  null,
+                   "CreateNamespace":  true
+               },
+    "finished_at":  "2026-11-17T07:55:15.7401139Z"
+}

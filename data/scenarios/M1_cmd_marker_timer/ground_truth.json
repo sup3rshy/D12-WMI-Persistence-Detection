@@ -1,0 +1,18 @@
+{
+  "scenario_id": "M1_cmd_marker_timer",
+  "label": 1,
+  "category": "malicious",
+  "variant": "V1",
+  "description": "V1 baseline: CommandLineEventConsumer triggered by __TimerEvent writes a marker once.",
+  "tags": [
+    "V1",
+    "timer",
+    "marker"
+  ],
+  "safety": "Inert marker strings only; no payload was executed.",
+  "host": {
+    "hostname": "NT230-LAB",
+    "os": "Windows 10 22H2 (19045)",
+    "vm": true
+  }
+}

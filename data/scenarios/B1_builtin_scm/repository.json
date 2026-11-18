@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "collected_at": "2026-11-17T09:05:00Z",
+  "host": {
+    "hostname": "NT230-LAB",
+    "os": "Windows 10 22H2 (19045)",
+    "vm": true
+  },
+  "scope": [
+    "root\\subscription",
+    "root\\NT230Lab"
+  ],
+  "filters": [
+    {
+      "name": "SCM Event Log Filter",
+      "namespace": "root\\subscription",
+      "event_namespace": "root\\cimv2",
+      "query": "select * from MSFT_SCMEventLogEvent",
+      "query_language": "WQL",
+      "creator_sid": "S-1-5-32-544",
+      "creator_user": "BUILTIN\\Administrators"
+    }
+  ],
+  "consumers": [
+    {
+      "name": "SCM Event Log Consumer",
+      "namespace": "root\\subscription",
+      "class": "NTEventLogEventConsumer",
+      "properties": {
+        "Category": "0",
+        "EventType": "1",
+        "NameOfUserSIDProperty": "sid",
+        "SourceName": "Service Control Manager"
+      },
+      "creator_sid": "S-1-5-32-544",
+      "creator_user": "BUILTIN\\Administrators"
+    }
+  ],
+  "bindings": [
+    {
+      "filter_name": "SCM Event Log Filter",
+      "filter_namespace": "root\\subscription",
+      "consumer_name": "SCM Event Log Consumer",
+      "consumer_namespace": "root\\subscription",
+      "creator_sid": "S-1-5-18"
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+﻿{
+    "variant":  "V1",
+    "action":  "Create",
+    "marker_path":  "C:\\Users\\Public\\nt230_d12_marker.txt",
+    "vm_detected":  true,
+    "host":  "NT230LAB",
+    "started_at":  "2026-11-17T07:50:17.6042350Z",
+    "created":  [
+                    {
+                        "type":  "__EventFilter",
+                        "name":  "NT230_D12_V1_Filter",
+                        "namespace":  "root\\subscription"
+                    },
+                    {
+                        "type":  "CommandLineEventConsumer",
+                        "name":  "NT230_D12_V1_Consumer",
+                        "namespace":  "root\\subscription"
+                    },
+                    {
+                        "type":  "__FilterToConsumerBinding",
+                        "name":  "NT230_D12_V1_Filter -\u003e NT230_D12_V1_Consumer",
+                        "namespace":  "root\\subscription"
+                    }
+                ],
+    "marker_seen":  true,
+    "cleanup":  "kept (-Keep)",
+    "timeline":  [
+                     {
+                         "time":  "2026-11-17T07:50:17.7144642Z",
+                         "step":  "timer-created",
+                         "detail":  "NT230D12TimerV1 interval=15000ms"
+                     },
+                     {
+                         "time":  "2026-11-17T07:50:17.9017653Z",
+                         "step":  "subscription-created",
+                         "detail":  "NT230_D12_V1_Filter -\u003e CommandLineEventConsumer:NT230_D12_V1_Consumer"
+                     },
+                     {
+                         "time":  "2026-11-17T07:50:40.7296221Z",
+                         "step":  "marker-check",
+                         "detail":  "path=C:\\Users\\Public\\nt230_d12_marker.txt seen=True"
+                     }
+                 ],
+    "verdict":  "marker-observed",
+    "finished_at":  "2026-11-17T07:50:40.7296221Z"
+}

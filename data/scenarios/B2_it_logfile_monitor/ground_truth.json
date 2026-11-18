@@ -1,0 +1,17 @@
+{
+  "scenario_id": "B2_it_logfile_monitor",
+  "label": 0,
+  "category": "benign",
+  "variant": "B2",
+  "description": "Approved IT monitoring: LogFileEventConsumer writes service-state changes to a log file.",
+  "tags": [
+    "hard-negative",
+    "logfile"
+  ],
+  "safety": "Inert marker strings only; no payload was executed.",
+  "host": {
+    "hostname": "NT230-LAB",
+    "os": "Windows 10 22H2 (19045)",
+    "vm": true
+  }
+}

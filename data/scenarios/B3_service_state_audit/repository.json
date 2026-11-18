@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "collected_at": "2026-11-17T09:05:00Z",
+  "host": {
+    "hostname": "NT230-LAB",
+    "os": "Windows 10 22H2 (19045)",
+    "vm": true
+  },
+  "scope": [
+    "root\\subscription",
+    "root\\NT230Lab"
+  ],
+  "filters": [
+    {
+      "name": "Service State Audit",
+      "namespace": "root\\subscription",
+      "event_namespace": "root\\cimv2",
+      "query": "SELECT * FROM __InstanceModificationEvent WITHIN 60 WHERE TargetInstance ISA 'Win32_Service' AND TargetInstance.State = 'stopped'",
+      "query_language": "WQL",
+      "creator_sid": "S-1-5-18",
+      "creator_user": "NT AUTHORITY\\SYSTEM"
+    }
+  ],
+  "consumers": [
+    {
+      "name": "Service State EventLog Writer",
+      "namespace": "root\\subscription",
+      "class": "NTEventLogEventConsumer",
+      "properties": {
+        "SourceName": "NT230 Service Audit",
+        "EventType": "1",
+        "Category": "0"
+      },
+      "creator_sid": "S-1-5-18",
+      "creator_user": "NT AUTHORITY\\SYSTEM"
+    }
+  ],
+  "bindings": [
+    {
+      "filter_name": "Service State Audit",
+      "filter_namespace": "root\\subscription",
+      "consumer_name": "Service State EventLog Writer",
+      "consumer_namespace": "root\\subscription",
+      "creator_sid": "S-1-5-18"
+    }
+  ]
+}

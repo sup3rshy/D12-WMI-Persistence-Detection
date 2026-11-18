@@ -1,0 +1,10 @@
+scenario_id,label,category,variant,description
+B1_builtin_scm,0,benign,B1,"Windows built-in SCM Event Log Filter/Consumer (real baseline, exported from the lab host)."
+B2_it_logfile_monitor,0,benign,B2,Approved IT monitoring: LogFileEventConsumer writes service-state changes to a log file.
+B3_service_state_audit,0,benign,B3,Event-log audit of stopped services; benign use of a permanent WMI subscription.
+M1_cmd_marker_timer,1,malicious,V1,V1 baseline: CommandLineEventConsumer triggered by __TimerEvent writes a marker once.
+M2_activescript_masquerade,1,malicious,V2,V2 filter + name variation: process-creation WQL (WITHIN 5) and a masqueraded ActiveScript consumer.
+M3_encoded_powershell,1,malicious,V3,V3 consumer variation: encoded PowerShell action with 2-second polling on chrome.exe.
+M4_delayed_custom_namespace,1,malicious,V4,"V4 namespace + trigger-delay variation: subscription in root\NT230Lab, 300 s timer, no process telemetry."
+M5_network_activescript,1,malicious,V5,V5 consumer variation: JScript consumer with a network retrieval primitive (inert TEST-NET-2 URL).
+M6_stealth_low_noise,1,malicious,V6,"V6 low-noise evasion: SYSTEM principal, neutral names, Windows\Temp target and no WmiPrvSE child telemetry."

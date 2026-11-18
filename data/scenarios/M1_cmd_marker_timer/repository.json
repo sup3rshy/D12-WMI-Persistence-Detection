@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0",
+  "collected_at": "2026-11-17T09:05:00Z",
+  "host": {
+    "hostname": "NT230-LAB",
+    "os": "Windows 10 22H2 (19045)",
+    "vm": true
+  },
+  "scope": [
+    "root\\subscription",
+    "root\\NT230Lab"
+  ],
+  "filters": [
+    {
+      "name": "Windows Update Monitor",
+      "namespace": "root\\subscription",
+      "event_namespace": "root\\cimv2",
+      "query": "SELECT * FROM __TimerEvent WHERE TimerID = 'WindowsUpdateTimer' AND NumEvents > 0",
+      "query_language": "WQL",
+      "creator_sid": "S-1-5-21-1004336348-1177238915-682003330-1001",
+      "creator_user": "NT230LAB\\student"
+    }
+  ],
+  "consumers": [
+    {
+      "name": "Windows Update Monitor Consumer",
+      "namespace": "root\\subscription",
+      "class": "CommandLineEventConsumer",
+      "properties": {
+        "CommandLineTemplate": "cmd.exe /c echo NT230-D12-MARKER > \"%PUBLIC%\\nt230_d12_marker.txt\"",
+        "ExecutablePath": ""
+      },
+      "creator_sid": "S-1-5-21-1004336348-1177238915-682003330-1001",
+      "creator_user": "NT230LAB\\student"
+    }
+  ],
+  "bindings": [
+    {
+      "filter_name": "Windows Update Monitor",
+      "filter_namespace": "root\\subscription",
+      "consumer_name": "Windows Update Monitor Consumer",
+      "consumer_namespace": "root\\subscription",
+      "creator_sid": "S-1-5-18"
+    }
+  ]
+}

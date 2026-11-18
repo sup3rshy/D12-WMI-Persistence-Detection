@@ -1,0 +1,64 @@
+########## M2: masqueraded ActiveScript consumer (expected malicious) ##########
+==============================================================================
+scenario : M2_activescript_masquerade  (label=1)
+category : malicious
+verdict  : MALICIOUS   score=100/100
+truth    : V2 filter + name variation: process-creation WQL (WITHIN 5) and a masqueraded ActiveScript consumer.
+------------------------------------------------------------------------------
+[ malicious] 100  SCM Event Log Filter -> ActiveScriptEventConsumer:SCM Event Log Consumer
+             namespace=root\subscription  event_ns=root\cimv2  creator=S-1-5-21-1004336348-1177238915-682003330-1001
+             query=SELECT * FROM __InstanceCreationEvent WITHIN 5 WHERE TargetInstance ISA 'Win32_Process' AND TargetInstance.Name = 'notepad.exe'
+             +25  R01 High-risk permanent consumer class :: ActiveScriptEventConsumer executes an action automatically when the filter fires; it is the preferred T1546.003 consumer type.
+             +15  R06 Scripting host abuse in inline script :: Inline script uses Scripting.FileSystemObject to create processes or write files, the usual ActiveScriptEventConsumer payload.
+             +15  R07 WQL watches a security-sensitive class :: Filter subscribes to instance create/modify/delete events on a process, service, logon, registry or SCM class.
+             +15  R10 Name masquerades as a trusted component :: Subscription name contains 'SCM Event Log', a common masquerading pattern for T1546.003.
+             +10  R05 User-writable target path :: Action references \Users\Public\, a location writable by non-privileged users (staging/marker location).
+             +10  R08 High-frequency WQL polling :: WITHIN 5s causes very high-frequency polling.
+             +10  R09 Subscription created by a non-SYSTEM principal :: CreatorSID S-1-5-21-1004336348-1177238915-682003330-1001 (NT230LAB\student) is not LOCAL SYSTEM; WMI persistence is normally installed by an interactive user or attacker context.
+             +10  R13 Activation logged under a user account :: Event 5861 for 'SCM Event Log Filter' records user 'NT230LAB\student' rather than SYSTEM.
+
+
+########## B2: legitimate IT LogFile consumer (expected benign) ##########
+==============================================================================
+scenario : B2_it_logfile_monitor  (label=0)
+category : benign
+verdict  : BENIGN   score=33/100
+truth    : Approved IT monitoring: LogFileEventConsumer writes service-state changes to a log file.
+------------------------------------------------------------------------------
+[    benign]  33  IT Health Log Filter -> LogFileEventConsumer:IT Health Log Writer
+             namespace=root\subscription  event_ns=root\cimv2  creator=S-1-5-18
+             query=SELECT * FROM __InstanceModificationEvent WITHIN 300 WHERE TargetInstance ISA 'Win32_Service'
+             +15  R07 WQL watches a security-sensitive class :: Filter subscribes to instance create/modify/delete events on a process, service, logon, registry or SCM class.
+             +10  R05 User-writable target path :: Action references \ProgramData\, a location writable by non-privileged users (staging/marker location).
+             +8   R01 Permanent consumer registered :: LogFileEventConsumer is a permanent consumer and needs an explicit business justification.
+
+
+########## M4: custom namespace, delayed timer, no process telemetry ##########
+==============================================================================
+scenario : M4_delayed_custom_namespace  (label=1)
+category : malicious
+verdict  : MALICIOUS   score=71/100
+truth    : V4 namespace + trigger-delay variation: subscription in root\NT230Lab, 300 s timer, no process telemetry.
+------------------------------------------------------------------------------
+[ malicious]  71  Windows Defender Cache -> CommandLineEventConsumer:DefenderCacheConsumer
+             namespace=root\NT230Lab  event_ns=root\cimv2  creator=S-1-5-18
+             query=SELECT * FROM __TimerEvent WHERE TimerID = 'DefenderCacheTimer' AND NumEvents > 0
+             +25  R01 High-risk permanent consumer class :: CommandLineEventConsumer executes an action automatically when the filter fires; it is the preferred T1546.003 consumer type.
+             +15  R04 Command interpreter or LOLBin launch :: Action starts cmd.exe /c, which is typical for scripted execution but uncommon for monitoring consumers.
+             +15  R10 Name masquerades as a trusted component :: Subscription name contains 'Defender', a common masquerading pattern for T1546.003.
+             +10  R05 User-writable target path :: Action references %APPDATA%, a location writable by non-privileged users (staging/marker location).
+             +6   R11 Non-default WMI namespace :: filter/consumer stored in root\NT230Lab. Custom namespaces hide subscriptions from the usual root\subscription triage.
+
+
+########## Live host, event-log-only reconstruction ##########
+==============================================================================
+scenario : live  (label=0)
+category : unknown
+verdict  : BENIGN   score=0/100
+truth    : 
+------------------------------------------------------------------------------
+[    benign]   0  SCM Event Log Filter -> NTEventLogEventConsumer:SCM Event Log Consumer
+             namespace=root\subscription  event_ns=root\cimv2  creator=S-1-5-32-544
+             query=select * from MSFT_SCMEventLogEvent
+             +0   R00 Matched signed baseline allow-list :: Object matches known-good entry 'builtin-scm-eventlog'. Exact query, class and namespace were required for the match.
+

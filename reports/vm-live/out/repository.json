@@ -1,0 +1,109 @@
+{
+    "schema_version":  "1.0",
+    "collected_at":  "2026-11-17T07:50:41.3622031Z",
+    "collector":  "Collect-WmiSubscriptions.ps1",
+    "host":  {
+                 "hostname":  "NT230LAB",
+                 "os":  "Microsoft Windows 10 Home 10.0.19045",
+                 "model":  "innotek GmbH VirtualBox"
+             },
+    "scope":  [
+                  "root\\subscription"
+              ],
+    "filters":  [
+                    {
+                        "name":  "SCM Event Log Filter",
+                        "namespace":  "root\\subscription",
+                        "event_namespace":  "root\\cimv2",
+                        "query":  "select * from MSFT_SCMEventLogEvent",
+                        "query_language":  "WQL",
+                        "creator_sid":  "S-1-5-32-544",
+                        "creator_user":  "BUILTIN\\Administrators",
+                        "properties":  {
+                                           "CreatorSID":  "S-1-5-32-544",
+                                           "EventNamespace":  "root\\cimv2",
+                                           "Name":  "SCM Event Log Filter",
+                                           "Query":  "select * from MSFT_SCMEventLogEvent",
+                                           "QueryLanguage":  "WQL"
+                                       }
+                    },
+                    {
+                        "name":  "NT230_D12_V1_Filter",
+                        "namespace":  "root\\subscription",
+                        "event_namespace":  "root\\default",
+                        "query":  "SELECT * FROM __TimerEvent WHERE TimerID = \u0027NT230D12TimerV1\u0027",
+                        "query_language":  "WQL",
+                        "creator_sid":  "S-1-5-21-814580844-2301453324-4257181413-1000",
+                        "creator_user":  "NT230LAB\\student",
+                        "properties":  {
+                                           "CreatorSID":  "S-1-5-21-814580844-2301453324-4257181413-1000",
+                                           "EventNamespace":  "root\\default",
+                                           "Name":  "NT230_D12_V1_Filter",
+                                           "Query":  "SELECT * FROM __TimerEvent WHERE TimerID = \u0027NT230D12TimerV1\u0027",
+                                           "QueryLanguage":  "WQL"
+                                       }
+                    }
+                ],
+    "consumers":  [
+                      {
+                          "name":  "NT230_D12_V1_Consumer",
+                          "namespace":  "root\\subscription",
+                          "class":  "CommandLineEventConsumer",
+                          "properties":  {
+                                             "CreatorSID":  "S-1-5-21-814580844-2301453324-4257181413-1000",
+                                             "CommandLineTemplate":  "cmd.exe /c echo NT230-D12-MARKER \u003e \"C:\\Users\\Public\\nt230_d12_marker.txt\"",
+                                             "CreateNewConsole":  "False",
+                                             "CreateNewProcessGroup":  "False",
+                                             "CreateSeparateWowVdm":  "False",
+                                             "CreateSharedWowVdm":  "False",
+                                             "ForceOffFeedback":  "False",
+                                             "ForceOnFeedback":  "False",
+                                             "KillTimeout":  "0",
+                                             "Name":  "NT230_D12_V1_Consumer",
+                                             "Priority":  "32",
+                                             "RunInteractively":  "False",
+                                             "UseDefaultErrorMode":  "False"
+                                         },
+                          "creator_sid":  "S-1-5-21-814580844-2301453324-4257181413-1000",
+                          "creator_user":  "NT230LAB\\student"
+                      },
+                      {
+                          "name":  "SCM Event Log Consumer",
+                          "namespace":  "root\\subscription",
+                          "class":  "NTEventLogEventConsumer",
+                          "properties":  {
+                                             "CreatorSID":  "S-1-5-32-544",
+                                             "Category":  "0",
+                                             "EventID":  "0",
+                                             "EventType":  "1",
+                                             "InsertionStringTemplates":  "",
+                                             "Name":  "SCM Event Log Consumer",
+                                             "NameOfUserSIDProperty":  "sid",
+                                             "NumberOfInsertionStrings":  "0",
+                                             "SourceName":  "Service Control Manager"
+                                         },
+                          "creator_sid":  "S-1-5-32-544",
+                          "creator_user":  "BUILTIN\\Administrators"
+                      }
+                  ],
+    "bindings":  [
+                     {
+                         "filter_name":  "NT230_D12_V1_Filter",
+                         "filter_namespace":  "root\\subscription",
+                         "consumer_name":  "NT230_D12_V1_Consumer",
+                         "consumer_class":  "CommandLineEventConsumer",
+                         "consumer_namespace":  "root\\subscription",
+                         "creator_sid":  "S-1-5-21-814580844-2301453324-4257181413-1000",
+                         "creator_user":  "NT230LAB\\student"
+                     },
+                     {
+                         "filter_name":  "SCM Event Log Filter",
+                         "filter_namespace":  "root\\subscription",
+                         "consumer_name":  "SCM Event Log Consumer",
+                         "consumer_class":  "NTEventLogEventConsumer",
+                         "consumer_namespace":  "root\\subscription",
+                         "creator_sid":  "S-1-5-32-544",
+                         "creator_user":  "BUILTIN\\Administrators"
+                     }
+                 ]
+}

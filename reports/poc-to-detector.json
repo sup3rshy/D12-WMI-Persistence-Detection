@@ -1,0 +1,409 @@
+{
+  "thresholds": {
+    "malicious": 60,
+    "suspicious": 40
+  },
+  "results": [
+    {
+      "scenario_id": "POC_V1",
+      "label": 1,
+      "category": "malicious",
+      "description": "Rendered from the dry-run configuration of PoC variant V1 (CommandLineEventConsumer).",
+      "score": 70,
+      "verdict": "malicious",
+      "predicted": 1,
+      "subscriptions": [
+        {
+          "key": "root\\subscription::NT230_D12_V1_Filter->NT230_D12_V1_Consumer",
+          "score": 70,
+          "verdict": "malicious",
+          "allowlisted": false,
+          "matched_allowlist": "",
+          "filter": {
+            "name": "NT230_D12_V1_Filter",
+            "namespace": "root\\subscription",
+            "event_namespace": "root\\cimv2",
+            "query": "SELECT * FROM __TimerEvent WHERE TimerID = 'NT230D12TimerV1' AND NumEvents = 1"
+          },
+          "consumer": {
+            "name": "NT230_D12_V1_Consumer",
+            "class": "CommandLineEventConsumer",
+            "properties": {
+              "CommandLineTemplate": "cmd.exe /c echo NT230-D12-MARKER > \"C:\\Users\\Public\\nt230_d12_marker.txt\""
+            }
+          },
+          "creator": {
+            "sid": "S-1-5-21-1004336348-1177238915-682003330-1001",
+            "user": "NT230LAB\\student"
+          },
+          "evidence": [
+            {
+              "rule": "R01",
+              "title": "High-risk permanent consumer class",
+              "weight": 25,
+              "detail": "CommandLineEventConsumer executes an action automatically when the filter fires; it is the preferred T1546.003 consumer type."
+            },
+            {
+              "rule": "R04",
+              "title": "Command interpreter or LOLBin launch",
+              "weight": 15,
+              "detail": "Action starts cmd.exe /c, which is typical for scripted execution but uncommon for monitoring consumers."
+            },
+            {
+              "rule": "R05",
+              "title": "User-writable target path",
+              "weight": 10,
+              "detail": "Action references \\Users\\Public\\, a location writable by non-privileged users (staging/marker location)."
+            },
+            {
+              "rule": "R09",
+              "title": "Subscription created by a non-SYSTEM principal",
+              "weight": 10,
+              "detail": "CreatorSID S-1-5-21-1004336348-1177238915-682003330-1001 (NT230LAB\\student) is not LOCAL SYSTEM; WMI persistence is normally installed by an interactive user or attacker context."
+            },
+            {
+              "rule": "R13",
+              "title": "Activation logged under a user account",
+              "weight": 10,
+              "detail": "Event 5861 for 'NT230_D12_V1_Filter' records user 'NT230LAB\\student' rather than SYSTEM."
+            }
+          ]
+        }
+      ],
+      "directory": "reports/poc-to-detector/POC_V1"
+    },
+    {
+      "scenario_id": "POC_V2",
+      "label": 1,
+      "category": "malicious",
+      "description": "Rendered from the dry-run configuration of PoC variant V2 (CommandLineEventConsumer).",
+      "score": 100,
+      "verdict": "malicious",
+      "predicted": 1,
+      "subscriptions": [
+        {
+          "key": "root\\subscription::NT230_D12_V2_Windows Update Monitor->NT230_D12_V2_Windows Update Consumer",
+          "score": 100,
+          "verdict": "malicious",
+          "allowlisted": false,
+          "matched_allowlist": "",
+          "filter": {
+            "name": "NT230_D12_V2_Windows Update Monitor",
+            "namespace": "root\\subscription",
+            "event_namespace": "root\\cimv2",
+            "query": "SELECT * FROM __InstanceCreationEvent WITHIN 3 WHERE TargetInstance ISA 'Win32_Process' AND TargetInstance.Name = 'notepad.exe'"
+          },
+          "consumer": {
+            "name": "NT230_D12_V2_Windows Update Consumer",
+            "class": "CommandLineEventConsumer",
+            "properties": {
+              "CommandLineTemplate": "cmd.exe /c echo NT230-D12-MARKER > \"C:\\Users\\Public\\nt230_d12_marker.txt\""
+            }
+          },
+          "creator": {
+            "sid": "S-1-5-21-1004336348-1177238915-682003330-1001",
+            "user": "NT230LAB\\student"
+          },
+          "evidence": [
+            {
+              "rule": "R01",
+              "title": "High-risk permanent consumer class",
+              "weight": 25,
+              "detail": "CommandLineEventConsumer executes an action automatically when the filter fires; it is the preferred T1546.003 consumer type."
+            },
+            {
+              "rule": "R04",
+              "title": "Command interpreter or LOLBin launch",
+              "weight": 15,
+              "detail": "Action starts cmd.exe /c, which is typical for scripted execution but uncommon for monitoring consumers."
+            },
+            {
+              "rule": "R07",
+              "title": "WQL watches a security-sensitive class",
+              "weight": 15,
+              "detail": "Filter subscribes to instance create/modify/delete events on a process, service, logon, registry or SCM class."
+            },
+            {
+              "rule": "R10",
+              "title": "Name masquerades as a trusted component",
+              "weight": 15,
+              "detail": "Subscription name contains 'Windows Update', a common masquerading pattern for T1546.003."
+            },
+            {
+              "rule": "R05",
+              "title": "User-writable target path",
+              "weight": 10,
+              "detail": "Action references \\Users\\Public\\, a location writable by non-privileged users (staging/marker location)."
+            },
+            {
+              "rule": "R08",
+              "title": "High-frequency WQL polling",
+              "weight": 10,
+              "detail": "WITHIN 3s causes very high-frequency polling."
+            },
+            {
+              "rule": "R09",
+              "title": "Subscription created by a non-SYSTEM principal",
+              "weight": 10,
+              "detail": "CreatorSID S-1-5-21-1004336348-1177238915-682003330-1001 (NT230LAB\\student) is not LOCAL SYSTEM; WMI persistence is normally installed by an interactive user or attacker context."
+            },
+            {
+              "rule": "R13",
+              "title": "Activation logged under a user account",
+              "weight": 10,
+              "detail": "Event 5861 for 'NT230_D12_V2_Windows Update Monitor' records user 'NT230LAB\\student' rather than SYSTEM."
+            }
+          ]
+        }
+      ],
+      "directory": "reports/poc-to-detector/POC_V2"
+    },
+    {
+      "scenario_id": "POC_V3",
+      "label": 1,
+      "category": "malicious",
+      "description": "Rendered from the dry-run configuration of PoC variant V3 (CommandLineEventConsumer).",
+      "score": 100,
+      "verdict": "malicious",
+      "predicted": 1,
+      "subscriptions": [
+        {
+          "key": "root\\subscription::NT230_D12_V3_Filter->NT230_D12_V3_Consumer",
+          "score": 100,
+          "verdict": "malicious",
+          "allowlisted": false,
+          "matched_allowlist": "",
+          "filter": {
+            "name": "NT230_D12_V3_Filter",
+            "namespace": "root\\subscription",
+            "event_namespace": "root\\cimv2",
+            "query": "SELECT * FROM __InstanceCreationEvent WITHIN 3 WHERE TargetInstance ISA 'Win32_Process' AND TargetInstance.Name = 'notepad.exe'"
+          },
+          "consumer": {
+            "name": "NT230_D12_V3_Consumer",
+            "class": "CommandLineEventConsumer",
+            "properties": {
+              "CommandLineTemplate": "powershell.exe -NoProfile -WindowStyle Hidden -EncodedCommand VwByAGkAdABlAC0ATwB1AHQAcAB1AHQAIAAnAE4AVAAyADMAMAAtAEQAMQAyAC0ATQBBAFIASwBFAFIAJwAgAHwAIABPAHUAdAAtAEYAaQBsAGUAIAAtAEYAaQBsAGUAUABhAHQAaAAgACcAQwA6AFwAVQBzAGUAcgBzAFwAUAB1AGIAbABpAGMAXABuAHQAMgAzADAAXwBkADEAMgBfAG0AYQByAGsAZQByAC4AdAB4AHQAJwAgAC0ARQBuAGMAbwBkAGkAbgBnACAAYQBzAGMAaQBpAA=="
+            }
+          },
+          "creator": {
+            "sid": "S-1-5-21-1004336348-1177238915-682003330-1001",
+            "user": "NT230LAB\\student"
+          },
+          "evidence": [
+            {
+              "rule": "R01",
+              "title": "High-risk permanent consumer class",
+              "weight": 25,
+              "detail": "CommandLineEventConsumer executes an action automatically when the filter fires; it is the preferred T1546.003 consumer type."
+            },
+            {
+              "rule": "R02",
+              "title": "Encoded or obfuscated action",
+              "weight": 25,
+              "detail": "Consumer action contains an encoding/obfuscation primitive (-EncodedCommand, FromBase64String, [char[]] ...)."
+            },
+            {
+              "rule": "R04",
+              "title": "Command interpreter or LOLBin launch",
+              "weight": 15,
+              "detail": "Action starts powershell.exe, which is typical for scripted execution but uncommon for monitoring consumers."
+            },
+            {
+              "rule": "R07",
+              "title": "WQL watches a security-sensitive class",
+              "weight": 15,
+              "detail": "Filter subscribes to instance create/modify/delete events on a process, service, logon, registry or SCM class."
+            },
+            {
+              "rule": "R08",
+              "title": "High-frequency WQL polling",
+              "weight": 10,
+              "detail": "WITHIN 3s causes very high-frequency polling."
+            },
+            {
+              "rule": "R09",
+              "title": "Subscription created by a non-SYSTEM principal",
+              "weight": 10,
+              "detail": "CreatorSID S-1-5-21-1004336348-1177238915-682003330-1001 (NT230LAB\\student) is not LOCAL SYSTEM; WMI persistence is normally installed by an interactive user or attacker context."
+            },
+            {
+              "rule": "R13",
+              "title": "Activation logged under a user account",
+              "weight": 10,
+              "detail": "Event 5861 for 'NT230_D12_V3_Filter' records user 'NT230LAB\\student' rather than SYSTEM."
+            }
+          ]
+        }
+      ],
+      "directory": "reports/poc-to-detector/POC_V3"
+    },
+    {
+      "scenario_id": "POC_V4",
+      "label": 1,
+      "category": "malicious",
+      "description": "Rendered from the dry-run configuration of PoC variant V4 (CommandLineEventConsumer).",
+      "score": 91,
+      "verdict": "malicious",
+      "predicted": 1,
+      "subscriptions": [
+        {
+          "key": "root\\NT230Lab::NT230_D12_V4_Windows Defender Cache->NT230_D12_V4_DefenderCacheConsumer",
+          "score": 91,
+          "verdict": "malicious",
+          "allowlisted": false,
+          "matched_allowlist": "",
+          "filter": {
+            "name": "NT230_D12_V4_Windows Defender Cache",
+            "namespace": "root\\NT230Lab",
+            "event_namespace": "root\\cimv2",
+            "query": "SELECT * FROM __TimerEvent WHERE TimerID = 'NT230D12TimerV4' AND NumEvents = 1"
+          },
+          "consumer": {
+            "name": "NT230_D12_V4_DefenderCacheConsumer",
+            "class": "CommandLineEventConsumer",
+            "properties": {
+              "CommandLineTemplate": "cmd.exe /c echo NT230-D12-MARKER > \"C:\\Users\\Public\\nt230_d12_marker.txt\""
+            }
+          },
+          "creator": {
+            "sid": "S-1-5-21-1004336348-1177238915-682003330-1001",
+            "user": "NT230LAB\\student"
+          },
+          "evidence": [
+            {
+              "rule": "R01",
+              "title": "High-risk permanent consumer class",
+              "weight": 25,
+              "detail": "CommandLineEventConsumer executes an action automatically when the filter fires; it is the preferred T1546.003 consumer type."
+            },
+            {
+              "rule": "R04",
+              "title": "Command interpreter or LOLBin launch",
+              "weight": 15,
+              "detail": "Action starts cmd.exe /c, which is typical for scripted execution but uncommon for monitoring consumers."
+            },
+            {
+              "rule": "R10",
+              "title": "Name masquerades as a trusted component",
+              "weight": 15,
+              "detail": "Subscription name contains 'Defender', a common masquerading pattern for T1546.003."
+            },
+            {
+              "rule": "R05",
+              "title": "User-writable target path",
+              "weight": 10,
+              "detail": "Action references \\Users\\Public\\, a location writable by non-privileged users (staging/marker location)."
+            },
+            {
+              "rule": "R09",
+              "title": "Subscription created by a non-SYSTEM principal",
+              "weight": 10,
+              "detail": "CreatorSID S-1-5-21-1004336348-1177238915-682003330-1001 (NT230LAB\\student) is not LOCAL SYSTEM; WMI persistence is normally installed by an interactive user or attacker context."
+            },
+            {
+              "rule": "R13",
+              "title": "Activation logged under a user account",
+              "weight": 10,
+              "detail": "Event 5861 for 'NT230_D12_V4_Windows Defender Cache' records user 'NT230LAB\\student' rather than SYSTEM."
+            },
+            {
+              "rule": "R11",
+              "title": "Non-default WMI namespace",
+              "weight": 6,
+              "detail": "filter/consumer stored in root\\NT230Lab. Custom namespaces hide subscriptions from the usual root\\subscription triage."
+            }
+          ]
+        }
+      ],
+      "directory": "reports/poc-to-detector/POC_V4"
+    },
+    {
+      "scenario_id": "POC_V5",
+      "label": 1,
+      "category": "malicious",
+      "description": "Rendered from the dry-run configuration of PoC variant V5 (ActiveScriptEventConsumer).",
+      "score": 95,
+      "verdict": "malicious",
+      "predicted": 1,
+      "subscriptions": [
+        {
+          "key": "root\\subscription::NT230_D12_V5_InventorySync->NT230_D12_V5_InventorySyncAction",
+          "score": 95,
+          "verdict": "malicious",
+          "allowlisted": false,
+          "matched_allowlist": "",
+          "filter": {
+            "name": "NT230_D12_V5_InventorySync",
+            "namespace": "root\\subscription",
+            "event_namespace": "root\\cimv2",
+            "query": "SELECT * FROM __InstanceCreationEvent WITHIN 3 WHERE TargetInstance ISA 'Win32_Process' AND TargetInstance.Name = 'notepad.exe'"
+          },
+          "consumer": {
+            "name": "NT230_D12_V5_InventorySyncAction",
+            "class": "ActiveScriptEventConsumer",
+            "properties": {
+              "ScriptingEngine": "VBScript",
+              "ScriptText": "Set fso = CreateObject(\"Scripting.FileSystemObject\")\nSet f = fso.CreateTextFile(\"C:\\Users\\Public\\nt230_d12_marker.txt\", True)\nf.WriteLine \"NT230-D12-MARKER\"\nf.Close"
+            }
+          },
+          "creator": {
+            "sid": "S-1-5-21-1004336348-1177238915-682003330-1001",
+            "user": "NT230LAB\\student"
+          },
+          "evidence": [
+            {
+              "rule": "R01",
+              "title": "High-risk permanent consumer class",
+              "weight": 25,
+              "detail": "ActiveScriptEventConsumer executes an action automatically when the filter fires; it is the preferred T1546.003 consumer type."
+            },
+            {
+              "rule": "R06",
+              "title": "Scripting host abuse in inline script",
+              "weight": 15,
+              "detail": "Inline script uses Scripting.FileSystemObject to create processes or write files, the usual ActiveScriptEventConsumer payload."
+            },
+            {
+              "rule": "R07",
+              "title": "WQL watches a security-sensitive class",
+              "weight": 15,
+              "detail": "Filter subscribes to instance create/modify/delete events on a process, service, logon, registry or SCM class."
+            },
+            {
+              "rule": "R05",
+              "title": "User-writable target path",
+              "weight": 10,
+              "detail": "Action references \\Users\\Public\\, a location writable by non-privileged users (staging/marker location)."
+            },
+            {
+              "rule": "R08",
+              "title": "High-frequency WQL polling",
+              "weight": 10,
+              "detail": "WITHIN 3s causes very high-frequency polling."
+            },
+            {
+              "rule": "R09",
+              "title": "Subscription created by a non-SYSTEM principal",
+              "weight": 10,
+              "detail": "CreatorSID S-1-5-21-1004336348-1177238915-682003330-1001 (NT230LAB\\student) is not LOCAL SYSTEM; WMI persistence is normally installed by an interactive user or attacker context."
+            },
+            {
+              "rule": "R13",
+              "title": "Activation logged under a user account",
+              "weight": 10,
+              "detail": "Event 5861 for 'NT230_D12_V5_InventorySync' records user 'NT230LAB\\student' rather than SYSTEM."
+            }
+          ]
+        }
+      ],
+      "directory": "reports/poc-to-detector/POC_V5"
+    }
+  ],
+  "summary": {
+    "scenarios": 5,
+    "malicious": 5,
+    "suspicious": 0,
+    "benign": 0
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0",
+  "collected_at": "2026-11-17T09:05:00Z",
+  "host": {
+    "hostname": "NT230-LAB",
+    "os": "Windows 10 22H2 (19045)",
+    "vm": true
+  },
+  "scope": [
+    "root\\subscription",
+    "root\\NT230Lab"
+  ],
+  "filters": [
+    {
+      "name": "SessionSync_8f2a",
+      "namespace": "root\\subscription",
+      "event_namespace": "root\\cimv2",
+      "query": "SELECT * FROM __InstanceCreationEvent WITHIN 2 WHERE TargetInstance ISA 'Win32_Process' AND TargetInstance.Name LIKE '%chrome.exe'",
+      "query_language": "WQL",
+      "creator_sid": "S-1-5-21-1004336348-1177238915-682003330-1001",
+      "creator_user": "NT230LAB\\student"
+    }
+  ],
+  "consumers": [
+    {
+      "name": "SessionSync_8f2a_Action",
+      "namespace": "root\\subscription",
+      "class": "CommandLineEventConsumer",
+      "properties": {
+        "CommandLineTemplate": "powershell.exe -NoProfile -WindowStyle Hidden -EncodedCommand VwByAGkAdABlAC0ATwB1AHQAcAB1AHQAIAAiAE4AVAAyADMAMAAtAEQAMQAyAC0ATQBBAFIASwBFAFIAIgAgAHwAIABPAHUAdAAtAEYAaQBsAGUAIAAtAEYAaQBsAGUAUABhAHQAaAAgACIAJABlAG4AdgA6AFAAVQBCAEwASQBDAFwAbgB0ADIAMwAwAF8AZAAxADIAXwBtAGEAcgBrAGUAcgAuAHQAeAB0ACIA",
+        "ExecutablePath": ""
+      },
+      "creator_sid": "S-1-5-21-1004336348-1177238915-682003330-1001",
+      "creator_user": "NT230LAB\\student"
+    }
+  ],
+  "bindings": [
+    {
+      "filter_name": "SessionSync_8f2a",
+      "filter_namespace": "root\\subscription",
+      "consumer_name": "SessionSync_8f2a_Action",
+      "consumer_namespace": "root\\subscription",
+      "creator_sid": "S-1-5-18"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+[project]
+name = "nt230-d12-wmi-persistence"
+version = "1.0.0"
+description = "T1546.003 WMI event subscription persistence PoC, detector and labelled dataset"
+requires-python = ">=3.11"
+dependencies = []
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
