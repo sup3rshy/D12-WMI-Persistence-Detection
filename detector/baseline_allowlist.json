@@ -1,11 +1,13 @@
 {
-  "schema_version": "1.0",
-  "description": "Known-good permanent subscriptions. Matching is exact on filter name, consumer name/class, WQL query, event namespace and (when present) CreatorSID. Evidence with weight >= 20 disables the allow-list for that object.",
+  "schema_version": "1.1",
+  "description": "Known-good permanent subscriptions. Matching is exact on filter name/namespace, consumer name/class/namespace, WQL query, event namespace and (when present) CreatorSID. Evidence with weight >= 20 disables the allow-list for that object.",
   "entries": [
     {
       "id": "builtin-scm-eventlog",
       "filter_name": "SCM Event Log Filter",
+      "filter_namespace": "root\\subscription",
       "consumer_name": "SCM Event Log Consumer",
+      "consumer_namespace": "root\\subscription",
       "consumer_class": "NTEventLogEventConsumer",
       "query": "select * from MSFT_SCMEventLogEvent",
       "event_namespace": "root\\cimv2",

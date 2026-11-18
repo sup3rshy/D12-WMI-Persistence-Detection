@@ -99,3 +99,27 @@ def test_load_live_snapshot_if_available() -> None:
     assert bundle["subscriptions"], "live snapshot should contain at least one subscription"
     names = {sub.consumer_name for sub in bundle["subscriptions"]}
     assert "SCM Event Log Consumer" in names
+
+
+def test_malformed_jsonl_line_is_skipped(tmp_path, caplog) -> None:
+    from detector.parser import load_events
+
+    path = tmp_path / "activity.jsonl"
+    path.write_text('{"EventId": 5861}\n{not json}\n\n{"EventId": 5859}\n', encoding="utf-8")
+    events = load_events(path)
+    assert [event["EventId"] for event in events] == [5861, 5859]
+    assert "malformed JSONL" in caplog.text
+
+
+def test_event_user_is_activation_not_creator() -> None:
+    """5861 User is who activated the consumer, not who owns CreatorSID."""
+    from detector.parser import subscriptions_from_events
+
+    scenario = next(s for s in build_scenarios() if s["scenario_id"] == "M1_cmd_marker_timer")
+    event = dict(scenario["events"][0])
+    event["User"] = "NT AUTHORITY\\SYSTEM"
+    subscriptions = subscriptions_from_events([event])
+    assert len(subscriptions) == 1
+    assert subscriptions[0].creator_user == ""
+    assert subscriptions[0].extra["activation_user"] == "NT AUTHORITY\\SYSTEM"
+    assert subscriptions[0].creator_sid == SID_STUDENT

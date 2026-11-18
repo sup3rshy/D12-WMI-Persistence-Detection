@@ -25,7 +25,9 @@ def load_allowlist(path: Path | None = None) -> list[dict[str, Any]]:
 def _allowlist_match(sub: Subscription, entries: list[dict[str, Any]]) -> str:
     fields = {
         "filter_name": sub.filter_name,
+        "filter_namespace": sub.filter_namespace,
         "consumer_name": sub.consumer_name,
+        "consumer_namespace": str(sub.extra.get("consumer_namespace") or ""),
         "consumer_class": sub.consumer_class,
         "query": sub.query,
         "event_namespace": sub.event_namespace,
@@ -56,9 +58,10 @@ def assess_subscription(
     processes: list[dict[str, Any]] | None = None,
     allowlist: list[dict[str, Any]] | None = None,
     thresholds: dict[str, int] | None = None,
+    exclude_rules: set[str] | None = None,
 ) -> Assessment:
     thresholds = thresholds or DEFAULT_THRESHOLDS
-    evidence = evaluate_rules(sub, events, processes)
+    evidence = evaluate_rules(sub, events, processes, exclude_rules=exclude_rules)
 
     allow_id = _allowlist_match(sub, allowlist or [])
     strong = [item for item in evidence if item.weight >= 20]
@@ -96,6 +99,7 @@ def analyze_bundle(
     bundle: dict[str, Any],
     allowlist: list[dict[str, Any]] | None = None,
     thresholds: dict[str, int] | None = None,
+    exclude_rules: set[str] | None = None,
 ) -> dict[str, Any]:
     """Analyse one scenario bundle produced by parser.load_scenario()."""
     assessments = [
@@ -105,6 +109,7 @@ def analyze_bundle(
             processes=bundle.get("processes"),
             allowlist=allowlist,
             thresholds=thresholds,
+            exclude_rules=exclude_rules,
         )
         for sub in bundle.get("subscriptions", [])
     ]

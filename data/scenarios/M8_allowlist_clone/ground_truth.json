@@ -1,0 +1,18 @@
+{
+  "scenario_id": "M8_allowlist_clone",
+  "label": 1,
+  "category": "malicious",
+  "variant": "V8",
+  "description": "V8 allow-list bypass: trusted built-in names reused with a different class, query and script payload.",
+  "tags": [
+    "V8",
+    "allowlist-bypass",
+    "masquerade"
+  ],
+  "safety": "Inert marker strings only; no payload was executed.",
+  "host": {
+    "hostname": "NT230-LAB",
+    "os": "Windows 10 22H2 (19045)",
+    "vm": true
+  }
+}

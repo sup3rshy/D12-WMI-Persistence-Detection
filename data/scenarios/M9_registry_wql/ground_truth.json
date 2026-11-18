@@ -1,0 +1,19 @@
+{
+  "scenario_id": "M9_registry_wql",
+  "label": 1,
+  "category": "malicious",
+  "variant": "V9",
+  "description": "V9 registry-change WQL trigger on the Run key, paired with a command-line marker write.",
+  "tags": [
+    "V9",
+    "registry",
+    "wql",
+    "commandline"
+  ],
+  "safety": "Inert marker strings only; no payload was executed.",
+  "host": {
+    "hostname": "NT230-LAB",
+    "os": "Windows 10 22H2 (19045)",
+    "vm": true
+  }
+}

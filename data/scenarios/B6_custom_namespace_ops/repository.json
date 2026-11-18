@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "collected_at": "2026-11-17T09:05:00Z",
+  "host": {
+    "hostname": "NT230-LAB",
+    "os": "Windows 10 22H2 (19045)",
+    "vm": true
+  },
+  "scope": [
+    "root\\subscription",
+    "root\\NT230Lab",
+    "root\\OpsMonitoring"
+  ],
+  "filters": [
+    {
+      "name": "Ops Service Probe",
+      "namespace": "root\\OpsMonitoring",
+      "event_namespace": "root\\cimv2",
+      "query": "SELECT * FROM __InstanceModificationEvent WITHIN 120 WHERE TargetInstance ISA 'Win32_Service'",
+      "query_language": "WQL",
+      "creator_sid": "S-1-5-18",
+      "creator_user": "NT AUTHORITY\\SYSTEM"
+    }
+  ],
+  "consumers": [
+    {
+      "name": "Ops Service Log",
+      "namespace": "root\\OpsMonitoring",
+      "class": "LogFileEventConsumer",
+      "properties": {
+        "LogFilePath": "C:\\ProgramData\\Ops\\service-state.log",
+        "Text": "service state changed"
+      },
+      "creator_sid": "S-1-5-18",
+      "creator_user": "NT AUTHORITY\\SYSTEM"
+    }
+  ],
+  "bindings": [
+    {
+      "filter_name": "Ops Service Probe",
+      "filter_namespace": "root\\OpsMonitoring",
+      "consumer_name": "Ops Service Log",
+      "consumer_namespace": "root\\OpsMonitoring",
+      "creator_sid": "S-1-5-18"
+    }
+  ]
+}

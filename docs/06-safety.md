@@ -66,6 +66,29 @@ detector: `reports/vm-live/detector-scan.txt`.
 
 ---
 
+## 1c. Kiểm chứng persistence qua reboot (cùng VM, cùng snapshot)
+
+Để chứng minh T1546.003 đúng nghĩa persistence, nhóm chạy thêm một phase reboot
+trong **cùng VM lab**:
+
+| Kiểm soát | Giá trị |
+|---|---|
+| Snapshot trước khi chạy | `clean-baseline` |
+| Phase 1 | Tạo V1 `-Keep`, timer 30 s, xóa marker, reboot guest |
+| Phase 2 | Sau boot: chờ marker, đọc object, collect repository/events, cleanup |
+| Bằng chứng | `reports/vm-live/reboot/summary.json`, `marker-after-reboot.txt`, `objects-after-reboot.txt` |
+| Kết quả | `verdict=persisted`; 1 filter/1 consumer/1 binding sau reboot; marker tạo lại lúc `14:12:15Z` |
+| Cleanup | `removed=4`; remaining 0/0/0 |
+| Kết thúc | Restore `clean-baseline`, discard saved state, VM `poweroff` |
+
+Không có persistence nào ngoài WMI subscription của PoC: không tạo Run key,
+service, scheduled task hay startup folder. Quyền elevated có được bằng elevated
+console (UAC) **bên trong VM**, không dùng kỹ thuật bypass UAC và không lưu
+password trong repo. Harness: `scripts/vm/Reboot-Persistence-Test.ps1`
+(phase `Create`/`Verify`).
+
+---
+
 ## 2. VM guard hoạt động thế nào
 
 `poc/Invoke-WmiSubscription.ps1` kiểm tra:
@@ -158,7 +181,7 @@ Phải rỗng. Nếu không, rollback snapshot VM.
 | Không persistence ngoài phạm vi | Chỉ WMI subscription, auto-cleanup, prefix riêng | `poc/Invoke-WmiSubscription.ps1` |
 | Không phát tán mẫu | Dataset JSON/JSONL, không binary | `docs/07-dataset-card.md` |
 | Không vô hiệu hóa bảo vệ | Không đụng Defender/AMSI/ETW | không có code |
-| Snapshot/rollback | Hướng dẫn bắt buộc trước khi chạy; VM lab đã restore `clean-baseline` sau PoC | `docs/05-reproduction.md`, `reports/vm-live/` |
+| Snapshot/rollback | Hướng dẫn bắt buộc trước khi chạy; VM lab đã restore `clean-baseline` sau PoC và sau reboot test | `docs/05-reproduction.md`, `reports/vm-live/`, `reports/vm-live/reboot/` |
 
 ---
 

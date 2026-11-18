@@ -1,0 +1,18 @@
+{
+  "scenario_id": "B6_custom_namespace_ops",
+  "label": 0,
+  "category": "benign",
+  "variant": "B6",
+  "description": "Approved operations probe in root\\OpsMonitoring; hard negative just below the triage threshold.",
+  "tags": [
+    "hard-negative",
+    "custom-namespace",
+    "eventlog-consumer"
+  ],
+  "safety": "Inert marker strings only; no payload was executed.",
+  "host": {
+    "hostname": "NT230-LAB",
+    "os": "Windows 10 22H2 (19045)",
+    "vm": true
+  }
+}

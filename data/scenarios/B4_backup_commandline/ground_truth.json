@@ -1,0 +1,18 @@
+{
+  "scenario_id": "B4_backup_commandline",
+  "label": 0,
+  "category": "benign",
+  "variant": "B4",
+  "description": "Approved nightly backup: CommandLineEventConsumer runs robocopy to a fixed backup volume.",
+  "tags": [
+    "hard-negative",
+    "commandline-consumer",
+    "backup"
+  ],
+  "safety": "Inert marker strings only; no payload was executed.",
+  "host": {
+    "hostname": "NT230-LAB",
+    "os": "Windows 10 22H2 (19045)",
+    "vm": true
+  }
+}

@@ -12,11 +12,14 @@ Supported inputs
 from __future__ import annotations
 
 import json
+import logging
 import re
 from pathlib import Path
 from typing import Any, Iterable
 
 from .model import Subscription
+
+LOGGER = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
 # generic helpers
@@ -54,7 +57,13 @@ def _read_jsonl(path: Path) -> list[dict[str, Any]]:
             line = line.strip()
             if not line:
                 continue
-            records.append(json.loads(line))
+            try:
+                records.append(json.loads(line))
+            except json.JSONDecodeError:
+                # A truncated write must not take down an incident triage run.
+                LOGGER.warning(
+                    "skipping malformed JSONL line in %s: %s", path, line[:120]
+                )
     return records
 
 
@@ -311,6 +320,7 @@ def parse_5861(message: str) -> list[Subscription]:
             creator_user="",
             binding_present=True,
             source="eventlog-5861",
+            extra={"consumer_namespace": binding_ns},
         )
     ]
 
@@ -328,7 +338,12 @@ def subscriptions_from_events(events: list[dict[str, Any]]) -> list[Subscription
             continue
         message = str(event.get("Message") or "")
         for sub in parse_5861(message):
-            sub.creator_user = str(event.get("User") or event.get("UserName") or "")
+            # 5861 "User" is the account that activated the consumer, not the
+            # CreatorSID owner. Keep the two concepts separate so R09 does not
+            # claim that the student SID belongs to SYSTEM.
+            sub.extra["activation_user"] = str(
+                event.get("User") or event.get("UserName") or ""
+            )
             sub.extra["event_time"] = str(event.get("TimeCreated") or "")
             sub.extra["record_id"] = event.get("RecordId")
             existing = results.get(sub.key)

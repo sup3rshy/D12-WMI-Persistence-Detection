@@ -1,0 +1,10 @@
+[2026-11-18T14:10:45.0175717Z] phase=Create whoami=nt230lab\student computer=NT230LAB
+[2026-11-18T14:10:47.5562766Z] wmi-activity log enabled
+[2026-11-18T14:10:47.5839898Z] creating V1 with -Keep -TriggerDelaySeconds 30
+evidence -> C:\NT230\reboot-evidence\create-evidence.json
+__EventFilter :: NT230_D12_V1_Filter
+CommandLineEventConsumer :: NT230_D12_V1_Consumer
+__FilterToConsumerBinding :: __EventFilter.Name="NT230_D12_V1_Filter" -> CommandLineEventConsumer.Name="NT230_D12_V1_Consumer"
+[2026-11-18T14:10:50.8677160Z] no marker before reboot
+[2026-11-18T14:10:50.9101850Z] objects before reboot: filters=1 consumers=1 bindings=1
+[2026-11-18T14:10:50.9752546Z] requesting reboot

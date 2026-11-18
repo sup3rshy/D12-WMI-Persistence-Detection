@@ -1,0 +1,19 @@
+{
+  "scenario_id": "M7_mof_random_names",
+  "label": 1,
+  "category": "malicious",
+  "variant": "V7",
+  "description": "V7 MOF-style deployment: GUID object names, process-creation WQL and an inline VBScript dropper.",
+  "tags": [
+    "V7",
+    "mof",
+    "random-name",
+    "activescript"
+  ],
+  "safety": "Inert marker strings only; no payload was executed.",
+  "host": {
+    "hostname": "NT230-LAB",
+    "os": "Windows 10 22H2 (19045)",
+    "vm": true
+  }
+}

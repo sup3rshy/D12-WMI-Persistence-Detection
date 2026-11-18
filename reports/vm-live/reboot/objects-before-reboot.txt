@@ -1,0 +1,6 @@
+﻿
+Name                Query                                                        EventNamespace
+----                -----                                                        --------------
+NT230_D12_V1_Filter SELECT * FROM __TimerEvent WHERE TimerID = 'NT230D12TimerV1' root\default  
+
+

@@ -119,7 +119,7 @@ Sysmon EID 1 hoặc EDR tương đương:
 | R04 | Command interpreter/LOLBin | 15 | `powershell`, `cmd /c`, `mshta`, `rundll32`, `regsvr32`, `certutil` | Thực thi qua binary hợp pháp, phổ biến trong T1546.003 |
 | R05 | User-writable target path | 10 | `%TEMP%`, `%APPDATA%`, `\Users\Public\`, `\ProgramData\`, `\Windows\Temp\`, `\Downloads\` | Nơi attacker thường ghi marker/payload |
 | R06 | Scripting host abuse | 15 | `WScript.Shell`, `Scripting.FileSystemObject`, `Shell.Application`, `MSXML2.XMLHTTP` | Payload ActiveScript điển hình |
-| R07 | Sensitive WQL target | 15 | `__Instance*Event` + `Win32_Process`, `Win32_Service`, `Win32_LogonSession`, registry | Theo dõi hành vi nhạy cảm để kích hoạt |
+| R07 | Sensitive WQL target | 15 | `__Instance*Event` / `RegistryKeyChangeEvent` / `Win32_ProcessStartTrace` + `Win32_Process`, `Win32_Service`, `Win32_LogonSession`, registry | Theo dõi hành vi nhạy cảm để kích hoạt |
 | R08 | High-frequency polling | 10 nếu `WITHIN <= 5`, 6 nếu `<= 60` | `WITHIN n` | Polling dày tạo tải và cho thấy mục tiêu kích hoạt nhanh |
 | R09 | Non-SYSTEM creator | 10 | `CreatorSID` khác `S-1-5-18/19/20` | Persistence thường do user/admin tạo, không phải service account |
 | R10 | Name masquerade | 15 | `SCM Event Log`, `Windows Update`, `Microsoft`, `Defender`, `Windows Telemetry` | Giả mạo thành phần tin cậy |
@@ -158,9 +158,8 @@ else: verdict = "benign"
 
 Allow-list (`detector/baseline_allowlist.json`) khớp **chính xác**:
 
-- `filter_name`
-- `consumer_name`
-- `consumer_class`
+- `filter_name` và `filter_namespace`
+- `consumer_name`, `consumer_class` và `consumer_namespace`
 - `query`
 - `event_namespace`
 - `creator_sid` (nếu có)
@@ -221,16 +220,24 @@ Output JSON của một subscription:
 | B1 builtin SCM | 0 | benign | allow-list |
 | B2 IT log file | 33 | benign | R01, R05, R07 |
 | B3 service audit | 26 | benign | R01, R07, R08 |
+| B4 backup commandline | 35 | benign | R01, R05 |
+| B5 disk alert SMTP | 10 | benign | R01 |
+| B6 custom namespace ops | 39 | benign | R01, R05, R07, R11 |
 | M1 cmd timer | 100 | malicious | R01, R04, R05, R09, R10, R13, R14 |
 | M2 activescript masquerade | 100 | malicious | R01, R05, R06, R07, R08, R09, R10, R13 |
 | M3 encoded PowerShell | 100 | malicious | R01, R02, R04, R07, R08, R09, R13, R14 |
 | M4 custom namespace | 71 | malicious | R01, R04, R05, R10, R11 |
 | M5 network JScript | 100 | malicious | R01, R03, R06, R07, R08, R09, R10, R13 |
 | M6 low-noise | 50 | suspicious | R01, R04, R05 |
+| M7 MOF random names | 91 | malicious | R01, R05, R06, R07, R08, R09, R13 |
+| M8 allow-list clone | 100 | malicious | R01, R05, R06, R07, R08, R09, R10, R13 |
+| M9 registry WQL | 85 | malicious | R01, R04, R05, R07, R09, R13 |
 
 M6 cho thấy giới hạn của rule-based: nếu attacker dùng SYSTEM, tên trung tính,
 đường dẫn ít bị chú ý và không có process telemetry, tổng điểm chỉ còn 50. Đây
-là lý do detector có thêm ngưỡng triage 40.
+là lý do detector có thêm ngưỡng triage 40. B6 (39 điểm) là hard negative sát
+ngưỡng, nên 40 không phải ngưỡng tùy ý: hạ xuống 35 sẽ có 2 false positive
+(B4 và B6).
 
 Ghi chú: score = `min(100, tổng weight)`; M1/M2/M3/M5 có tổng thô lần lượt
 105/110/130/126 nên đều hiển thị 100.
@@ -242,8 +249,8 @@ Ghi chú: score = `min(100, tổng weight)`; M1/M2/M3/M5 có tổng thô lần l
 Đo trên máy phân tích (WSL2, Python 3.12.3):
 
 ```
-elapsed≈0.6 s cho toàn bộ pipeline 9 scenario (generate + evaluate)
-maxrss≈15 MB (evaluate)
+elapsed≈1 s cho pipeline 15 scenario (generate + evaluate + validation)
+maxrss≈30 MB (evaluate)
 ```
 
 Detector không phụ thuộc network, không dùng model, nên có thể chạy trong CI hoặc
@@ -253,8 +260,9 @@ trên endpoint có Python.
 
 ## 8. Hạn chế thiết kế
 
-1. Rule weight là chủ quan, được calibrate trên 9 scenario; cần review khi có
-   dữ liệu thật.
+1. Rule weight là chủ quan, được calibrate trên 15 scenario; cần review khi có
+   dữ liệu thật. `reports/rule_ablation.csv` và perturbation suite giúp phát hiện
+   rule nào thực sự đóng góp.
 2. Parser 5861 dựa trên format text hiện tại của Windows 10/11; thay đổi format
    có thể làm hỏng parse (có test với message thật để phát hiện sớm).
 3. Không đọc trực tiếp `OBJECTS.DATA`; nếu WMI service không chạy hoặc quyền bị

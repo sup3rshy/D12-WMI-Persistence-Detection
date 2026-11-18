@@ -2,7 +2,7 @@
 
 Thư mục này chỉ chứa mô tả. Dataset thực tế nằm ở:
 
-- `../data/scenarios/` - 9 scenario có nhãn (3 benign, 6 malicious), sinh bởi
+- `../data/scenarios/` - 15 scenario có nhãn (6 benign, 9 malicious), sinh bởi
   `simulator/generate_dataset.py`.
 - `../data/manifest.json` - thống kê và danh sách scenario.
 - `../data/ground_truth.csv` - nhãn dạng bảng.

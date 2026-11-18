@@ -19,6 +19,7 @@ from pathlib import Path
 from detector.parser import load_scenario
 from detector.scoring import DEFAULT_THRESHOLDS, analyze_bundle, load_allowlist
 from evaluation.metrics import metrics
+from evaluation.validation import build_validation_report
 
 
 def _write_json(path: Path, data: object) -> None:
@@ -86,6 +87,99 @@ def _markdown(report: dict) -> str:
             f"| {row['threshold']} | {row['tp']} | {row['fp']} | {row['tn']} | {row['fn']} | "
             f"{row['precision']:.3f} | {row['recall']:.3f} | {row['f1']:.3f} | {row['fpr']:.3f} |"
         )
+    validation = report.get("validation")
+    if validation:
+        lines += [
+            "",
+            "## Bootstrap 95% confidence intervals",
+            "",
+            f"Resampling: {validation['bootstrap']['resamples']} draws, "
+            f"seed `{validation['bootstrap']['seed']}`. A metric is omitted from a "
+            "resample when its denominator is zero.",
+            "",
+            "| Operating point | Metric | 95% CI | Usable resamples |",
+            "|---|---|---|---:|",
+        ]
+        for point in ("strict", "triage"):
+            for metric in ("precision", "recall", "f1", "fpr"):
+                interval = validation["bootstrap"][point][metric]
+                lines.append(
+                    f"| {point} | {metric} | {interval['low']:.3f}-{interval['high']:.3f} "
+                    f"| {interval['n']} |"
+                )
+
+        lines += [
+            "",
+            "## Rule ablation",
+            "",
+            "Score impact of disabling one rule at a time (baseline: strict recall "
+            f"{validation['ablation']['baseline']['strict']['recall']:.3f}, triage recall "
+            f"{validation['ablation']['baseline']['triage']['recall']:.3f}).",
+            "",
+            "| Rule | Strict recall | Triage recall | Strict recall drop | Triage recall drop |",
+            "|---|---:|---:|---:|---:|",
+        ]
+        for row in validation["ablation"]["rules"]:
+            lines.append(
+                f"| {row['rule']} | {row['strict_recall']:.3f} | "
+                f"{row['triage_recall']:.3f} | {row['strict_recall_drop']:.3f} | "
+                f"{row['triage_recall_drop']:.3f} |"
+            )
+
+        lines += [
+            "",
+            "## Perturbation robustness",
+            "",
+            "Deterministic mutations of the catalogue, evaluated but never used to "
+            "choose weights: neutral object names, relocated payload paths, switched "
+            "principal, changed polling interval, moved namespace and dropped "
+            "activation telemetry.",
+            "",
+            "| Family | Malicious | Strict recall | Triage recall | Benign | Strict FPR | Triage FPR |",
+            "|---|---:|---:|---:|---:|---:|---:|",
+        ]
+        for family, summary in validation["perturbation"]["summary"].items():
+            lines.append(
+                f"| {family} | {summary['malicious']} | {summary['strict_recall']:.3f} | "
+                f"{summary['triage_recall']:.3f} | {summary['benign']} | "
+                f"{summary['strict_fpr']:.3f} | {summary['triage_fpr']:.3f} |"
+            )
+        strict_failures = sorted(
+            {
+                item
+                for summary in validation["perturbation"]["summary"].values()
+                for item in summary["strict_failures"]
+            }
+        )
+        if strict_failures:
+            lines += [
+                "",
+                "Strict-threshold misses after mutation: "
+                + ", ".join(f"`{item}`" for item in strict_failures)
+                + ".",
+            ]
+
+        lines += [
+            "",
+            "## External validation",
+            "",
+            "Data that was not part of the labelled scenario set.",
+            "",
+            "| Sample | Provenance | Expected | Score | Verdict | Correct |",
+            "|---|---|---:|---:|---|---:|",
+        ]
+        for row in validation["external"]["samples"]:
+            lines.append(
+                f"| `{row['name']}` | {row['provenance']} | {row['expected']} | "
+                f"{row['score']} | {row['verdict']} | {row['correct']} |"
+            )
+        external = validation["external"]["summary"]
+        lines += [
+            "",
+            f"External confusion matrix: TP={external['tp']} FP={external['fp']} "
+            f"TN={external['tn']} FN={external['fn']}.",
+        ]
+
     lines += [
         "",
         "## Per-scenario evidence",
@@ -109,14 +203,14 @@ def _markdown(report: dict) -> str:
     return "\n".join(lines) + "\n"
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--dataset", type=Path, default=Path("data/scenarios"))
     parser.add_argument("--reports", type=Path, default=Path("reports"))
     parser.add_argument("--malicious-threshold", type=int, default=DEFAULT_THRESHOLDS["malicious"])
     parser.add_argument("--suspicious-threshold", type=int, default=DEFAULT_THRESHOLDS["suspicious"])
     parser.add_argument("--allowlist", type=Path, default=None)
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
 
     thresholds = {
         "malicious": args.malicious_threshold,
@@ -128,8 +222,10 @@ def main() -> int:
         raise SystemExit(f"no scenarios in {args.dataset}; run simulator.generate_dataset first")
 
     results = []
+    bundles = []
     for directory in directories:
         bundle = load_scenario(directory)
+        bundles.append(bundle)
         result = analyze_bundle(bundle, allowlist=allowlist, thresholds=thresholds)
         result["directory"] = str(directory)
         results.append(result)
@@ -147,6 +243,8 @@ def main() -> int:
         row = metrics(labels, pred)
         sensitivity.append({"threshold": threshold, **row})
 
+    validation = build_validation_report(bundles, allowlist, thresholds)
+
     report = {
         "dataset": str(args.dataset),
         "thresholds": thresholds,
@@ -157,11 +255,13 @@ def main() -> int:
         },
         "metrics": {"strict": strict, "triage": triage},
         "threshold_sensitivity": sensitivity,
+        "validation": validation,
         "results": results,
     }
 
     args.reports.mkdir(parents=True, exist_ok=True)
     _write_json(args.reports / "metrics.json", report)
+    _write_json(args.reports / "validation.json", validation)
     _write_json(
         args.reports / "alerts.json",
         {
@@ -223,6 +323,70 @@ def main() -> int:
                     row["recall"],
                     row["f1"],
                     row["fpr"],
+                ]
+            )
+
+    with (args.reports / "rule_ablation.csv").open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.writer(handle, lineterminator="\n")
+        writer.writerow(
+            [
+                "rule",
+                "strict_tp",
+                "strict_fn",
+                "strict_fp",
+                "strict_recall",
+                "strict_fpr",
+                "triage_tp",
+                "triage_fn",
+                "triage_fp",
+                "triage_recall",
+                "triage_fpr",
+                "strict_recall_drop",
+                "triage_recall_drop",
+            ]
+        )
+        for row in validation["ablation"]["rules"]:
+            writer.writerow(
+                [
+                    row["rule"],
+                    row["strict_tp"],
+                    row["strict_fn"],
+                    row["strict_fp"],
+                    row["strict_recall"],
+                    row["strict_fpr"],
+                    row["triage_tp"],
+                    row["triage_fn"],
+                    row["triage_fp"],
+                    row["triage_recall"],
+                    row["triage_fpr"],
+                    row["strict_recall_drop"],
+                    row["triage_recall_drop"],
+                ]
+            )
+
+    with (args.reports / "robustness.csv").open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.writer(handle, lineterminator="\n")
+        writer.writerow(
+            [
+                "family",
+                "base_scenario",
+                "label",
+                "score",
+                "verdict",
+                "strict_predicted",
+                "triage_predicted",
+            ]
+        )
+        for row in validation["perturbation"]["rows"]:
+            writer.writerow(
+                [
+                    row["family"],
+                    row["base_scenario"],
+                    row["label"],
+                    row["score"],
+                    row["verdict"],
+                    row["strict_predicted"],
+                    row["triage_predicted"],
                 ]
             )
 

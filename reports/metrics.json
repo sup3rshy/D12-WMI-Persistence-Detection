@@ -5,259 +5,1403 @@
     "suspicious": 40
   },
   "summary": {
-    "scenarios": 9,
-    "benign": 3,
-    "malicious": 6
+    "scenarios": 15,
+    "benign": 6,
+    "malicious": 9
   },
   "metrics": {
     "strict": {
-      "tp": 5,
+      "tp": 8,
       "fp": 0,
-      "tn": 3,
+      "tn": 6,
       "fn": 1,
       "precision": 1.0,
-      "recall": 0.8333,
-      "f1": 0.9091,
+      "recall": 0.8889,
+      "f1": 0.9412,
       "fpr": 0.0,
-      "accuracy": 0.8889,
-      "support": 9
+      "accuracy": 0.9333,
+      "support": 15
     },
     "triage": {
-      "tp": 6,
+      "tp": 9,
       "fp": 0,
-      "tn": 3,
+      "tn": 6,
       "fn": 0,
       "precision": 1.0,
       "recall": 1.0,
       "f1": 1.0,
       "fpr": 0.0,
       "accuracy": 1.0,
-      "support": 9
+      "support": 15
     }
   },
   "threshold_sensitivity": [
     {
       "threshold": 20,
-      "tp": 6,
-      "fp": 2,
-      "tn": 1,
+      "tp": 9,
+      "fp": 4,
+      "tn": 2,
       "fn": 0,
-      "precision": 0.75,
+      "precision": 0.6923,
       "recall": 1.0,
-      "f1": 0.8571,
+      "f1": 0.8182,
       "fpr": 0.6667,
-      "accuracy": 0.7778,
-      "support": 9
+      "accuracy": 0.7333,
+      "support": 15
     },
     {
       "threshold": 25,
-      "tp": 6,
-      "fp": 2,
-      "tn": 1,
+      "tp": 9,
+      "fp": 4,
+      "tn": 2,
+      "fn": 0,
+      "precision": 0.6923,
+      "recall": 1.0,
+      "f1": 0.8182,
+      "fpr": 0.6667,
+      "accuracy": 0.7333,
+      "support": 15
+    },
+    {
+      "threshold": 30,
+      "tp": 9,
+      "fp": 3,
+      "tn": 3,
       "fn": 0,
       "precision": 0.75,
       "recall": 1.0,
       "f1": 0.8571,
-      "fpr": 0.6667,
-      "accuracy": 0.7778,
-      "support": 9
-    },
-    {
-      "threshold": 30,
-      "tp": 6,
-      "fp": 1,
-      "tn": 2,
-      "fn": 0,
-      "precision": 0.8571,
-      "recall": 1.0,
-      "f1": 0.9231,
-      "fpr": 0.3333,
-      "accuracy": 0.8889,
-      "support": 9
+      "fpr": 0.5,
+      "accuracy": 0.8,
+      "support": 15
     },
     {
       "threshold": 35,
-      "tp": 6,
-      "fp": 0,
-      "tn": 3,
+      "tp": 9,
+      "fp": 2,
+      "tn": 4,
       "fn": 0,
-      "precision": 1.0,
+      "precision": 0.8182,
       "recall": 1.0,
-      "f1": 1.0,
-      "fpr": 0.0,
-      "accuracy": 1.0,
-      "support": 9
+      "f1": 0.9,
+      "fpr": 0.3333,
+      "accuracy": 0.8667,
+      "support": 15
     },
     {
       "threshold": 40,
-      "tp": 6,
+      "tp": 9,
       "fp": 0,
-      "tn": 3,
+      "tn": 6,
       "fn": 0,
       "precision": 1.0,
       "recall": 1.0,
       "f1": 1.0,
       "fpr": 0.0,
       "accuracy": 1.0,
-      "support": 9
+      "support": 15
     },
     {
       "threshold": 45,
-      "tp": 6,
+      "tp": 9,
       "fp": 0,
-      "tn": 3,
+      "tn": 6,
       "fn": 0,
       "precision": 1.0,
       "recall": 1.0,
       "f1": 1.0,
       "fpr": 0.0,
       "accuracy": 1.0,
-      "support": 9
+      "support": 15
     },
     {
       "threshold": 50,
-      "tp": 6,
+      "tp": 9,
       "fp": 0,
-      "tn": 3,
+      "tn": 6,
       "fn": 0,
       "precision": 1.0,
       "recall": 1.0,
       "f1": 1.0,
       "fpr": 0.0,
       "accuracy": 1.0,
-      "support": 9
+      "support": 15
     },
     {
       "threshold": 55,
-      "tp": 5,
+      "tp": 8,
       "fp": 0,
-      "tn": 3,
+      "tn": 6,
       "fn": 1,
       "precision": 1.0,
-      "recall": 0.8333,
-      "f1": 0.9091,
+      "recall": 0.8889,
+      "f1": 0.9412,
       "fpr": 0.0,
-      "accuracy": 0.8889,
-      "support": 9
+      "accuracy": 0.9333,
+      "support": 15
     },
     {
       "threshold": 60,
-      "tp": 5,
+      "tp": 8,
       "fp": 0,
-      "tn": 3,
+      "tn": 6,
       "fn": 1,
       "precision": 1.0,
-      "recall": 0.8333,
-      "f1": 0.9091,
+      "recall": 0.8889,
+      "f1": 0.9412,
       "fpr": 0.0,
-      "accuracy": 0.8889,
-      "support": 9
+      "accuracy": 0.9333,
+      "support": 15
     },
     {
       "threshold": 65,
-      "tp": 5,
+      "tp": 8,
       "fp": 0,
-      "tn": 3,
+      "tn": 6,
       "fn": 1,
       "precision": 1.0,
-      "recall": 0.8333,
-      "f1": 0.9091,
+      "recall": 0.8889,
+      "f1": 0.9412,
       "fpr": 0.0,
-      "accuracy": 0.8889,
-      "support": 9
+      "accuracy": 0.9333,
+      "support": 15
     },
     {
       "threshold": 70,
-      "tp": 5,
+      "tp": 8,
       "fp": 0,
-      "tn": 3,
+      "tn": 6,
       "fn": 1,
       "precision": 1.0,
-      "recall": 0.8333,
-      "f1": 0.9091,
+      "recall": 0.8889,
+      "f1": 0.9412,
       "fpr": 0.0,
-      "accuracy": 0.8889,
-      "support": 9
+      "accuracy": 0.9333,
+      "support": 15
     },
     {
       "threshold": 75,
-      "tp": 4,
+      "tp": 7,
       "fp": 0,
-      "tn": 3,
+      "tn": 6,
       "fn": 2,
       "precision": 1.0,
-      "recall": 0.6667,
-      "f1": 0.8,
+      "recall": 0.7778,
+      "f1": 0.875,
       "fpr": 0.0,
-      "accuracy": 0.7778,
-      "support": 9
+      "accuracy": 0.8667,
+      "support": 15
     },
     {
       "threshold": 80,
-      "tp": 4,
+      "tp": 7,
       "fp": 0,
-      "tn": 3,
+      "tn": 6,
       "fn": 2,
       "precision": 1.0,
-      "recall": 0.6667,
-      "f1": 0.8,
+      "recall": 0.7778,
+      "f1": 0.875,
       "fpr": 0.0,
-      "accuracy": 0.7778,
-      "support": 9
+      "accuracy": 0.8667,
+      "support": 15
     },
     {
       "threshold": 85,
-      "tp": 4,
+      "tp": 7,
       "fp": 0,
-      "tn": 3,
+      "tn": 6,
       "fn": 2,
       "precision": 1.0,
-      "recall": 0.6667,
-      "f1": 0.8,
+      "recall": 0.7778,
+      "f1": 0.875,
       "fpr": 0.0,
-      "accuracy": 0.7778,
-      "support": 9
+      "accuracy": 0.8667,
+      "support": 15
     },
     {
       "threshold": 90,
-      "tp": 4,
+      "tp": 6,
       "fp": 0,
-      "tn": 3,
-      "fn": 2,
+      "tn": 6,
+      "fn": 3,
       "precision": 1.0,
       "recall": 0.6667,
       "f1": 0.8,
       "fpr": 0.0,
-      "accuracy": 0.7778,
-      "support": 9
+      "accuracy": 0.8,
+      "support": 15
     },
     {
       "threshold": 95,
-      "tp": 4,
+      "tp": 5,
       "fp": 0,
-      "tn": 3,
-      "fn": 2,
+      "tn": 6,
+      "fn": 4,
       "precision": 1.0,
-      "recall": 0.6667,
-      "f1": 0.8,
+      "recall": 0.5556,
+      "f1": 0.7143,
       "fpr": 0.0,
-      "accuracy": 0.7778,
-      "support": 9
+      "accuracy": 0.7333,
+      "support": 15
     },
     {
       "threshold": 100,
-      "tp": 4,
+      "tp": 5,
       "fp": 0,
-      "tn": 3,
-      "fn": 2,
+      "tn": 6,
+      "fn": 4,
       "precision": 1.0,
-      "recall": 0.6667,
-      "f1": 0.8,
+      "recall": 0.5556,
+      "f1": 0.7143,
       "fpr": 0.0,
-      "accuracy": 0.7778,
-      "support": 9
+      "accuracy": 0.7333,
+      "support": 15
     }
   ],
+  "validation": {
+    "bootstrap": {
+      "strict": {
+        "precision": {
+          "low": 1.0,
+          "high": 1.0,
+          "n": 2000
+        },
+        "recall": {
+          "low": 0.625,
+          "high": 1.0,
+          "n": 2000
+        },
+        "f1": {
+          "low": 0.7692,
+          "high": 1.0,
+          "n": 2000
+        },
+        "fpr": {
+          "low": 0.0,
+          "high": 0.0,
+          "n": 1997
+        }
+      },
+      "triage": {
+        "precision": {
+          "low": 1.0,
+          "high": 1.0,
+          "n": 2000
+        },
+        "recall": {
+          "low": 1.0,
+          "high": 1.0,
+          "n": 2000
+        },
+        "f1": {
+          "low": 1.0,
+          "high": 1.0,
+          "n": 2000
+        },
+        "fpr": {
+          "low": 0.0,
+          "high": 0.0,
+          "n": 1997
+        }
+      },
+      "resamples": 2000,
+      "seed": 1234
+    },
+    "ablation": {
+      "baseline": {
+        "strict": {
+          "tp": 8,
+          "fp": 0,
+          "tn": 6,
+          "fn": 1,
+          "precision": 1.0,
+          "recall": 0.8889,
+          "f1": 0.9412,
+          "fpr": 0.0,
+          "accuracy": 0.9333,
+          "support": 15
+        },
+        "triage": {
+          "tp": 9,
+          "fp": 0,
+          "tn": 6,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "fpr": 0.0,
+          "accuracy": 1.0,
+          "support": 15
+        }
+      },
+      "rules": [
+        {
+          "rule": "R01",
+          "strict_tp": 7,
+          "strict_fn": 2,
+          "strict_fp": 0,
+          "strict_recall": 0.7778,
+          "strict_fpr": 0.0,
+          "triage_tp": 8,
+          "triage_fn": 1,
+          "triage_fp": 0,
+          "triage_recall": 0.8889,
+          "triage_fpr": 0.0,
+          "strict_recall_drop": 0.1111,
+          "triage_recall_drop": 0.1111
+        },
+        {
+          "rule": "R04",
+          "strict_tp": 7,
+          "strict_fn": 2,
+          "strict_fp": 0,
+          "strict_recall": 0.7778,
+          "strict_fpr": 0.0,
+          "triage_tp": 8,
+          "triage_fn": 1,
+          "triage_fp": 0,
+          "triage_recall": 0.8889,
+          "triage_fpr": 0.0,
+          "strict_recall_drop": 0.1111,
+          "triage_recall_drop": 0.1111
+        },
+        {
+          "rule": "R10",
+          "strict_tp": 7,
+          "strict_fn": 2,
+          "strict_fp": 0,
+          "strict_recall": 0.7778,
+          "strict_fpr": 0.0,
+          "triage_tp": 9,
+          "triage_fn": 0,
+          "triage_fp": 0,
+          "triage_recall": 1.0,
+          "triage_fpr": 0.0,
+          "strict_recall_drop": 0.1111,
+          "triage_recall_drop": 0.0
+        },
+        {
+          "rule": "R02",
+          "strict_tp": 8,
+          "strict_fn": 1,
+          "strict_fp": 0,
+          "strict_recall": 0.8889,
+          "strict_fpr": 0.0,
+          "triage_tp": 9,
+          "triage_fn": 0,
+          "triage_fp": 0,
+          "triage_recall": 1.0,
+          "triage_fpr": 0.0,
+          "strict_recall_drop": 0.0,
+          "triage_recall_drop": 0.0
+        },
+        {
+          "rule": "R03",
+          "strict_tp": 8,
+          "strict_fn": 1,
+          "strict_fp": 0,
+          "strict_recall": 0.8889,
+          "strict_fpr": 0.0,
+          "triage_tp": 9,
+          "triage_fn": 0,
+          "triage_fp": 0,
+          "triage_recall": 1.0,
+          "triage_fpr": 0.0,
+          "strict_recall_drop": 0.0,
+          "triage_recall_drop": 0.0
+        },
+        {
+          "rule": "R05",
+          "strict_tp": 8,
+          "strict_fn": 1,
+          "strict_fp": 0,
+          "strict_recall": 0.8889,
+          "strict_fpr": 0.0,
+          "triage_tp": 9,
+          "triage_fn": 0,
+          "triage_fp": 0,
+          "triage_recall": 1.0,
+          "triage_fpr": 0.0,
+          "strict_recall_drop": 0.0,
+          "triage_recall_drop": 0.0
+        },
+        {
+          "rule": "R06",
+          "strict_tp": 8,
+          "strict_fn": 1,
+          "strict_fp": 0,
+          "strict_recall": 0.8889,
+          "strict_fpr": 0.0,
+          "triage_tp": 9,
+          "triage_fn": 0,
+          "triage_fp": 0,
+          "triage_recall": 1.0,
+          "triage_fpr": 0.0,
+          "strict_recall_drop": 0.0,
+          "triage_recall_drop": 0.0
+        },
+        {
+          "rule": "R07",
+          "strict_tp": 8,
+          "strict_fn": 1,
+          "strict_fp": 0,
+          "strict_recall": 0.8889,
+          "strict_fpr": 0.0,
+          "triage_tp": 9,
+          "triage_fn": 0,
+          "triage_fp": 0,
+          "triage_recall": 1.0,
+          "triage_fpr": 0.0,
+          "strict_recall_drop": 0.0,
+          "triage_recall_drop": 0.0
+        },
+        {
+          "rule": "R08",
+          "strict_tp": 8,
+          "strict_fn": 1,
+          "strict_fp": 0,
+          "strict_recall": 0.8889,
+          "strict_fpr": 0.0,
+          "triage_tp": 9,
+          "triage_fn": 0,
+          "triage_fp": 0,
+          "triage_recall": 1.0,
+          "triage_fpr": 0.0,
+          "strict_recall_drop": 0.0,
+          "triage_recall_drop": 0.0
+        },
+        {
+          "rule": "R09",
+          "strict_tp": 8,
+          "strict_fn": 1,
+          "strict_fp": 0,
+          "strict_recall": 0.8889,
+          "strict_fpr": 0.0,
+          "triage_tp": 9,
+          "triage_fn": 0,
+          "triage_fp": 0,
+          "triage_recall": 1.0,
+          "triage_fpr": 0.0,
+          "strict_recall_drop": 0.0,
+          "triage_recall_drop": 0.0
+        },
+        {
+          "rule": "R11",
+          "strict_tp": 8,
+          "strict_fn": 1,
+          "strict_fp": 0,
+          "strict_recall": 0.8889,
+          "strict_fpr": 0.0,
+          "triage_tp": 9,
+          "triage_fn": 0,
+          "triage_fp": 0,
+          "triage_recall": 1.0,
+          "triage_fpr": 0.0,
+          "strict_recall_drop": 0.0,
+          "triage_recall_drop": 0.0
+        },
+        {
+          "rule": "R12",
+          "strict_tp": 8,
+          "strict_fn": 1,
+          "strict_fp": 0,
+          "strict_recall": 0.8889,
+          "strict_fpr": 0.0,
+          "triage_tp": 9,
+          "triage_fn": 0,
+          "triage_fp": 0,
+          "triage_recall": 1.0,
+          "triage_fpr": 0.0,
+          "strict_recall_drop": 0.0,
+          "triage_recall_drop": 0.0
+        },
+        {
+          "rule": "R13",
+          "strict_tp": 8,
+          "strict_fn": 1,
+          "strict_fp": 0,
+          "strict_recall": 0.8889,
+          "strict_fpr": 0.0,
+          "triage_tp": 9,
+          "triage_fn": 0,
+          "triage_fp": 0,
+          "triage_recall": 1.0,
+          "triage_fpr": 0.0,
+          "strict_recall_drop": 0.0,
+          "triage_recall_drop": 0.0
+        },
+        {
+          "rule": "R14",
+          "strict_tp": 8,
+          "strict_fn": 1,
+          "strict_fp": 0,
+          "strict_recall": 0.8889,
+          "strict_fpr": 0.0,
+          "triage_tp": 9,
+          "triage_fn": 0,
+          "triage_fp": 0,
+          "triage_recall": 1.0,
+          "triage_fpr": 0.0,
+          "strict_recall_drop": 0.0,
+          "triage_recall_drop": 0.0
+        }
+      ]
+    },
+    "perturbation": {
+      "rows": [
+        {
+          "family": "rename_neutral",
+          "base_scenario": "B1_builtin_scm",
+          "label": 0,
+          "score": 25,
+          "verdict": "benign",
+          "strict_predicted": 0,
+          "triage_predicted": 0
+        },
+        {
+          "family": "sid_switch",
+          "base_scenario": "B1_builtin_scm",
+          "label": 0,
+          "score": 20,
+          "verdict": "benign",
+          "strict_predicted": 0,
+          "triage_predicted": 0
+        },
+        {
+          "family": "namespace_move",
+          "base_scenario": "B1_builtin_scm",
+          "label": 0,
+          "score": 46,
+          "verdict": "suspicious",
+          "strict_predicted": 0,
+          "triage_predicted": 1
+        },
+        {
+          "family": "telemetry_gap",
+          "base_scenario": "B1_builtin_scm",
+          "label": 0,
+          "score": 0,
+          "verdict": "benign",
+          "strict_predicted": 0,
+          "triage_predicted": 0
+        },
+        {
+          "family": "rename_neutral",
+          "base_scenario": "B2_it_logfile_monitor",
+          "label": 0,
+          "score": 33,
+          "verdict": "benign",
+          "strict_predicted": 0,
+          "triage_predicted": 0
+        },
+        {
+          "family": "path_relocate",
+          "base_scenario": "B2_it_logfile_monitor",
+          "label": 0,
+          "score": 33,
+          "verdict": "benign",
+          "strict_predicted": 0,
+          "triage_predicted": 0
+        },
+        {
+          "family": "sid_switch",
+          "base_scenario": "B2_it_logfile_monitor",
+          "label": 0,
+          "score": 53,
+          "verdict": "suspicious",
+          "strict_predicted": 0,
+          "triage_predicted": 1
+        },
+        {
+          "family": "polling_change",
+          "base_scenario": "B2_it_logfile_monitor",
+          "label": 0,
+          "score": 43,
+          "verdict": "suspicious",
+          "strict_predicted": 0,
+          "triage_predicted": 1
+        },
+        {
+          "family": "namespace_move",
+          "base_scenario": "B2_it_logfile_monitor",
+          "label": 0,
+          "score": 39,
+          "verdict": "benign",
+          "strict_predicted": 0,
+          "triage_predicted": 0
+        },
+        {
+          "family": "telemetry_gap",
+          "base_scenario": "B2_it_logfile_monitor",
+          "label": 0,
+          "score": 37,
+          "verdict": "benign",
+          "strict_predicted": 0,
+          "triage_predicted": 0
+        },
+        {
+          "family": "rename_neutral",
+          "base_scenario": "B3_service_state_audit",
+          "label": 0,
+          "score": 26,
+          "verdict": "benign",
+          "strict_predicted": 0,
+          "triage_predicted": 0
+        },
+        {
+          "family": "sid_switch",
+          "base_scenario": "B3_service_state_audit",
+          "label": 0,
+          "score": 46,
+          "verdict": "suspicious",
+          "strict_predicted": 0,
+          "triage_predicted": 1
+        },
+        {
+          "family": "polling_change",
+          "base_scenario": "B3_service_state_audit",
+          "label": 0,
+          "score": 30,
+          "verdict": "benign",
+          "strict_predicted": 0,
+          "triage_predicted": 0
+        },
+        {
+          "family": "namespace_move",
+          "base_scenario": "B3_service_state_audit",
+          "label": 0,
+          "score": 32,
+          "verdict": "benign",
+          "strict_predicted": 0,
+          "triage_predicted": 0
+        },
+        {
+          "family": "telemetry_gap",
+          "base_scenario": "B3_service_state_audit",
+          "label": 0,
+          "score": 30,
+          "verdict": "benign",
+          "strict_predicted": 0,
+          "triage_predicted": 0
+        },
+        {
+          "family": "rename_neutral",
+          "base_scenario": "M1_cmd_marker_timer",
+          "label": 1,
+          "score": 90,
+          "verdict": "malicious",
+          "strict_predicted": 1,
+          "triage_predicted": 1
+        },
+        {
+          "family": "path_relocate",
+          "base_scenario": "M1_cmd_marker_timer",
+          "label": 1,
+          "score": 100,
+          "verdict": "malicious",
+          "strict_predicted": 1,
+          "triage_predicted": 1
+        },
+        {
+          "family": "sid_switch",
+          "base_scenario": "M1_cmd_marker_timer",
+          "label": 1,
+          "score": 85,
+          "verdict": "malicious",
+          "strict_predicted": 1,
+          "triage_predicted": 1
+        },
+        {
+          "family": "namespace_move",
+          "base_scenario": "M1_cmd_marker_timer",
+          "label": 1,
+          "score": 100,
+          "verdict": "malicious",
+          "strict_predicted": 1,
+          "triage_predicted": 1
+        },
+        {
+          "family": "telemetry_gap",
+          "base_scenario": "M1_cmd_marker_timer",
+          "label": 1,
+          "score": 79,
+          "verdict": "malicious",
+          "strict_predicted": 1,
+          "triage_predicted": 1
+        },
+        {
+          "family": "rename_neutral",
+          "base_scenario": "M2_activescript_masquerade",
+          "label": 1,
+          "score": 95,
+          "verdict": "malicious",
+          "strict_predicted": 1,
+          "triage_predicted": 1
+        },
+        {
+          "family": "path_relocate",
+          "base_scenario": "M2_activescript_masquerade",
+          "label": 1,
+          "score": 100,
+          "verdict": "malicious",
+          "strict_predicted": 1,
+          "triage_predicted": 1
+        },
+        {
+          "family": "sid_switch",
+          "base_scenario": "M2_activescript_masquerade",
+          "label": 1,
+          "score": 90,
+          "verdict": "malicious",
+          "strict_predicted": 1,
+          "triage_predicted": 1
+        },
+        {
+          "family": "polling_change",
+          "base_scenario": "M2_activescript_masquerade",
+          "label": 1,
+          "score": 100,
+          "verdict": "malicious",
+          "strict_predicted": 1,
+          "triage_predicted": 1
+        },
+        {
+          "family": "namespace_move",
+          "base_scenario": "M2_activescript_masquerade",
+          "label": 1,
+          "score": 100,
+          "verdict": "malicious",
+          "strict_predicted": 1,
+          "triage_predicted": 1
+        },
+        {
+          "family": "telemetry_gap",
+          "base_scenario": "M2_activescript_masquerade",
+          "label": 1,
+          "score": 100,
+          "verdict": "malicious",
+          "strict_predicted": 1,
+          "triage_predicted": 1
+        },
+        {
+          "family": "rename_neutral",
+          "base_scenario": "M3_encoded_powershell",
+          "label": 1,
+          "score": 100,
+          "verdict": "malicious",
+          "strict_predicted": 1,
+          "triage_predicted": 1
+        },
+        {
+          "family": "sid_switch",
+          "base_scenario": "M3_encoded_powershell",
+          "label": 1,
+          "score": 100,
+          "verdict": "malicious",
+          "strict_predicted": 1,
+          "triage_predicted": 1
+        },
+        {
+          "family": "polling_change",
+          "base_scenario": "M3_encoded_powershell",
+          "label": 1,
+          "score": 100,
+          "verdict": "malicious",
+          "strict_predicted": 1,
+          "triage_predicted": 1
+        },
+        {
+          "family": "namespace_move",
+          "base_scenario": "M3_encoded_powershell",
+          "label": 1,
+          "score": 100,
+          "verdict": "malicious",
+          "strict_predicted": 1,
+          "triage_predicted": 1
+        },
+        {
+          "family": "telemetry_gap",
+          "base_scenario": "M3_encoded_powershell",
+          "label": 1,
+          "score": 100,
+          "verdict": "malicious",
+          "strict_predicted": 1,
+          "triage_predicted": 1
+        },
+        {
+          "family": "rename_neutral",
+          "base_scenario": "M4_delayed_custom_namespace",
+          "label": 1,
+          "score": 56,
+          "verdict": "suspicious",
+          "strict_predicted": 0,
+          "triage_predicted": 1
+        },
+        {
+          "family": "path_relocate",
+          "base_scenario": "M4_delayed_custom_namespace",
+          "label": 1,
+          "score": 71,
+          "verdict": "malicious",
+          "strict_predicted": 1,
+          "triage_predicted": 1
+        },
+        {
+          "family": "sid_switch",
+          "base_scenario": "M4_delayed_custom_namespace",
+          "label": 1,
+          "score": 91,
+          "verdict": "malicious",
+          "strict_predicted": 1,
+          "triage_predicted": 1
+        },
+        {
+          "family": "namespace_move",
+          "base_scenario": "M4_delayed_custom_namespace",
+          "label": 1,
+          "score": 71,
+          "verdict": "malicious",
+          "strict_predicted": 1,
+          "triage_predicted": 1
+        },
+        {
+          "family": "telemetry_gap",
+          "base_scenario": "M4_delayed_custom_namespace",
+          "label": 1,
+          "score": 75,
+          "verdict": "malicious",
+          "strict_predicted": 1,
+          "triage_predicted": 1
+        },
+        {
+          "family": "rename_neutral",
+          "base_scenario": "M5_network_activescript",
+          "label": 1,
+          "score": 100,
+          "verdict": "malicious",
+          "strict_predicted": 1,
+          "triage_predicted": 1
+        },
+        {
+          "family": "sid_switch",
+          "base_scenario": "M5_network_activescript",
+          "label": 1,
+          "score": 100,
+          "verdict": "malicious",
+          "strict_predicted": 1,
+          "triage_predicted": 1
+        },
+        {
+          "family": "polling_change",
+          "base_scenario": "M5_network_activescript",
+          "label": 1,
+          "score": 100,
+          "verdict": "malicious",
+          "strict_predicted": 1,
+          "triage_predicted": 1
+        },
+        {
+          "family": "namespace_move",
+          "base_scenario": "M5_network_activescript",
+          "label": 1,
+          "score": 100,
+          "verdict": "malicious",
+          "strict_predicted": 1,
+          "triage_predicted": 1
+        },
+        {
+          "family": "telemetry_gap",
+          "base_scenario": "M5_network_activescript",
+          "label": 1,
+          "score": 100,
+          "verdict": "malicious",
+          "strict_predicted": 1,
+          "triage_predicted": 1
+        },
+        {
+          "family": "rename_neutral",
+          "base_scenario": "M6_stealth_low_noise",
+          "label": 1,
+          "score": 50,
+          "verdict": "suspicious",
+          "strict_predicted": 0,
+          "triage_predicted": 1
+        },
+        {
+          "family": "sid_switch",
+          "base_scenario": "M6_stealth_low_noise",
+          "label": 1,
+          "score": 70,
+          "verdict": "malicious",
+          "strict_predicted": 1,
+          "triage_predicted": 1
+        },
+        {
+          "family": "namespace_move",
+          "base_scenario": "M6_stealth_low_noise",
+          "label": 1,
+          "score": 56,
+          "verdict": "suspicious",
+          "strict_predicted": 0,
+          "triage_predicted": 1
+        },
+        {
+          "family": "telemetry_gap",
+          "base_scenario": "M6_stealth_low_noise",
+          "label": 1,
+          "score": 54,
+          "verdict": "suspicious",
+          "strict_predicted": 0,
+          "triage_predicted": 1
+        },
+        {
+          "family": "rename_neutral",
+          "base_scenario": "B4_backup_commandline",
+          "label": 0,
+          "score": 35,
+          "verdict": "benign",
+          "strict_predicted": 0,
+          "triage_predicted": 0
+        },
+        {
+          "family": "path_relocate",
+          "base_scenario": "B4_backup_commandline",
+          "label": 0,
+          "score": 35,
+          "verdict": "benign",
+          "strict_predicted": 0,
+          "triage_predicted": 0
+        },
+        {
+          "family": "sid_switch",
+          "base_scenario": "B4_backup_commandline",
+          "label": 0,
+          "score": 55,
+          "verdict": "suspicious",
+          "strict_predicted": 0,
+          "triage_predicted": 1
+        },
+        {
+          "family": "namespace_move",
+          "base_scenario": "B4_backup_commandline",
+          "label": 0,
+          "score": 41,
+          "verdict": "suspicious",
+          "strict_predicted": 0,
+          "triage_predicted": 1
+        },
+        {
+          "family": "telemetry_gap",
+          "base_scenario": "B4_backup_commandline",
+          "label": 0,
+          "score": 39,
+          "verdict": "benign",
+          "strict_predicted": 0,
+          "triage_predicted": 0
+        },
+        {
+          "family": "rename_neutral",
+          "base_scenario": "B5_disk_alert_smtp",
+          "label": 0,
+          "score": 10,
+          "verdict": "benign",
+          "strict_predicted": 0,
+          "triage_predicted": 0
+        },
+        {
+          "family": "sid_switch",
+          "base_scenario": "B5_disk_alert_smtp",
+          "label": 0,
+          "score": 30,
+          "verdict": "benign",
+          "strict_predicted": 0,
+          "triage_predicted": 0
+        },
+        {
+          "family": "polling_change",
+          "base_scenario": "B5_disk_alert_smtp",
+          "label": 0,
+          "score": 20,
+          "verdict": "benign",
+          "strict_predicted": 0,
+          "triage_predicted": 0
+        },
+        {
+          "family": "namespace_move",
+          "base_scenario": "B5_disk_alert_smtp",
+          "label": 0,
+          "score": 16,
+          "verdict": "benign",
+          "strict_predicted": 0,
+          "triage_predicted": 0
+        },
+        {
+          "family": "telemetry_gap",
+          "base_scenario": "B5_disk_alert_smtp",
+          "label": 0,
+          "score": 14,
+          "verdict": "benign",
+          "strict_predicted": 0,
+          "triage_predicted": 0
+        },
+        {
+          "family": "rename_neutral",
+          "base_scenario": "B6_custom_namespace_ops",
+          "label": 0,
+          "score": 39,
+          "verdict": "benign",
+          "strict_predicted": 0,
+          "triage_predicted": 0
+        },
+        {
+          "family": "path_relocate",
+          "base_scenario": "B6_custom_namespace_ops",
+          "label": 0,
+          "score": 39,
+          "verdict": "benign",
+          "strict_predicted": 0,
+          "triage_predicted": 0
+        },
+        {
+          "family": "sid_switch",
+          "base_scenario": "B6_custom_namespace_ops",
+          "label": 0,
+          "score": 59,
+          "verdict": "suspicious",
+          "strict_predicted": 0,
+          "triage_predicted": 1
+        },
+        {
+          "family": "polling_change",
+          "base_scenario": "B6_custom_namespace_ops",
+          "label": 0,
+          "score": 49,
+          "verdict": "suspicious",
+          "strict_predicted": 0,
+          "triage_predicted": 1
+        },
+        {
+          "family": "namespace_move",
+          "base_scenario": "B6_custom_namespace_ops",
+          "label": 0,
+          "score": 39,
+          "verdict": "benign",
+          "strict_predicted": 0,
+          "triage_predicted": 0
+        },
+        {
+          "family": "telemetry_gap",
+          "base_scenario": "B6_custom_namespace_ops",
+          "label": 0,
+          "score": 43,
+          "verdict": "suspicious",
+          "strict_predicted": 0,
+          "triage_predicted": 1
+        },
+        {
+          "family": "rename_neutral",
+          "base_scenario": "M7_mof_random_names",
+          "label": 1,
+          "score": 91,
+          "verdict": "malicious",
+          "strict_predicted": 1,
+          "triage_predicted": 1
+        },
+        {
+          "family": "path_relocate",
+          "base_scenario": "M7_mof_random_names",
+          "label": 1,
+          "score": 91,
+          "verdict": "malicious",
+          "strict_predicted": 1,
+          "triage_predicted": 1
+        },
+        {
+          "family": "sid_switch",
+          "base_scenario": "M7_mof_random_names",
+          "label": 1,
+          "score": 71,
+          "verdict": "malicious",
+          "strict_predicted": 1,
+          "triage_predicted": 1
+        },
+        {
+          "family": "polling_change",
+          "base_scenario": "M7_mof_random_names",
+          "label": 1,
+          "score": 95,
+          "verdict": "malicious",
+          "strict_predicted": 1,
+          "triage_predicted": 1
+        },
+        {
+          "family": "namespace_move",
+          "base_scenario": "M7_mof_random_names",
+          "label": 1,
+          "score": 97,
+          "verdict": "malicious",
+          "strict_predicted": 1,
+          "triage_predicted": 1
+        },
+        {
+          "family": "telemetry_gap",
+          "base_scenario": "M7_mof_random_names",
+          "label": 1,
+          "score": 85,
+          "verdict": "malicious",
+          "strict_predicted": 1,
+          "triage_predicted": 1
+        },
+        {
+          "family": "rename_neutral",
+          "base_scenario": "M8_allowlist_clone",
+          "label": 1,
+          "score": 95,
+          "verdict": "malicious",
+          "strict_predicted": 1,
+          "triage_predicted": 1
+        },
+        {
+          "family": "path_relocate",
+          "base_scenario": "M8_allowlist_clone",
+          "label": 1,
+          "score": 100,
+          "verdict": "malicious",
+          "strict_predicted": 1,
+          "triage_predicted": 1
+        },
+        {
+          "family": "sid_switch",
+          "base_scenario": "M8_allowlist_clone",
+          "label": 1,
+          "score": 90,
+          "verdict": "malicious",
+          "strict_predicted": 1,
+          "triage_predicted": 1
+        },
+        {
+          "family": "polling_change",
+          "base_scenario": "M8_allowlist_clone",
+          "label": 1,
+          "score": 100,
+          "verdict": "malicious",
+          "strict_predicted": 1,
+          "triage_predicted": 1
+        },
+        {
+          "family": "namespace_move",
+          "base_scenario": "M8_allowlist_clone",
+          "label": 1,
+          "score": 100,
+          "verdict": "malicious",
+          "strict_predicted": 1,
+          "triage_predicted": 1
+        },
+        {
+          "family": "telemetry_gap",
+          "base_scenario": "M8_allowlist_clone",
+          "label": 1,
+          "score": 100,
+          "verdict": "malicious",
+          "strict_predicted": 1,
+          "triage_predicted": 1
+        },
+        {
+          "family": "rename_neutral",
+          "base_scenario": "M9_registry_wql",
+          "label": 1,
+          "score": 85,
+          "verdict": "malicious",
+          "strict_predicted": 1,
+          "triage_predicted": 1
+        },
+        {
+          "family": "sid_switch",
+          "base_scenario": "M9_registry_wql",
+          "label": 1,
+          "score": 65,
+          "verdict": "malicious",
+          "strict_predicted": 1,
+          "triage_predicted": 1
+        },
+        {
+          "family": "namespace_move",
+          "base_scenario": "M9_registry_wql",
+          "label": 1,
+          "score": 91,
+          "verdict": "malicious",
+          "strict_predicted": 1,
+          "triage_predicted": 1
+        },
+        {
+          "family": "telemetry_gap",
+          "base_scenario": "M9_registry_wql",
+          "label": 1,
+          "score": 79,
+          "verdict": "malicious",
+          "strict_predicted": 1,
+          "triage_predicted": 1
+        }
+      ],
+      "summary": {
+        "rename_neutral": {
+          "malicious": 9,
+          "strict_recall": 0.7778,
+          "triage_recall": 1.0,
+          "benign": 6,
+          "strict_fpr": 0.0,
+          "triage_fpr": 0.0,
+          "strict_failures": [
+            "M4_delayed_custom_namespace",
+            "M6_stealth_low_noise"
+          ],
+          "triage_failures": []
+        },
+        "path_relocate": {
+          "malicious": 5,
+          "strict_recall": 1.0,
+          "triage_recall": 1.0,
+          "benign": 3,
+          "strict_fpr": 0.0,
+          "triage_fpr": 0.0,
+          "strict_failures": [],
+          "triage_failures": []
+        },
+        "sid_switch": {
+          "malicious": 9,
+          "strict_recall": 1.0,
+          "triage_recall": 1.0,
+          "benign": 6,
+          "strict_fpr": 0.0,
+          "triage_fpr": 0.6667,
+          "strict_failures": [],
+          "triage_failures": []
+        },
+        "polling_change": {
+          "malicious": 5,
+          "strict_recall": 1.0,
+          "triage_recall": 1.0,
+          "benign": 4,
+          "strict_fpr": 0.0,
+          "triage_fpr": 0.5,
+          "strict_failures": [],
+          "triage_failures": []
+        },
+        "namespace_move": {
+          "malicious": 9,
+          "strict_recall": 0.8889,
+          "triage_recall": 1.0,
+          "benign": 6,
+          "strict_fpr": 0.0,
+          "triage_fpr": 0.3333,
+          "strict_failures": [
+            "M6_stealth_low_noise"
+          ],
+          "triage_failures": []
+        },
+        "telemetry_gap": {
+          "malicious": 9,
+          "strict_recall": 0.8889,
+          "triage_recall": 1.0,
+          "benign": 6,
+          "strict_fpr": 0.0,
+          "triage_fpr": 0.1667,
+          "strict_failures": [
+            "M6_stealth_low_noise"
+          ],
+          "triage_failures": []
+        }
+      }
+    },
+    "external": {
+      "samples": [
+        {
+          "name": "vm-live-v1",
+          "provenance": "real VirtualBox run",
+          "expected": 1,
+          "score": 60,
+          "verdict": "malicious",
+          "predicted": 1,
+          "correct": 1
+        },
+        {
+          "name": "vm-live-reboot",
+          "provenance": "real reboot-persistence run",
+          "expected": 1,
+          "score": 60,
+          "verdict": "malicious",
+          "predicted": 1,
+          "correct": 1
+        },
+        {
+          "name": "host-live-scm",
+          "provenance": "read-only host snapshot",
+          "expected": 0,
+          "score": 0,
+          "verdict": "benign",
+          "predicted": 0,
+          "correct": 1
+        },
+        {
+          "name": "poc-POC_V1",
+          "provenance": "PoC dry-run render",
+          "expected": 1,
+          "score": 70,
+          "verdict": "malicious",
+          "predicted": 1,
+          "correct": 1
+        },
+        {
+          "name": "poc-POC_V2",
+          "provenance": "PoC dry-run render",
+          "expected": 1,
+          "score": 100,
+          "verdict": "malicious",
+          "predicted": 1,
+          "correct": 1
+        },
+        {
+          "name": "poc-POC_V3",
+          "provenance": "PoC dry-run render",
+          "expected": 1,
+          "score": 100,
+          "verdict": "malicious",
+          "predicted": 1,
+          "correct": 1
+        },
+        {
+          "name": "poc-POC_V4",
+          "provenance": "PoC dry-run render",
+          "expected": 1,
+          "score": 91,
+          "verdict": "malicious",
+          "predicted": 1,
+          "correct": 1
+        },
+        {
+          "name": "poc-POC_V5",
+          "provenance": "PoC dry-run render",
+          "expected": 1,
+          "score": 95,
+          "verdict": "malicious",
+          "predicted": 1,
+          "correct": 1
+        }
+      ],
+      "summary": {
+        "tp": 7,
+        "fp": 0,
+        "tn": 1,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "fpr": 0.0,
+        "accuracy": 1.0,
+        "support": 8
+      }
+    }
+  },
   "results": [
     {
       "scenario_id": "B1_builtin_scm",
@@ -420,6 +1564,165 @@
         }
       ],
       "directory": "data/scenarios/B3_service_state_audit"
+    },
+    {
+      "scenario_id": "B4_backup_commandline",
+      "label": 0,
+      "category": "benign",
+      "description": "Approved nightly backup: CommandLineEventConsumer runs robocopy to a fixed backup volume.",
+      "score": 35,
+      "verdict": "benign",
+      "predicted": 0,
+      "subscriptions": [
+        {
+          "key": "root\\subscription::Nightly Backup Trigger->Nightly Backup Action",
+          "score": 35,
+          "verdict": "benign",
+          "allowlisted": false,
+          "matched_allowlist": "",
+          "filter": {
+            "name": "Nightly Backup Trigger",
+            "namespace": "root\\subscription",
+            "event_namespace": "root\\cimv2",
+            "query": "SELECT * FROM __TimerEvent WHERE TimerID = 'NightlyBackupTimer' AND NumEvents > 0"
+          },
+          "consumer": {
+            "name": "Nightly Backup Action",
+            "class": "CommandLineEventConsumer",
+            "properties": {
+              "CommandLineTemplate": "robocopy.exe \"D:\\Data\" \"E:\\Backup\" /MIR /R:1 /W:5 /LOG:C:\\ProgramData\\Backup\\robocopy.log"
+            }
+          },
+          "creator": {
+            "sid": "S-1-5-18",
+            "user": "NT AUTHORITY\\SYSTEM"
+          },
+          "evidence": [
+            {
+              "rule": "R01",
+              "title": "High-risk permanent consumer class",
+              "weight": 25,
+              "detail": "CommandLineEventConsumer executes an action automatically when the filter fires; it is the preferred T1546.003 consumer type."
+            },
+            {
+              "rule": "R05",
+              "title": "User-writable target path",
+              "weight": 10,
+              "detail": "Action references \\ProgramData\\, a location writable by non-privileged users (staging/marker location)."
+            }
+          ]
+        }
+      ],
+      "directory": "data/scenarios/B4_backup_commandline"
+    },
+    {
+      "scenario_id": "B5_disk_alert_smtp",
+      "label": 0,
+      "category": "benign",
+      "description": "Approved capacity monitoring: SMTPEventConsumer alerts on a low disk watermark.",
+      "score": 10,
+      "verdict": "benign",
+      "predicted": 0,
+      "subscriptions": [
+        {
+          "key": "root\\subscription::Disk Space Alert->Disk Space Mailer",
+          "score": 10,
+          "verdict": "benign",
+          "allowlisted": false,
+          "matched_allowlist": "",
+          "filter": {
+            "name": "Disk Space Alert",
+            "namespace": "root\\subscription",
+            "event_namespace": "root\\cimv2",
+            "query": "SELECT * FROM __InstanceModificationEvent WITHIN 600 WHERE TargetInstance ISA 'Win32_LogicalDisk'"
+          },
+          "consumer": {
+            "name": "Disk Space Mailer",
+            "class": "SMTPEventConsumer",
+            "properties": {
+              "Subject": "Disk space warning on NT230-LAB",
+              "Message": "Free space below threshold on %TargetInstance.DeviceID%.",
+              "ToLine": "ops@example.invalid"
+            }
+          },
+          "creator": {
+            "sid": "S-1-5-18",
+            "user": "NT AUTHORITY\\SYSTEM"
+          },
+          "evidence": [
+            {
+              "rule": "R01",
+              "title": "Permanent consumer registered",
+              "weight": 10,
+              "detail": "SMTPEventConsumer is a permanent consumer and needs an explicit business justification."
+            }
+          ]
+        }
+      ],
+      "directory": "data/scenarios/B5_disk_alert_smtp"
+    },
+    {
+      "scenario_id": "B6_custom_namespace_ops",
+      "label": 0,
+      "category": "benign",
+      "description": "Approved operations probe in root\\OpsMonitoring; hard negative just below the triage threshold.",
+      "score": 39,
+      "verdict": "benign",
+      "predicted": 0,
+      "subscriptions": [
+        {
+          "key": "root\\OpsMonitoring::Ops Service Probe->Ops Service Log",
+          "score": 39,
+          "verdict": "benign",
+          "allowlisted": false,
+          "matched_allowlist": "",
+          "filter": {
+            "name": "Ops Service Probe",
+            "namespace": "root\\OpsMonitoring",
+            "event_namespace": "root\\cimv2",
+            "query": "SELECT * FROM __InstanceModificationEvent WITHIN 120 WHERE TargetInstance ISA 'Win32_Service'"
+          },
+          "consumer": {
+            "name": "Ops Service Log",
+            "class": "LogFileEventConsumer",
+            "properties": {
+              "LogFilePath": "C:\\ProgramData\\Ops\\service-state.log",
+              "Text": "service state changed"
+            }
+          },
+          "creator": {
+            "sid": "S-1-5-18",
+            "user": "NT AUTHORITY\\SYSTEM"
+          },
+          "evidence": [
+            {
+              "rule": "R07",
+              "title": "WQL watches a security-sensitive class",
+              "weight": 15,
+              "detail": "Filter subscribes to instance create/modify/delete events on a process, service, logon, registry or SCM class."
+            },
+            {
+              "rule": "R05",
+              "title": "User-writable target path",
+              "weight": 10,
+              "detail": "Action references \\ProgramData\\, a location writable by non-privileged users (staging/marker location)."
+            },
+            {
+              "rule": "R01",
+              "title": "Permanent consumer registered",
+              "weight": 8,
+              "detail": "LogFileEventConsumer is a permanent consumer and needs an explicit business justification."
+            },
+            {
+              "rule": "R11",
+              "title": "Non-default WMI namespace",
+              "weight": 6,
+              "detail": "filter/consumer stored in root\\OpsMonitoring. Custom namespaces hide subscriptions from the usual root\\subscription triage."
+            }
+          ]
+        }
+      ],
+      "directory": "data/scenarios/B6_custom_namespace_ops"
     },
     {
       "scenario_id": "M1_cmd_marker_timer",
@@ -887,6 +2190,248 @@
         }
       ],
       "directory": "data/scenarios/M6_stealth_low_noise"
+    },
+    {
+      "scenario_id": "M7_mof_random_names",
+      "label": 1,
+      "category": "malicious",
+      "description": "V7 MOF-style deployment: GUID object names, process-creation WQL and an inline VBScript dropper.",
+      "score": 91,
+      "verdict": "malicious",
+      "predicted": 1,
+      "subscriptions": [
+        {
+          "key": "root\\subscription::a7f3c9e1-4b2d-4f8a-9c1e-7d6b5a403122->a7f3c9e1-4b2d-4f8a-9c1e-7d6b5a403122",
+          "score": 91,
+          "verdict": "malicious",
+          "allowlisted": false,
+          "matched_allowlist": "",
+          "filter": {
+            "name": "a7f3c9e1-4b2d-4f8a-9c1e-7d6b5a403122",
+            "namespace": "root\\subscription",
+            "event_namespace": "root\\cimv2",
+            "query": "SELECT * FROM __InstanceCreationEvent WITHIN 10 WHERE TargetInstance ISA 'Win32_Process' AND TargetInstance.Name = 'powershell.exe'"
+          },
+          "consumer": {
+            "name": "a7f3c9e1-4b2d-4f8a-9c1e-7d6b5a403122",
+            "class": "ActiveScriptEventConsumer",
+            "properties": {
+              "ScriptingEngine": "VBScript",
+              "ScriptText": "Set fso = CreateObject(\"Scripting.FileSystemObject\")\nSet f = fso.CreateTextFile(\"C:\\ProgramData\\Microsoft\\cache\\svc.dat\", True)\nf.WriteLine \"NT230-D12-MARKER\"\nf.Close\n"
+            }
+          },
+          "creator": {
+            "sid": "S-1-5-21-1004336348-1177238915-682003330-1001",
+            "user": "NT230LAB\\student"
+          },
+          "evidence": [
+            {
+              "rule": "R01",
+              "title": "High-risk permanent consumer class",
+              "weight": 25,
+              "detail": "ActiveScriptEventConsumer executes an action automatically when the filter fires; it is the preferred T1546.003 consumer type."
+            },
+            {
+              "rule": "R06",
+              "title": "Scripting host abuse in inline script",
+              "weight": 15,
+              "detail": "Inline script uses Scripting.FileSystemObject to create processes or write files, the usual ActiveScriptEventConsumer payload."
+            },
+            {
+              "rule": "R07",
+              "title": "WQL watches a security-sensitive class",
+              "weight": 15,
+              "detail": "Filter subscribes to instance create/modify/delete events on a process, service, logon, registry or SCM class."
+            },
+            {
+              "rule": "R05",
+              "title": "User-writable target path",
+              "weight": 10,
+              "detail": "Action references \\ProgramData\\, a location writable by non-privileged users (staging/marker location)."
+            },
+            {
+              "rule": "R09",
+              "title": "Subscription created by a non-SYSTEM principal",
+              "weight": 10,
+              "detail": "CreatorSID S-1-5-21-1004336348-1177238915-682003330-1001 (NT230LAB\\student) is not LOCAL SYSTEM; WMI persistence is normally installed by an interactive user or attacker context."
+            },
+            {
+              "rule": "R13",
+              "title": "Activation logged under a user account",
+              "weight": 10,
+              "detail": "Event 5861 for 'a7f3c9e1-4b2d-4f8a-9c1e-7d6b5a403122' records user 'NT230LAB\\student' rather than SYSTEM."
+            },
+            {
+              "rule": "R08",
+              "title": "High-frequency WQL polling",
+              "weight": 6,
+              "detail": "WITHIN 10s is a short polling interval."
+            }
+          ]
+        }
+      ],
+      "directory": "data/scenarios/M7_mof_random_names"
+    },
+    {
+      "scenario_id": "M8_allowlist_clone",
+      "label": 1,
+      "category": "malicious",
+      "description": "V8 allow-list bypass: trusted built-in names reused with a different class, query and script payload.",
+      "score": 100,
+      "verdict": "malicious",
+      "predicted": 1,
+      "subscriptions": [
+        {
+          "key": "root\\subscription::SCM Event Log Filter->SCM Event Log Consumer",
+          "score": 100,
+          "verdict": "malicious",
+          "allowlisted": false,
+          "matched_allowlist": "",
+          "filter": {
+            "name": "SCM Event Log Filter",
+            "namespace": "root\\subscription",
+            "event_namespace": "root\\cimv2",
+            "query": "SELECT * FROM __InstanceCreationEvent WITHIN 5 WHERE TargetInstance ISA 'Win32_Process' AND TargetInstance.Name = 'cmd.exe'"
+          },
+          "consumer": {
+            "name": "SCM Event Log Consumer",
+            "class": "ActiveScriptEventConsumer",
+            "properties": {
+              "ScriptingEngine": "VBScript",
+              "ScriptText": "Set fso = CreateObject(\"Scripting.FileSystemObject\")\nSet f = fso.CreateTextFile(\"C:\\Users\\Public\\nt230_d12_marker.txt\", True)\nf.WriteLine \"NT230-D12-MARKER\"\nf.Close\n"
+            }
+          },
+          "creator": {
+            "sid": "S-1-5-21-1004336348-1177238915-682003330-1001",
+            "user": "NT230LAB\\student"
+          },
+          "evidence": [
+            {
+              "rule": "R01",
+              "title": "High-risk permanent consumer class",
+              "weight": 25,
+              "detail": "ActiveScriptEventConsumer executes an action automatically when the filter fires; it is the preferred T1546.003 consumer type."
+            },
+            {
+              "rule": "R06",
+              "title": "Scripting host abuse in inline script",
+              "weight": 15,
+              "detail": "Inline script uses Scripting.FileSystemObject to create processes or write files, the usual ActiveScriptEventConsumer payload."
+            },
+            {
+              "rule": "R07",
+              "title": "WQL watches a security-sensitive class",
+              "weight": 15,
+              "detail": "Filter subscribes to instance create/modify/delete events on a process, service, logon, registry or SCM class."
+            },
+            {
+              "rule": "R10",
+              "title": "Name masquerades as a trusted component",
+              "weight": 15,
+              "detail": "Subscription name contains 'SCM Event Log', a common masquerading pattern for T1546.003."
+            },
+            {
+              "rule": "R05",
+              "title": "User-writable target path",
+              "weight": 10,
+              "detail": "Action references \\Users\\Public\\, a location writable by non-privileged users (staging/marker location)."
+            },
+            {
+              "rule": "R08",
+              "title": "High-frequency WQL polling",
+              "weight": 10,
+              "detail": "WITHIN 5s causes very high-frequency polling."
+            },
+            {
+              "rule": "R09",
+              "title": "Subscription created by a non-SYSTEM principal",
+              "weight": 10,
+              "detail": "CreatorSID S-1-5-21-1004336348-1177238915-682003330-1001 (NT230LAB\\student) is not LOCAL SYSTEM; WMI persistence is normally installed by an interactive user or attacker context."
+            },
+            {
+              "rule": "R13",
+              "title": "Activation logged under a user account",
+              "weight": 10,
+              "detail": "Event 5861 for 'SCM Event Log Filter' records user 'NT230LAB\\student' rather than SYSTEM."
+            }
+          ]
+        }
+      ],
+      "directory": "data/scenarios/M8_allowlist_clone"
+    },
+    {
+      "scenario_id": "M9_registry_wql",
+      "label": 1,
+      "category": "malicious",
+      "description": "V9 registry-change WQL trigger on the Run key, paired with a command-line marker write.",
+      "score": 85,
+      "verdict": "malicious",
+      "predicted": 1,
+      "subscriptions": [
+        {
+          "key": "root\\subscription::Registry Guard->Registry Guard Action",
+          "score": 85,
+          "verdict": "malicious",
+          "allowlisted": false,
+          "matched_allowlist": "",
+          "filter": {
+            "name": "Registry Guard",
+            "namespace": "root\\subscription",
+            "event_namespace": "root\\default",
+            "query": "SELECT * FROM RegistryKeyChangeEvent WHERE Hive = 'HKEY_LOCAL_MACHINE' AND KeyPath = 'SOFTWARE\\\\Microsoft\\\\Windows\\\\CurrentVersion\\\\Run'"
+          },
+          "consumer": {
+            "name": "Registry Guard Action",
+            "class": "CommandLineEventConsumer",
+            "properties": {
+              "CommandLineTemplate": "cmd.exe /c echo NT230-D12-MARKER > \"%TEMP%\\nt230_reg_marker.txt\""
+            }
+          },
+          "creator": {
+            "sid": "S-1-5-21-1004336348-1177238915-682003330-1001",
+            "user": "NT230LAB\\student"
+          },
+          "evidence": [
+            {
+              "rule": "R01",
+              "title": "High-risk permanent consumer class",
+              "weight": 25,
+              "detail": "CommandLineEventConsumer executes an action automatically when the filter fires; it is the preferred T1546.003 consumer type."
+            },
+            {
+              "rule": "R04",
+              "title": "Command interpreter or LOLBin launch",
+              "weight": 15,
+              "detail": "Action starts cmd.exe /c, which is typical for scripted execution but uncommon for monitoring consumers."
+            },
+            {
+              "rule": "R07",
+              "title": "WQL watches a security-sensitive class",
+              "weight": 15,
+              "detail": "Filter subscribes to instance create/modify/delete events on a process, service, logon, registry or SCM class."
+            },
+            {
+              "rule": "R05",
+              "title": "User-writable target path",
+              "weight": 10,
+              "detail": "Action references %TEMP%, a location writable by non-privileged users (staging/marker location)."
+            },
+            {
+              "rule": "R09",
+              "title": "Subscription created by a non-SYSTEM principal",
+              "weight": 10,
+              "detail": "CreatorSID S-1-5-21-1004336348-1177238915-682003330-1001 (NT230LAB\\student) is not LOCAL SYSTEM; WMI persistence is normally installed by an interactive user or attacker context."
+            },
+            {
+              "rule": "R13",
+              "title": "Activation logged under a user account",
+              "weight": 10,
+              "detail": "Event 5861 for 'Registry Guard' records user 'NT230LAB\\student' rather than SYSTEM."
+            }
+          ]
+        }
+      ],
+      "directory": "data/scenarios/M9_registry_wql"
     }
   ]
 }

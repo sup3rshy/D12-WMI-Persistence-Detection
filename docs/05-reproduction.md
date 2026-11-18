@@ -17,17 +17,17 @@ Có 3 chế độ:
 ```bash
 cd D12-WMI-Persistence-Detection
 python3 --version          # 3.11+
-python3 -m pytest -q       # 33 passed
+python3 -m pytest -q       # 56 passed
 ./scripts/run_all.sh
 ```
 
 Kỳ vọng:
 
 ```
-generated 9 scenarios ...
-strict: TP=5 FP=0 TN=3 FN=1 precision=1.000 recall=0.833 f1=0.909 fpr=0.000
-triage: TP=6 FP=0 TN=3 FN=0 precision=1.000 recall=1.000 f1=1.000 fpr=0.000
-33 passed
+generated 15 scenarios ...
+strict: TP=8 FP=0 TN=6 FN=1 precision=1.000 recall=0.889 f1=0.941 fpr=0.000
+triage: TP=9 FP=0 TN=6 FN=0 precision=1.000 recall=1.000 f1=1.000 fpr=0.000
+56 passed
 ```
 
 ### 0.2 VM PoC
@@ -150,37 +150,47 @@ Cả ba lệnh phải trả về rỗng. Nếu không, rollback snapshot.
 
 ## 2. Kiểm chứng persistence qua reboot (trong VM)
 
-Đây là bằng chứng cốt lõi của T1546.003.
+Đây là bằng chứng cốt lõi của T1546.003. Repo có harness hai phase
+`scripts/vm/Reboot-Persistence-Test.ps1`; copy script này, `Invoke-WmiSubscription.ps1`
+và hai collector vào `C:\NT230` trong VM, sau đó chạy bằng **elevated** console:
 
-```powershell
-# 1. Tạo subscription nhưng không xóa
-.\poc\Invoke-WmiSubscription.ps1 -Variant V1 -Keep
-
-# 2. Reboot VM
-Restart-Computer -Force
+```cmd
+C:\NT230\run-create.cmd    :: tạo V1 -Keep, xóa marker, reboot
+C:\NT230\run-verify.cmd    :: sau boot: chờ marker, collect, cleanup, summary
 ```
 
-Sau reboot, đăng nhập lại:
+`run-create.cmd` / `run-verify.cmd` chỉ gọi PowerShell với `-Phase Create` /
+`-Phase Verify`. Script ghi toàn bộ evidence vào `C:\NT230\reboot-evidence`.
+
+Kỳ vọng (đã quan sát trong lần chạy thật):
+
+```text
+[14:10:50Z] objects before reboot: filters=1 consumers=1 bindings=1
+[14:10:50Z] requesting reboot
+[14:11:14Z] LastBootUpTime
+[14:13:07Z] marker_exists=True
+[14:13:07Z] marker content: NT230-D12-MARKER
+[14:13:07Z] marker created: 2026-11-18T14:12:15Z
+[14:13:07Z] objects after reboot: filters=1 consumers=1 bindings=1
+[14:13:11Z] cleanup complete
+[14:13:11Z] verdict: persisted
+```
+
+Marker bị xóa trước reboot, nên marker lúc `14:12:15Z` chỉ có thể do subscription
+trong repository tạo lại. Cleanup xóa `removed=4`; sau đó VM restore snapshot
+`clean-baseline` và poweroff.
+
+Nếu muốn làm thủ công, quy trình tương đương:
 
 ```powershell
-# 3. Object vẫn còn?
+.\poc\Invoke-WmiSubscription.ps1 -Variant V1 -Keep -TriggerDelaySeconds 30
+Remove-Item C:\Users\Public\nt230_d12_marker.txt -ErrorAction SilentlyContinue
+Restart-Computer -Force
+# sau reboot, elevated:
 Get-CimInstance -Namespace root\subscription -ClassName __EventFilter |
   Where-Object Name -like 'NT230_D12_*' | Format-List Name, Query
-
-# 4. Marker cũ đã bị xóa trước khi reboot; xóa để quan sát lần chạy mới
-Remove-Item C:\Users\Public\nt230_d12_marker.txt -ErrorAction SilentlyContinue
-
-# 5. Chờ timer (15 giây) rồi kiểm tra marker
-Start-Sleep -Seconds 20
+Start-Sleep -Seconds 45
 Get-Content C:\Users\Public\nt230_d12_marker.txt
-```
-
-Kỳ vọng: object vẫn tồn tại sau reboot và marker được tạo lại, chứng minh
-subscription nằm trong repository chứ không phụ thuộc process.
-
-Cleanup sau bước này:
-
-```powershell
 .\poc\Invoke-WmiSubscription.ps1 -Variant V1 -Action Remove
 ```
 
@@ -218,7 +228,7 @@ không thấy object (đây là hành vi đúng, thể hiện giới hạn cover
 Host      : Acer Nitro AN515-44, VirtualBox 7.0.26
 VM        : NT230-D12-WinLab, Windows 10 22H2 build 19041
 Snapshot  : clean-baseline (chụp trước khi chạy PoC)
-Account   : NT230LAB\student
+Account   : NT230LAB\student (elevated console qua UAC; không dùng password trong tài liệu)
 ```
 
 Trình tự:
@@ -230,14 +240,14 @@ wevtutil sl Microsoft-Windows-WMI-Activity/Operational /e:true
 Get-CimInstance Win32_ComputerSystem | Select-Object Manufacturer, Model
 ```
 
-2. Chạy PoC V1 với `-WaitForMarker -Keep` để collector còn thấy object. Trong
-   lab này quyền elevated có được bằng scheduled task (batch logon token chạy ở
-   High Mandatory Level), không cần bật UAC:
+2. Mở **elevated console** trong VM (UAC) rồi chạy PoC V1 với
+   `-WaitForMarker -Keep` để collector còn thấy object. Lần chạy đầu tiên dùng
+   scheduled task batch-logon để có High Mandatory Level; lần reboot dùng
+   elevated console. Không lưu password trong tài liệu.
 
-```cmd
-schtasks /Create /TN NT230_D12_PoC /TR C:\NT230\run-poc.cmd /SC ONCE /ST 23:59 ^
-  /RU student /RP "<password>" /F
-schtasks /Run /TN NT230_D12_PoC
+```powershell
+.\poc\Invoke-WmiSubscription.ps1 -Variant V1 -WaitForMarker -Keep `
+  -EvidencePath .\reports\poc-v1.json
 ```
 
 3. Kết quả thật (xem `reports/vm-live/out/runner.log`):
@@ -330,8 +340,9 @@ rồi chạy detector ở cả hai chế độ (`repository` và `events`).
 
 | Bước | Kết quả | File |
 |---|---|---|
-| Offline pipeline | 9 scenario, strict F1 0.909, triage F1 1.000 | `reports/metrics.json` |
-| Pytest | 33 passed | `reports/test-results.txt` |
+| Offline pipeline | 15 scenario, strict F1 0.941, triage F1 1.000 | `reports/metrics.json` |
+| Validation bổ sung | bootstrap CI, ablation, perturbation, external | `reports/validation.json` |
+| Pytest | 56 passed | `reports/test-results.txt` |
 | Live read-only repository | 1 filter/1 consumer/1 binding | `data/live/repository.json` |
 | Live event log | ~1.2k events | `data/live/wmi_activity.jsonl` |
 | Live detector | BENIGN score 0, allow-list | `reports/live-scan.txt` |
@@ -339,4 +350,5 @@ rồi chạy detector ở cả hai chế độ (`repository` và `events`).
 | PoC create trên host vật lý | bị VM guard từ chối (đúng thiết kế) | `docs/06-safety.md` |
 | **PoC V1 thật trong VM Windows 10** | filter/consumer/binding tạo được, marker sau ~23 giây | `reports/vm-live/out/poc-v1.json` |
 | **Detector trên dữ liệu VM thật** | `MALICIOUS 60/100` (R01/R04/R05/R09) | `reports/vm-live/detector-scan.txt` |
-| **Cleanup + rollback** | 4 object bị xóa, VM restore `clean-baseline` | `reports/vm-live/out/cleanup.txt` |
+| **Persistence qua reboot** | object 1/1/1 sau boot, marker tạo lại lúc `14:12:15Z`, `verdict=persisted` | `reports/vm-live/reboot/summary.json` |
+| **Cleanup + rollback** | 4 object bị xóa, VM restore `clean-baseline` | `reports/vm-live/reboot/cleanup.txt`, `reports/vm-live/out/cleanup.txt` |

@@ -1,0 +1,13 @@
+[2026-11-18T14:13:05.4997010Z] phase=Verify whoami=nt230lab\student computer=NT230LAB
+[2026-11-18T14:13:07.2859395Z] last boot: 2026-11-18T14:11:14.5000000Z
+[2026-11-18T14:13:07.3580029Z] marker_exists=True waited=0s
+[2026-11-18T14:13:07.4303366Z] marker content: NT230-D12-MARKER
+[2026-11-18T14:13:07.4382982Z] marker created: 2026-11-18T14:12:15.7856949Z
+[2026-11-18T14:13:07.5702017Z] objects after reboot: filters=1 consumers=1 bindings=1
+collected filters=2 consumers=2 bindings=2 -> C:\NT230\reboot-evidence\repository.json
+[2026-11-18T14:13:08.2195726Z] repository collected
+exported 30 WMI-Activity events -> C:\NT230\reboot-evidence\wmi_activity.jsonl
+[2026-11-18T14:13:09.4285358Z] events collected
+removed 4 object group(s) for V1
+[2026-11-18T14:13:11.4939042Z] cleanup complete
+[2026-11-18T14:13:11.5189702Z] verdict: persisted

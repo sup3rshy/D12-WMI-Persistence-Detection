@@ -1,0 +1,17 @@
+﻿{
+    "phase":  "Verify",
+    "completed_utc":  "2026-11-18T14:13:11.5189702Z",
+    "computer":  "NT230LAB",
+    "last_boot_utc":  "2026-11-18T14:11:14.5000000Z",
+    "marker_exists":  true,
+    "marker_content":  "NT230-D12-MARKER",
+    "marker_created_utc":  "2026-11-18T14:12:15.7856949Z",
+    "wait_seconds":  0,
+    "filters_after_reboot":  1,
+    "consumers_after_reboot":  1,
+    "bindings_after_reboot":  1,
+    "filters_remaining":  0,
+    "consumers_remaining":  0,
+    "bindings_remaining":  0,
+    "verdict":  "persisted"
+}

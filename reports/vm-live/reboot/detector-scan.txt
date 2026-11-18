@@ -1,0 +1,19 @@
+==============================================================================
+scenario : VM_REBOOT_V1  (label=1)
+category : malicious
+verdict  : MALICIOUS   score=60/100
+truth    : Held-out VM run: V1 persisted across a guest reboot and recreated the marker after boot.
+------------------------------------------------------------------------------
+[ malicious]  60  NT230_D12_V1_Filter -> CommandLineEventConsumer:NT230_D12_V1_Consumer
+             namespace=root\subscription  event_ns=root\default  creator=S-1-5-21-814580844-2301453324-4257181413-1000
+             query=SELECT * FROM __TimerEvent WHERE TimerID = 'NT230D12TimerV1'
+             +25  R01 High-risk permanent consumer class :: CommandLineEventConsumer executes an action automatically when the filter fires; it is the preferred T1546.003 consumer type.
+             +15  R04 Command interpreter or LOLBin launch :: Action starts cmd.exe /c, which is typical for scripted execution but uncommon for monitoring consumers.
+             +10  R05 User-writable target path :: Action references \Users\Public\, a location writable by non-privileged users (staging/marker location).
+             +10  R09 Subscription created by a non-SYSTEM principal :: CreatorSID S-1-5-21-814580844-2301453324-4257181413-1000 (NT230LAB\student) is not LOCAL SYSTEM; WMI persistence is normally installed by an interactive user or attacker context.
+[    benign]   0  SCM Event Log Filter -> NTEventLogEventConsumer:SCM Event Log Consumer
+             namespace=root\subscription  event_ns=root\cimv2  creator=S-1-5-32-544
+             query=select * from MSFT_SCMEventLogEvent
+             +0   R00 Matched signed baseline allow-list :: Object matches known-good entry 'builtin-scm-eventlog'. Exact query, class and namespace were required for the match.
+
+json report -> reports/vm-live/reboot/detector.json

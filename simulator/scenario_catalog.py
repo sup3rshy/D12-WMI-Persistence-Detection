@@ -161,7 +161,7 @@ def _repo(
         "schema_version": "1.0",
         "collected_at": collected_at,
         "host": HOST,
-        "scope": ["root\\subscription", "root\\NT230Lab"],
+        "scope": ["root\\subscription", "root\\NT230Lab", "root\\OpsMonitoring"],
         "filters": filters,
         "consumers": consumers,
         "bindings": bindings,
@@ -588,6 +588,292 @@ def build_scenarios() -> list[dict[str, Any]]:
             ],
             "processes": [],
             "tags": ["V6", "evasion", "low-noise", "telemetry-gap"],
+        }
+    )
+
+    # ------------------------------------------------------------------ B4
+    # A legitimate scheduled backup is a *hard negative* for the "any
+    # CommandLineEventConsumer is malicious" heuristic: the consumer class is
+    # high risk, but the command is a documented maintenance job with no
+    # user-writable destination and no script interpreter.
+    backup_filter = _filter(
+        "Nightly Backup Trigger",
+        "SELECT * FROM __TimerEvent WHERE TimerID = 'NightlyBackupTimer' AND NumEvents > 0",
+    )
+    backup_consumer = _consumer(
+        "Nightly Backup Action",
+        "CommandLineEventConsumer",
+        {
+            "CommandLineTemplate": (
+                r'robocopy.exe "D:\Data" "E:\Backup" /MIR /R:1 /W:5 '
+                r'/LOG:C:\ProgramData\Backup\robocopy.log'
+            )
+        },
+    )
+    scenarios.append(
+        {
+            "scenario_id": "B4_backup_commandline",
+            "label": 0,
+            "category": "benign",
+            "variant": "B4",
+            "description": "Approved nightly backup: CommandLineEventConsumer runs robocopy to a fixed backup volume.",
+            "repository": _repo(
+                [backup_filter],
+                [backup_consumer],
+                [_binding(backup_filter["name"], backup_consumer["name"])],
+            ),
+            "events": [
+                event_5861(
+                    backup_filter["name"],
+                    backup_consumer["class"],
+                    backup_consumer["name"],
+                    backup_filter["event_namespace"],
+                    backup_filter["query"],
+                    backup_consumer["properties"],
+                    SID_SYSTEM,
+                    USER_SYSTEM,
+                )
+            ],
+            "processes": [],
+            "tags": ["hard-negative", "commandline-consumer", "backup"],
+        }
+    )
+
+    # ------------------------------------------------------------------ B5
+    # Medium-risk consumer with a non-sensitive WQL class: guard against
+    # treating every SMTP consumer as malicious.
+    disk_filter = _filter(
+        "Disk Space Alert",
+        "SELECT * FROM __InstanceModificationEvent WITHIN 600 "
+        "WHERE TargetInstance ISA 'Win32_LogicalDisk'",
+    )
+    disk_consumer = _consumer(
+        "Disk Space Mailer",
+        "SMTPEventConsumer",
+        {
+            "Subject": "Disk space warning on NT230-LAB",
+            "Message": "Free space below threshold on %TargetInstance.DeviceID%.",
+            "ToLine": "ops@example.invalid",
+        },
+    )
+    scenarios.append(
+        {
+            "scenario_id": "B5_disk_alert_smtp",
+            "label": 0,
+            "category": "benign",
+            "variant": "B5",
+            "description": "Approved capacity monitoring: SMTPEventConsumer alerts on a low disk watermark.",
+            "repository": _repo(
+                [disk_filter], [disk_consumer], [_binding(disk_filter["name"], disk_consumer["name"])]
+            ),
+            "events": [
+                event_5861(
+                    disk_filter["name"],
+                    disk_consumer["class"],
+                    disk_consumer["name"],
+                    disk_filter["event_namespace"],
+                    disk_filter["query"],
+                    disk_consumer["properties"],
+                    SID_SYSTEM,
+                    USER_SYSTEM,
+                )
+            ],
+            "processes": [],
+            "tags": ["hard-negative", "smtp-consumer", "capacity"],
+        }
+    )
+
+    # ------------------------------------------------------------------ B6
+    # A custom namespace is legitimate for an operations team. This scenario
+    # sits exactly one point below the suspicious threshold (39/40) and makes
+    # the threshold choice explicit instead of assuming "custom namespace = bad".
+    ops_filter = _filter(
+        "Ops Service Probe",
+        "SELECT * FROM __InstanceModificationEvent WITHIN 120 "
+        "WHERE TargetInstance ISA 'Win32_Service'",
+        namespace="root\\OpsMonitoring",
+    )
+    ops_consumer = _consumer(
+        "Ops Service Log",
+        "LogFileEventConsumer",
+        {
+            "LogFilePath": r"C:\ProgramData\Ops\service-state.log",
+            "Text": "service state changed",
+        },
+        namespace="root\\OpsMonitoring",
+    )
+    scenarios.append(
+        {
+            "scenario_id": "B6_custom_namespace_ops",
+            "label": 0,
+            "category": "benign",
+            "variant": "B6",
+            "description": "Approved operations probe in root\\OpsMonitoring; hard negative just below the triage threshold.",
+            "repository": _repo(
+                [ops_filter],
+                [ops_consumer],
+                [_binding(ops_filter["name"], ops_consumer["name"], namespace="root\\OpsMonitoring")],
+            ),
+            "events": [
+                event_5861(
+                    ops_filter["name"],
+                    ops_consumer["class"],
+                    ops_consumer["name"],
+                    ops_filter["event_namespace"],
+                    ops_filter["query"],
+                    ops_consumer["properties"],
+                    SID_SYSTEM,
+                    USER_SYSTEM,
+                    binding_namespace="root\\OpsMonitoring",
+                )
+            ],
+            "processes": [],
+            "tags": ["hard-negative", "custom-namespace", "eventlog-consumer"],
+        }
+    )
+
+    # ------------------------------------------------------------------ M7 / V7
+    # MOF-deployed subscription with a GUID-style name. Random object names
+    # defeat name-based allow-listing; the detection has to come from the
+    # consumer class, the WQL target and the inline script.
+    m7_filter = _filter(
+        "a7f3c9e1-4b2d-4f8a-9c1e-7d6b5a403122",
+        "SELECT * FROM __InstanceCreationEvent WITHIN 10 "
+        "WHERE TargetInstance ISA 'Win32_Process' "
+        "AND TargetInstance.Name = 'powershell.exe'",
+        creator_sid=SID_STUDENT,
+        creator_user=USER_STUDENT,
+    )
+    m7_script = (
+        'Set fso = CreateObject("Scripting.FileSystemObject")\n'
+        'Set f = fso.CreateTextFile("C:\\ProgramData\\Microsoft\\cache\\svc.dat", True)\n'
+        'f.WriteLine "NT230-D12-MARKER"\n'
+        "f.Close\n"
+    )
+    m7_consumer = _consumer(
+        "a7f3c9e1-4b2d-4f8a-9c1e-7d6b5a403122",
+        "ActiveScriptEventConsumer",
+        {"ScriptingEngine": "VBScript", "ScriptText": m7_script},
+        creator_sid=SID_STUDENT,
+        creator_user=USER_STUDENT,
+    )
+    scenarios.append(
+        {
+            "scenario_id": "M7_mof_random_names",
+            "label": 1,
+            "category": "malicious",
+            "variant": "V7",
+            "description": "V7 MOF-style deployment: GUID object names, process-creation WQL and an inline VBScript dropper.",
+            "repository": _repo(
+                [m7_filter], [m7_consumer], [_binding(m7_filter["name"], m7_consumer["name"])]
+            ),
+            "events": [
+                event_5861(
+                    m7_filter["name"],
+                    m7_consumer["class"],
+                    m7_consumer["name"],
+                    m7_filter["event_namespace"],
+                    m7_filter["query"],
+                    m7_consumer["properties"],
+                    SID_STUDENT,
+                    USER_STUDENT,
+                )
+            ],
+            "processes": [],
+            "tags": ["V7", "mof", "random-name", "activescript"],
+        }
+    )
+
+    # ------------------------------------------------------------------ M8 / V8
+    # Allow-list bypass attempt: copy the trusted built-in object names but
+    # change consumer class, query and payload. The allow-list must require a
+    # full match, not just a familiar name.
+    m8_filter = _filter(
+        "SCM Event Log Filter",
+        "SELECT * FROM __InstanceCreationEvent WITHIN 5 "
+        "WHERE TargetInstance ISA 'Win32_Process' "
+        "AND TargetInstance.Name = 'cmd.exe'",
+        creator_sid=SID_STUDENT,
+        creator_user=USER_STUDENT,
+    )
+    m8_consumer = _consumer(
+        "SCM Event Log Consumer",
+        "ActiveScriptEventConsumer",
+        {"ScriptingEngine": "VBScript", "ScriptText": m2_script},
+        creator_sid=SID_STUDENT,
+        creator_user=USER_STUDENT,
+    )
+    scenarios.append(
+        {
+            "scenario_id": "M8_allowlist_clone",
+            "label": 1,
+            "category": "malicious",
+            "variant": "V8",
+            "description": "V8 allow-list bypass: trusted built-in names reused with a different class, query and script payload.",
+            "repository": _repo(
+                [m8_filter], [m8_consumer], [_binding(m8_filter["name"], m8_consumer["name"])]
+            ),
+            "events": [
+                event_5861(
+                    m8_filter["name"],
+                    m8_consumer["class"],
+                    m8_consumer["name"],
+                    m8_filter["event_namespace"],
+                    m8_filter["query"],
+                    m8_consumer["properties"],
+                    SID_STUDENT,
+                    USER_STUDENT,
+                )
+            ],
+            "processes": [],
+            "tags": ["V8", "allowlist-bypass", "masquerade"],
+        }
+    )
+
+    # ------------------------------------------------------------------ M9 / V9
+    # Registry-change WQL (root\default) rather than process creation. This
+    # exercises the "registry" branch of R07 and a timer-free trigger.
+    m9_filter = _filter(
+        "Registry Guard",
+        "SELECT * FROM RegistryKeyChangeEvent "
+        "WHERE Hive = 'HKEY_LOCAL_MACHINE' "
+        "AND KeyPath = 'SOFTWARE\\\\Microsoft\\\\Windows\\\\CurrentVersion\\\\Run'",
+        event_namespace="root\\default",
+        creator_sid=SID_STUDENT,
+        creator_user=USER_STUDENT,
+    )
+    m9_command = r'cmd.exe /c echo NT230-D12-MARKER > "%TEMP%\nt230_reg_marker.txt"'
+    m9_consumer = _consumer(
+        "Registry Guard Action",
+        "CommandLineEventConsumer",
+        {"CommandLineTemplate": m9_command},
+        creator_sid=SID_STUDENT,
+        creator_user=USER_STUDENT,
+    )
+    scenarios.append(
+        {
+            "scenario_id": "M9_registry_wql",
+            "label": 1,
+            "category": "malicious",
+            "variant": "V9",
+            "description": "V9 registry-change WQL trigger on the Run key, paired with a command-line marker write.",
+            "repository": _repo(
+                [m9_filter], [m9_consumer], [_binding(m9_filter["name"], m9_consumer["name"])]
+            ),
+            "events": [
+                event_5861(
+                    m9_filter["name"],
+                    m9_consumer["class"],
+                    m9_consumer["name"],
+                    m9_filter["event_namespace"],
+                    m9_filter["query"],
+                    m9_consumer["properties"],
+                    SID_STUDENT,
+                    USER_STUDENT,
+                )
+            ],
+            "processes": [],
+            "tags": ["V9", "registry", "wql", "commandline"],
         }
     )
 

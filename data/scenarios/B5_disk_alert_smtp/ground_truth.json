@@ -1,0 +1,18 @@
+{
+  "scenario_id": "B5_disk_alert_smtp",
+  "label": 0,
+  "category": "benign",
+  "variant": "B5",
+  "description": "Approved capacity monitoring: SMTPEventConsumer alerts on a low disk watermark.",
+  "tags": [
+    "hard-negative",
+    "smtp-consumer",
+    "capacity"
+  ],
+  "safety": "Inert marker strings only; no payload was executed.",
+  "host": {
+    "hostname": "NT230-LAB",
+    "os": "Windows 10 22H2 (19045)",
+    "vm": true
+  }
+}

@@ -1,0 +1,69 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: pytest (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install test runner
+        run: python -m pip install --upgrade pip pytest
+      - name: Run tests
+        run: python -m pytest -q
+      - name: Compile every module
+        run: python -m compileall -q detector evaluation simulator poc scripts
+
+  reproducibility:
+    name: committed artefacts are reproducible
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install test runner
+        run: python -m pip install --upgrade pip pytest
+      - name: Regenerate dataset and reports
+        run: |
+          python -m simulator.generate_dataset --out data/scenarios
+          python -m evaluation.evaluate
+          python scripts/update_checksums.py
+      - name: Fail on report drift
+        run: |
+          git diff --stat
+          git diff --exit-code
+
+  detector-smoke:
+    name: detector CLI smoke test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Scan the labelled dataset (strict gate)
+        run: |
+          python -m detector.cli scan --dataset data/scenarios \
+            --json-out /tmp/alerts.json --csv-out /tmp/per_scenario.csv
+          python - <<'PY'
+          import json
+          payload = json.load(open("/tmp/alerts.json"))
+          assert payload["summary"]["scenarios"] == 15, payload["summary"]
+          print("scenarios:", payload["summary"])
+          PY

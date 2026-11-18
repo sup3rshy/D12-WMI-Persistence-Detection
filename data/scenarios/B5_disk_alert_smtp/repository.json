@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "collected_at": "2026-11-17T09:05:00Z",
+  "host": {
+    "hostname": "NT230-LAB",
+    "os": "Windows 10 22H2 (19045)",
+    "vm": true
+  },
+  "scope": [
+    "root\\subscription",
+    "root\\NT230Lab",
+    "root\\OpsMonitoring"
+  ],
+  "filters": [
+    {
+      "name": "Disk Space Alert",
+      "namespace": "root\\subscription",
+      "event_namespace": "root\\cimv2",
+      "query": "SELECT * FROM __InstanceModificationEvent WITHIN 600 WHERE TargetInstance ISA 'Win32_LogicalDisk'",
+      "query_language": "WQL",
+      "creator_sid": "S-1-5-18",
+      "creator_user": "NT AUTHORITY\\SYSTEM"
+    }
+  ],
+  "consumers": [
+    {
+      "name": "Disk Space Mailer",
+      "namespace": "root\\subscription",
+      "class": "SMTPEventConsumer",
+      "properties": {
+        "Subject": "Disk space warning on NT230-LAB",
+        "Message": "Free space below threshold on %TargetInstance.DeviceID%.",
+        "ToLine": "ops@example.invalid"
+      },
+      "creator_sid": "S-1-5-18",
+      "creator_user": "NT AUTHORITY\\SYSTEM"
+    }
+  ],
+  "bindings": [
+    {
+      "filter_name": "Disk Space Alert",
+      "filter_namespace": "root\\subscription",
+      "consumer_name": "Disk Space Mailer",
+      "consumer_namespace": "root\\subscription",
+      "creator_sid": "S-1-5-18"
+    }
+  ]
+}

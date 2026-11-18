@@ -54,8 +54,10 @@ RE_SCRIPT_ABUSE = re.compile(
     re.I,
 )
 RE_INSTANCE_EVENT = re.compile(
-    r"(__instancecreationevent|__instancemodificationevent|"
-    r"__instancedeletionevent)",
+    r"(__instance(?:creation|modification|deletion)event|"
+    r"__instanceoperationevent|"
+    r"registry(?:key|value)changeevent|"
+    r"win32_process(?:start|stop)trace)",
     re.I,
 )
 RE_SENSITIVE_TARGET = re.compile(
@@ -229,12 +231,13 @@ def rule_principal(sub: Subscription) -> list[Evidence]:
     sid = sub.creator_sid.strip()
     user = sub.creator_user.strip()
     if sid and not _is_system(sid):
+        who = f" ({user})" if user else ""
         return [
             Evidence(
                 "R09",
                 "Subscription created by a non-SYSTEM principal",
                 10,
-                f"CreatorSID {sid} ({user or 'unknown user'}) is not LOCAL SYSTEM; "
+                f"CreatorSID {sid}{who} is not LOCAL SYSTEM; "
                 "WMI persistence is normally installed by an interactive user "
                 "or attacker context.",
             )
@@ -383,9 +386,16 @@ def evaluate_rules(
     sub: Subscription,
     events: list[dict[str, Any]] | None = None,
     processes: list[dict[str, Any]] | None = None,
+    exclude_rules: set[str] | None = None,
 ) -> list[Evidence]:
+    """Run every rule and return the explained evidence.
+
+    ``exclude_rules`` is used by the evaluation ablation study; it never
+    changes the production defaults.
+    """
     events = events or []
     processes = processes or []
+    excluded = {item.upper() for item in (exclude_rules or set())}
     collectors = (
         rule_consumer_class,
         rule_encoded_payload,
@@ -405,4 +415,10 @@ def evaluate_rules(
         evidence.extend(collector(sub))
     evidence.extend(rule_activation_context(sub, events))
     evidence.extend(rule_wmiprvse_children(sub, processes))
+    if excluded:
+        evidence = [item for item in evidence if item.rule_id.upper() not in excluded]
     return evidence
+
+
+# Stable rule identifiers for reporting and the ablation study.
+ALL_RULE_IDS = [f"R{index:02d}" for index in range(1, 15)]

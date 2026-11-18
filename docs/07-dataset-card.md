@@ -1,10 +1,10 @@
 # 07 - Dataset card
 
-**Tên:** NT230 D12 WMI Event Subscription dataset  
-**Phiên bản:** 1.1  
-**Ngày:** 2026-11-17  
-**Người tạo:** nhóm đồ án NT230 (DEV Track D12)  
-**Loại:** telemetry mô phỏng + baseline thật + 1 lần chạy PoC thật trong VM  
+**Tên:** NT230 D12 WMI Event Subscription dataset
+**Phiên bản:** 1.2
+**Ngày:** 2026-11-18
+**Người tạo:** nhóm đồ án NT230 (DEV Track D12)
+**Loại:** telemetry mô phỏng + baseline thật + 2 lần chạy PoC thật trong VM (lần đầu + reboot)
 **License:** dùng cho học phần NT230; không chứa malware thật
 
 ---
@@ -14,19 +14,20 @@
 | Nguồn | Sử dụng |
 |---|---|
 | Host phân tích Windows 11 (Acer Nitro) | B1: export read-only `SCM Event Log Filter` + 5861 thật |
-| VM Windows 10 22H2 (VirtualBox, snapshot) | Held-out validation: 1 lần chạy PoC V1 thật, không dùng để tune rule |
-| `simulator/scenario_catalog.py` | B2-B3, M1-M6: dựng theo đúng schema của collector |
+| VM Windows 10 22H2 (VirtualBox, snapshot) | Held-out validation: PoC V1 thật + persistence qua reboot, không dùng để tune rule |
+| `simulator/scenario_catalog.py` | B2-B6, M1-M9: dựng theo đúng schema của collector |
 | `simulator/generate_dataset.py` | Sinh file deterministic, không random |
 
 B1 không phải dữ liệu mô phỏng: nó được tạo bằng
 `collector/Collect-WmiSubscriptions.ps1` và `Collect-WmiActivityLog.ps1` trên host
 thật, sau đó đưa vào catalog. Điều này đảm bảo parser được kiểm tra với format thật.
 
-Ngoài bộ 9 scenario, nhóm còn một mẫu **held-out** lấy từ PoC chạy thật trong VM
-(`reports/vm-live/out/`). Mẫu này không nằm trong `data/scenarios`, không được
-dùng để chọn rule/weight, và chỉ dùng để kiểm chứng detector có hoạt động trên
-telemetry thật hay không. Kết quả: `MALICIOUS 60/100` (R01/R04/R05/R09), trong
-khi built-in SCM filter vẫn benign.
+Ngoài bộ 15 scenario, nhóm còn các mẫu **held-out** lấy từ PoC chạy thật trong VM:
+`reports/vm-live/out/` (lần chạy đầu) và `reports/vm-live/reboot/` (sau reboot).
+Các mẫu này không nằm trong `data/scenarios`, không được dùng để chọn
+rule/weight, và chỉ dùng để kiểm chứng detector có hoạt động trên telemetry thật
+hay không. Kết quả: `MALICIOUS 60/100` (R01/R04/R05/R09) cho cả hai, trong khi
+built-in SCM filter vẫn benign.
 
 Các scenario còn lại được thiết kế để bao phủ biến thể:
 
@@ -38,6 +39,12 @@ Các scenario còn lại được thiết kế để bao phủ biến thể:
 | V4 | Namespace `root\NT230Lab` + delay 300s | Namespace/trigger delay, static-only |
 | V5 | JScript + network primitive (inert) | Content detection |
 | V6 | SYSTEM + tên trung tính + `C:\Windows\Temp` + không process telemetry | Low-noise evasion |
+| V7 | Tên GUID, process WQL, VBScript dropper | MOF-style/random name |
+| V8 | Tên built-in + class/query/payload khác | Allow-list bypass |
+| V9 | Registry key-change WQL + command-line marker | Registry trigger |
+
+Các benign control cũng được mở rộng: B4 backup `robocopy`, B5 SMTP disk alert,
+B6 operations probe trong namespace riêng (39 điểm, sát ngưỡng triage).
 
 ---
 
@@ -51,9 +58,9 @@ data/
 │   │   ├── wmi_activity.jsonl
 │   │   ├── process_events.jsonl
 │   │   └── ground_truth.json
-│   ├── B2_it_logfile_monitor/
+│   ├── B2_it_logfile_monitor/ ... B6_custom_namespace_ops/
 │   ├── ...
-│   └── M6_stealth_low_noise/
+│   └── M9_registry_wql/
 ├── live/                     # export read-only từ host phân tích
 │   ├── repository.json
 │   └── wmi_activity.jsonl
@@ -75,20 +82,21 @@ data/
 
 | Chỉ số | Giá trị |
 |---|---|
-| Tổng scenario | 9 |
-| Benign | 3 (B1-B3) |
-| Malicious | 6 (M1-M6) |
-| Số variant malicious | 6 (V1-V6) |
-| Consumer class | CommandLine, ActiveScript, LogFile, NTEventLog |
-| Namespace | `root\subscription`, `root\NT230Lab` |
-| Có process telemetry | 2/9 (M1, M3) |
-| Có 5861 | 9/9 |
-| Kích thước `data/scenarios` | ~27 KB (27,620 bytes) |
-| Toàn bộ `data/` (kèm live export) | ~772 KiB |
-| Mẫu held-out ngoài bộ chính | 1 (PoC V1 chạy thật trong VM) |
+| Tổng scenario | 15 |
+| Benign | 6 (B1-B6) |
+| Malicious | 9 (M1-M9) |
+| Số variant malicious | 9 (V1-V9) |
+| Consumer class | CommandLine, ActiveScript, LogFile, NTEventLog, SMTP |
+| Namespace | `root\subscription`, `root\NT230Lab`, `root\OpsMonitoring` |
+| Có process telemetry | 2/15 (M1, M3) |
+| Có 5861 | 15/15 |
+| Kích thước `data/scenarios` | ~45 KB (45,966 bytes) |
+| Toàn bộ `data/` (kèm live export) | ~750 KiB |
+| Mẫu held-out ngoài bộ chính | 2 (PoC V1 chạy thật + reboot) |
 
-Phân bố này cố ý nhỏ. Rubric Research Track nói rõ dataset quy mô vừa là đủ; ưu
-tiên chất lượng, provenance và khả năng tái lập hơn số lượng.
+Phân bố này vẫn nhỏ nhưng đã có đủ benign control và biến thể để đo trade-off.
+Ưu tiên chất lượng, provenance và khả năng tái lập hơn số lượng; bootstrap CI
+trong `reports/validation.json` cho thấy độ bất định còn lớn với N=15.
 
 ---
 
@@ -137,15 +145,23 @@ python3 -m pytest tests/test_dataset.py -q
 ### 5b. Held-out collection từ VM (không tái sinh bằng generator)
 
 ```text
-reports/vm-live/out/repository.json     # filter/consumer/binding thật
-reports/vm-live/out/wmi_activity.jsonl  # 5861/5859/5860 thật
-reports/vm-live/out/marker.txt          # NT230-D12-MARKER
-reports/vm-live/out/poc-v1.json         # timeline + verdict
+reports/vm-live/out/repository.json        # filter/consumer/binding thật
+reports/vm-live/out/wmi_activity.jsonl     # 5861/5859/5860 thật
+reports/vm-live/out/marker.txt             # NT230-D12-MARKER
+reports/vm-live/out/poc-v1.json            # timeline + verdict
+
+reports/vm-live/reboot/summary.json        # verdict=persisted, marker sau boot
+reports/vm-live/reboot/marker-after-reboot.txt
+reports/vm-live/reboot/objects-after-reboot.txt
+reports/vm-live/reboot/repository.json     # object sau reboot
+reports/vm-live/reboot/wmi_activity.jsonl
 ```
 
 Các file này **không** nằm trong `data/checksums.txt` và không được generator
-sinh lại; chúng là bằng chứng của một lần chạy có kiểm soát trong VM
-`NT230-D12-WinLab`, đã rollback snapshot sau khi thu thập.
+sinh lại; chúng là bằng chứng của các lần chạy có kiểm soát trong VM
+`NT230-D12-WinLab`, đã rollback snapshot sau khi thu thập. `data/checksums.txt`
+chỉ cover telemetry của dataset + live snapshot và được kiểm tra bởi
+`tests/test_checksums.py`.
 
 ---
 
@@ -161,13 +177,14 @@ sinh lại; chúng là bằng chứng của một lần chạy có kiểm soát 
 
 ## 7. Giới hạn
 
-1. **Quy mô nhỏ:** 9 scenario không đủ để kết luận thống kê.
+1. **Quy mô nhỏ:** 15 scenario vẫn không đủ để kết luận thống kê; bootstrap 95% CI
+   cho strict recall là 0.625-1.000.
 2. **Thiếu đa dạng môi trường:** 1 phiên bản Windows, 1 cấu hình.
 3. **Nhãn do nhóm tạo:** không có chuyên gia độc lập, không có inter-rater agreement.
 4. **Không có temporal split:** tất cả dùng để evaluate, không có train/test riêng.
 5. **Mô phỏng:** hành vi thật của attacker có thể khác (random name, MOF, xóa dấu vết).
-6. **Thiếu negative đa dạng:** chỉ 3 benign, chưa có subscription của SCCM/AV/backup
-   phổ biến.
+6. **Negative đã đa dạng hơn nhưng vẫn hạn chế:** 6 benign, chưa có subscription
+   thật của SCCM/AV/monitoring agent; B4-B6 do nhóm thiết kế.
 7. **5861 format:** phụ thuộc phiên bản Windows; cần test thêm trên Windows Server.
 
 ---
@@ -175,7 +192,8 @@ sinh lại; chúng là bằng chứng của một lần chạy có kiểm soát 
 ## 8. Hướng mở rộng
 
 - Thêm benign từ SCCM, monitoring agent, backup agent thật.
-- Thêm malicious dùng `SMTPEventConsumer`, `mofcomp`, namespace ngẫu nhiên.
+- Chạy `mofcomp` thật thay vì mô phỏng M7; thêm namespace ngẫu nhiên và
+  `SMTPEventConsumer` bị lạm dụng.
 - Thu thập trên Windows 10/11/Server 2019/2022.
 - Thêm temporal split và drift analysis.
 - Ký số/checksum cho từng file và publish kèm data card.

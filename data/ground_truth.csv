@@ -8,3 +8,9 @@ M3_encoded_powershell,1,malicious,V3,V3 consumer variation: encoded PowerShell a
 M4_delayed_custom_namespace,1,malicious,V4,"V4 namespace + trigger-delay variation: subscription in root\NT230Lab, 300 s timer, no process telemetry."
 M5_network_activescript,1,malicious,V5,V5 consumer variation: JScript consumer with a network retrieval primitive (inert TEST-NET-2 URL).
 M6_stealth_low_noise,1,malicious,V6,"V6 low-noise evasion: SYSTEM principal, neutral names, Windows\Temp target and no WmiPrvSE child telemetry."
+B4_backup_commandline,0,benign,B4,Approved nightly backup: CommandLineEventConsumer runs robocopy to a fixed backup volume.
+B5_disk_alert_smtp,0,benign,B5,Approved capacity monitoring: SMTPEventConsumer alerts on a low disk watermark.
+B6_custom_namespace_ops,0,benign,B6,Approved operations probe in root\OpsMonitoring; hard negative just below the triage threshold.
+M7_mof_random_names,1,malicious,V7,"V7 MOF-style deployment: GUID object names, process-creation WQL and an inline VBScript dropper."
+M8_allowlist_clone,1,malicious,V8,"V8 allow-list bypass: trusted built-in names reused with a different class, query and script payload."
+M9_registry_wql,1,malicious,V9,"V9 registry-change WQL trigger on the Run key, paired with a command-line marker write."

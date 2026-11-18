@@ -152,3 +152,40 @@ def subscriptions_from_repository_helper(scenario: dict) -> Subscription:
     from detector.parser import subscriptions_from_repository
 
     return subscriptions_from_repository(scenario["repository"])[0]
+
+
+def test_expanded_hard_negatives_stay_below_triage(bundles: dict[str, dict]) -> None:
+    """B4-B6 are realistic benign uses that must not become alerts."""
+    allowlist = load_allowlist()
+    for name in ("B4_backup_commandline", "B5_disk_alert_smtp", "B6_custom_namespace_ops"):
+        result = analyze_bundle(bundles[name], allowlist=allowlist)
+        assert result["score"] < 40, (name, result["score"])
+        assert result["verdict"] == "benign", (name, result["score"])
+        assert result["predicted"] == 0, name
+
+
+def test_allowlist_clone_is_not_hidden(bundles: dict[str, dict]) -> None:
+    """Reusing built-in names with a different class/query must not match."""
+    allowlist = load_allowlist()
+    result = analyze_bundle(bundles["M8_allowlist_clone"], allowlist=allowlist)
+    assert result["verdict"] == "malicious"
+    assert result["score"] >= 90
+    assert all(not sub["allowlisted"] for sub in result["subscriptions"])
+
+
+def test_registry_change_wql_counts_as_sensitive_target(bundles: dict[str, dict]) -> None:
+    result = analyze_bundle(bundles["M9_registry_wql"])
+    rules = {
+        evidence["rule"]
+        for sub in result["subscriptions"]
+        for evidence in sub["evidence"]
+        if evidence["weight"] > 0
+    }
+    assert "R07" in rules
+    assert result["verdict"] == "malicious"
+
+
+def test_mof_random_names_are_detected(bundles: dict[str, dict]) -> None:
+    result = analyze_bundle(bundles["M7_mof_random_names"])
+    assert result["verdict"] == "malicious"
+    assert result["score"] >= 80

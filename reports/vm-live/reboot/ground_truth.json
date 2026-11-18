@@ -1,0 +1,14 @@
+{
+  "scenario_id": "VM_REBOOT_V1",
+  "label": 1,
+  "category": "malicious",
+  "variant": "V1-reboot",
+  "description": "Held-out VM run: V1 persisted across a guest reboot and recreated the marker after boot.",
+  "tags": ["held-out", "reboot", "real-telemetry"],
+  "safety": "Inert marker only; objects removed and snapshot restored.",
+  "host": {
+    "hostname": "NT230LAB",
+    "os": "Windows 10 22H2 (19045)",
+    "vm": true
+  }
+}

@@ -1,16 +1,19 @@
 {
   "schema_version": "1.0",
   "generated_by": "simulator.generate_dataset",
-  "scenarios": 9,
-  "benign": 3,
-  "malicious": 6,
+  "scenarios": 15,
+  "benign": 6,
+  "malicious": 9,
   "variants": [
     "V1",
     "V2",
     "V3",
     "V4",
     "V5",
-    "V6"
+    "V6",
+    "V7",
+    "V8",
+    "V9"
   ],
   "items": [
     {
@@ -167,6 +170,116 @@
         "evasion",
         "low-noise",
         "telemetry-gap"
+      ],
+      "safety": "Inert marker strings only; no payload was executed.",
+      "host": {
+        "hostname": "NT230-LAB",
+        "os": "Windows 10 22H2 (19045)",
+        "vm": true
+      }
+    },
+    {
+      "scenario_id": "B4_backup_commandline",
+      "label": 0,
+      "category": "benign",
+      "variant": "B4",
+      "description": "Approved nightly backup: CommandLineEventConsumer runs robocopy to a fixed backup volume.",
+      "tags": [
+        "hard-negative",
+        "commandline-consumer",
+        "backup"
+      ],
+      "safety": "Inert marker strings only; no payload was executed.",
+      "host": {
+        "hostname": "NT230-LAB",
+        "os": "Windows 10 22H2 (19045)",
+        "vm": true
+      }
+    },
+    {
+      "scenario_id": "B5_disk_alert_smtp",
+      "label": 0,
+      "category": "benign",
+      "variant": "B5",
+      "description": "Approved capacity monitoring: SMTPEventConsumer alerts on a low disk watermark.",
+      "tags": [
+        "hard-negative",
+        "smtp-consumer",
+        "capacity"
+      ],
+      "safety": "Inert marker strings only; no payload was executed.",
+      "host": {
+        "hostname": "NT230-LAB",
+        "os": "Windows 10 22H2 (19045)",
+        "vm": true
+      }
+    },
+    {
+      "scenario_id": "B6_custom_namespace_ops",
+      "label": 0,
+      "category": "benign",
+      "variant": "B6",
+      "description": "Approved operations probe in root\\OpsMonitoring; hard negative just below the triage threshold.",
+      "tags": [
+        "hard-negative",
+        "custom-namespace",
+        "eventlog-consumer"
+      ],
+      "safety": "Inert marker strings only; no payload was executed.",
+      "host": {
+        "hostname": "NT230-LAB",
+        "os": "Windows 10 22H2 (19045)",
+        "vm": true
+      }
+    },
+    {
+      "scenario_id": "M7_mof_random_names",
+      "label": 1,
+      "category": "malicious",
+      "variant": "V7",
+      "description": "V7 MOF-style deployment: GUID object names, process-creation WQL and an inline VBScript dropper.",
+      "tags": [
+        "V7",
+        "mof",
+        "random-name",
+        "activescript"
+      ],
+      "safety": "Inert marker strings only; no payload was executed.",
+      "host": {
+        "hostname": "NT230-LAB",
+        "os": "Windows 10 22H2 (19045)",
+        "vm": true
+      }
+    },
+    {
+      "scenario_id": "M8_allowlist_clone",
+      "label": 1,
+      "category": "malicious",
+      "variant": "V8",
+      "description": "V8 allow-list bypass: trusted built-in names reused with a different class, query and script payload.",
+      "tags": [
+        "V8",
+        "allowlist-bypass",
+        "masquerade"
+      ],
+      "safety": "Inert marker strings only; no payload was executed.",
+      "host": {
+        "hostname": "NT230-LAB",
+        "os": "Windows 10 22H2 (19045)",
+        "vm": true
+      }
+    },
+    {
+      "scenario_id": "M9_registry_wql",
+      "label": 1,
+      "category": "malicious",
+      "variant": "V9",
+      "description": "V9 registry-change WQL trigger on the Run key, paired with a command-line marker write.",
+      "tags": [
+        "V9",
+        "registry",
+        "wql",
+        "commandline"
       ],
       "safety": "Inert marker strings only; no payload was executed.",
       "host": {

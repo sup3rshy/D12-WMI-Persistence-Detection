@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "collected_at": "2026-11-17T09:05:00Z",
+  "host": {
+    "hostname": "NT230-LAB",
+    "os": "Windows 10 22H2 (19045)",
+    "vm": true
+  },
+  "scope": [
+    "root\\subscription",
+    "root\\NT230Lab",
+    "root\\OpsMonitoring"
+  ],
+  "filters": [
+    {
+      "name": "a7f3c9e1-4b2d-4f8a-9c1e-7d6b5a403122",
+      "namespace": "root\\subscription",
+      "event_namespace": "root\\cimv2",
+      "query": "SELECT * FROM __InstanceCreationEvent WITHIN 10 WHERE TargetInstance ISA 'Win32_Process' AND TargetInstance.Name = 'powershell.exe'",
+      "query_language": "WQL",
+      "creator_sid": "S-1-5-21-1004336348-1177238915-682003330-1001",
+      "creator_user": "NT230LAB\\student"
+    }
+  ],
+  "consumers": [
+    {
+      "name": "a7f3c9e1-4b2d-4f8a-9c1e-7d6b5a403122",
+      "namespace": "root\\subscription",
+      "class": "ActiveScriptEventConsumer",
+      "properties": {
+        "ScriptingEngine": "VBScript",
+        "ScriptText": "Set fso = CreateObject(\"Scripting.FileSystemObject\")\nSet f = fso.CreateTextFile(\"C:\\ProgramData\\Microsoft\\cache\\svc.dat\", True)\nf.WriteLine \"NT230-D12-MARKER\"\nf.Close\n"
+      },
+      "creator_sid": "S-1-5-21-1004336348-1177238915-682003330-1001",
+      "creator_user": "NT230LAB\\student"
+    }
+  ],
+  "bindings": [
+    {
+      "filter_name": "a7f3c9e1-4b2d-4f8a-9c1e-7d6b5a403122",
+      "filter_namespace": "root\\subscription",
+      "consumer_name": "a7f3c9e1-4b2d-4f8a-9c1e-7d6b5a403122",
+      "consumer_namespace": "root\\subscription",
+      "creator_sid": "S-1-5-18"
+    }
+  ]
+}

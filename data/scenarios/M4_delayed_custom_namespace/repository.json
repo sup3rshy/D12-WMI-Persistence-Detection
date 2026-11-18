@@ -8,7 +8,8 @@
   },
   "scope": [
     "root\\subscription",
-    "root\\NT230Lab"
+    "root\\NT230Lab",
+    "root\\OpsMonitoring"
   ],
   "filters": [
     {

@@ -28,9 +28,10 @@ def test_cli_dataset_report(tmp_path: Path) -> None:
     )
     assert code == 0
     payload = json.loads(json_out.read_text(encoding="utf-8"))
-    assert payload["summary"]["scenarios"] == 9
-    assert payload["summary"]["malicious"] == 5
+    assert payload["summary"]["scenarios"] == 15
+    assert payload["summary"]["malicious"] == 8
     assert payload["summary"]["suspicious"] == 1
+    assert payload["summary"]["benign"] == 6
     assert csv_out.exists()
 
 

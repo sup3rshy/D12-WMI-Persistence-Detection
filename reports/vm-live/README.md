@@ -62,11 +62,36 @@ runner.log
 | `detector-scan.txt` | detector CLI trên dữ liệu thật |
 | `detector.json` | alert/evidence dạng JSON |
 
+## Kiểm chứng persistence qua reboot (2026-11-18)
+
+Sau lần chạy đầu, nhóm chạy thêm harness hai phase để chứng minh object tồn tại
+qua reboot và timer tạo lại marker:
+
+| Bước | Giá trị |
+|---|---|
+| Phase 1 | Tạo V1 `-Keep`, timer 30 s, xóa marker, reboot |
+| `LastBootUpTime` | `2026-11-18T14:11:14Z` |
+| Object sau reboot | 1 `__EventFilter`, 1 `__EventConsumer`, 1 binding |
+| Marker sau reboot | `NT230-D12-MARKER`, tạo lúc `2026-11-18T14:12:15Z` |
+| Detector | `MALICIOUS 60/100` (repository và events-only) |
+| Cleanup | `removed=4`; remaining 0/0/0 |
+| Kết luận | `verdict=persisted`; snapshot restore + poweroff |
+
+File: `reboot/summary.json`, `reboot/create.log`, `reboot/verify.log`,
+`reboot/marker-after-reboot.txt`, `reboot/objects-before-reboot.txt`,
+`reboot/objects-after-reboot.txt`, `reboot/repository.json`,
+`reboot/wmi_activity.jsonl`, `reboot/cleanup.txt`,
+`reboot/detector-scan.txt`, `reboot/detector-scan-events.txt`.
+
+Harness tái lập: `scripts/vm/Reboot-Persistence-Test.ps1`.
+
+---
+
 ## Rollback
 
 ```bash
 VBoxManage snapshot "NT230-D12-WinLab" restore clean-baseline
-VBoxManage controlvm "NT230-D12-WinLab" poweroff
+VBoxManage discardstate "NT230-D12-WinLab"
 ```
 
 Object đã được xóa trước khi rollback; snapshot là lớp bảo hiểm thứ hai.

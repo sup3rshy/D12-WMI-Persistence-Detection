@@ -1,6 +1,6 @@
-[1/4] generating labelled dataset
-generated 9 scenarios in data/scenarios
-benign=3 malicious=6
+[1/5] generating labelled dataset
+generated 15 scenarios in data/scenarios
+benign=6 malicious=9
   B1_builtin_scm                         label=0  variant=B1
   B2_it_logfile_monitor                  label=0  variant=B2
   B3_service_state_audit                 label=0  variant=B3
@@ -10,26 +10,40 @@ benign=3 malicious=6
   M4_delayed_custom_namespace            label=1  variant=V4
   M5_network_activescript                label=1  variant=V5
   M6_stealth_low_noise                   label=1  variant=V6
-[2/4] evaluating detector
+  B4_backup_commandline                  label=0  variant=B4
+  B5_disk_alert_smtp                     label=0  variant=B5
+  B6_custom_namespace_ops                label=0  variant=B6
+  M7_mof_random_names                    label=1  variant=V7
+  M8_allowlist_clone                     label=1  variant=V8
+  M9_registry_wql                        label=1  variant=V9
+[2/5] refreshing telemetry checksums
+wrote 32 checksums to data/checksums.txt
+[3/5] evaluating detector + validation suite
 scenario                               label score  verdict
 --------------------------------------------------------------
 B1_builtin_scm                             0     0  benign
 B2_it_logfile_monitor                      0    33  benign
 B3_service_state_audit                     0    26  benign
+B4_backup_commandline                      0    35  benign
+B5_disk_alert_smtp                         0    10  benign
+B6_custom_namespace_ops                    0    39  benign
 M1_cmd_marker_timer                        1   100  malicious
 M2_activescript_masquerade                 1   100  malicious
 M3_encoded_powershell                      1   100  malicious
 M4_delayed_custom_namespace                1    71  malicious
 M5_network_activescript                    1   100  malicious
 M6_stealth_low_noise                       1    50  suspicious
+M7_mof_random_names                        1    91  malicious
+M8_allowlist_clone                         1   100  malicious
+M9_registry_wql                            1    85  malicious
 --------------------------------------------------------------
-strict: TP=5 FP=0 TN=3 FN=1 precision=1.000 recall=0.833 f1=0.909 fpr=0.000
-triage: TP=6 FP=0 TN=3 FN=0 precision=1.000 recall=1.000 f1=1.000 fpr=0.000
+strict: TP=8 FP=0 TN=6 FN=1 precision=1.000 recall=0.889 f1=0.941 fpr=0.000
+triage: TP=9 FP=0 TN=6 FN=0 precision=1.000 recall=1.000 f1=1.000 fpr=0.000
 reports -> reports
-[3/4] running tests
-.................................                                        [100%]
-33 passed in 0.77s
-[4/4] artefacts
+[4/5] running tests
+........................................................                 [100%]
+56 passed in 2.76s
+[5/5] artefacts
 alerts.json
 confusion_matrix.csv
 demo.txt
@@ -44,8 +58,11 @@ poc-to-detector
 poc-to-detector-scan.txt
 poc-to-detector.json
 powershell-syntax.txt
+robustness.csv
+rule_ablation.csv
 safety-guard.txt
 test-results.txt
 threshold_sensitivity.csv
+validation.json
 vm-live
 done. open reports/evaluation-report.md

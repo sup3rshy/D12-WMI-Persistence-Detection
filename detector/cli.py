@@ -32,7 +32,7 @@ def _print_bundle(result: dict[str, Any]) -> None:
     print(f"scenario : {result['scenario_id']}  (label={result['label']})")
     print(f"category : {result['category']}")
     print(f"verdict  : {result['verdict'].upper()}   score={result['score']}/100")
-    print(f"truth    : {result['description']}")
+    print(f"truth    : {result['description']}".rstrip())
     print("-" * 78)
     for assessment in result["subscriptions"]:
         sub = assessment["consumer"]

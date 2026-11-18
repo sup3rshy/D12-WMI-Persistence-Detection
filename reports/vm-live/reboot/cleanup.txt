@@ -1,0 +1,22 @@
+﻿{
+    "variant":  "V1",
+    "action":  "Remove",
+    "marker_path":  "C:\\Users\\Public\\nt230_d12_marker.txt",
+    "vm_detected":  true,
+    "host":  "NT230LAB",
+    "started_at":  "2026-11-18T14:13:11.3353956Z",
+    "created":  [
+
+                ],
+    "marker_seen":  false,
+    "cleanup":  "removed=4",
+    "timeline":  [
+                     {
+                         "time":  "2026-11-18T14:13:11.4777939Z",
+                         "step":  "cleanup",
+                         "detail":  "removed=4 namespace=root\\subscription"
+                     }
+                 ],
+    "verdict":  "completed",
+    "finished_at":  "2026-11-18T14:13:11.4939042Z"
+}
